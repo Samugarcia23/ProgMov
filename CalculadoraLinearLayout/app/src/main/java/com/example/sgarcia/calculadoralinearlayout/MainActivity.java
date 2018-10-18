@@ -180,43 +180,28 @@ public class MainActivity extends AppCompatActivity {
         bigual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int n1=0, n2=0, res=0, cont;
+                int n1=0, n2=0, res=0;
                 String txt=tvres.getText().toString();
-                cont=0;
 
                 if (!txt.contains("*") || !txt.contains("+") || !txt.contains("-") || !txt.contains("/")  ) {
                     tvres.setText("Error, debe haber al menos 1 operador");                }
 
                 if (txt.contains("*")) {
-                    cont++;
-                    if (cont>1){
-                        tvres.setText("Error, no puede haber mas de 1 operador");
-                    }
-                    if (cont<1){
-                        tvres.setText("Error, debe haber al menos 1 operador");
-                    }
-                    Integer.toString(n1).equals(txt.substring(0, txt.lastIndexOf("*")));
-                    Integer.toString(n2).equals(Integer.parseInt(txt.substring(txt.lastIndexOf("*") + 1, txt.length())));
-                    if (isNumeric(Integer.toString(n1)) == true && isNumeric(Integer.toString(n2)) == true) {
+                    n1=Integer.parseInt((txt.substring(0, txt.lastIndexOf("*"))));
+                    n2=Integer.parseInt((txt.substring(txt.lastIndexOf("*") + 1, txt.length())));
+                    //if (isNumeric(Integer.toString(n1)) == true && isNumeric(Integer.toString(n2)) == true) {
                         res = n1 * n2;
                         tvres.setText(Integer.toString(res));
-                    }else{
-                        tvres.setText("Error, Comprueba que ambos numeros son correctos");
-                    }
+                   // }else{
+                       // tvres.setText("Error, Comprueba que ambos numeros son correctos");
+                    //}
 
                 }
 
                 if (txt.contains("/")) {
-                    cont++;
-                    if (cont>1){
-                        tvres.setText("Error, no puede haber mas de 1 operador");
-                    }
-                    if (cont<1){
-                        tvres.setText("Error, debe haber al menos 1 operador");
-                    }
-                    Integer.toString(n1).equals(txt.substring(0, txt.lastIndexOf("/")));
-                    Integer.toString(n2).equals(Integer.parseInt(txt.substring(txt.lastIndexOf("/") + 1, txt.length())));
-                    if (isNumeric(Integer.toString(n1)) == true && isNumeric(Integer.toString(n2)) == true) {
+                    n1=Integer.parseInt((txt.substring(0, txt.lastIndexOf("/"))));
+                    n2=Integer.parseInt((txt.substring(txt.lastIndexOf("/") + 1, txt.length())));
+                    //if (isNumeric(Integer.toString(n1)) == true && isNumeric(Integer.toString(n2)) == true) {
                         if (n2 != 0) {
                             res = (n1 / n2);
                             tvres.setText(Integer.toString(res));
@@ -224,45 +209,31 @@ public class MainActivity extends AppCompatActivity {
                             if(n2==0)
                                 tvres.setText("No se puede dividir entre 0");
                         }
-                    }else{
-                        tvres.setText("Error, Comprueba que ambos numeros son correctos");
-                    }
+                   // }else{
+                        //tvres.setText("Error, Comprueba que ambos numeros son correctos");
+                    //}
                 }
 
                 if (txt.contains("+")) {
-                    cont++;
-                    if (cont>1){
-                        tvres.setText("Error, no puede haber mas de 1 operador");
-                    }
-                    if (cont<1){
-                        tvres.setText("Error, debe haber al menos 1 operador");
-                    }
-                    Integer.toString(n1).equals(txt.substring(0, txt.lastIndexOf("+")));
-                    Integer.toString(n2).equals(Integer.parseInt(txt.substring(txt.lastIndexOf("+") + 1, txt.length())));
-                    if (isNumeric(Integer.toString(n1)) == true && isNumeric(Integer.toString(n2)) == true) {
+                    n1=Integer.parseInt((txt.substring(0, txt.lastIndexOf("+"))));
+                    n2=Integer.parseInt((txt.substring(txt.lastIndexOf("+") + 1, txt.length())));
+                    //if (isNumeric(Integer.toString(n1)) == true && isNumeric(Integer.toString(n2)) == true) {
                         res = (n1 + n2);
                         tvres.setText(Integer.toString(res));
-                    }else{
-                        tvres.setText("Error, Comprueba que ambos numeros son correctos");
-                    }
+                    //}else{
+                        //tvres.setText("Error, Comprueba que ambos numeros son correctos");
+                    //}
                 }
 
                 if (txt.contains("-")) {
-                    cont++;
-                    if (cont>1){
-                        tvres.setText("Error, no puede haber mas de 1 operador");
-                    }
-                    if (cont<1){
-                        tvres.setText("Error, debe haber al menos 1 operador");
-                    }
-                    Integer.toString(n1).equals(txt.substring(0, txt.lastIndexOf("-")));
-                    Integer.toString(n2).equals(Integer.parseInt(txt.substring(txt.lastIndexOf("-") + 1, txt.length())));
-                    if (isNumeric(Integer.toString(n1)) == true && isNumeric(Integer.toString(n2)) == true) {
+                    n1=Integer.parseInt((txt.substring(0, txt.lastIndexOf("-"))));
+                    n2=Integer.parseInt((txt.substring(txt.lastIndexOf("-") + 1, txt.length())));
+                    //if (isNumeric(Integer.toString(n1)) == true && isNumeric(Integer.toString(n2)) == true) {
                         res = n1 - n2;
                         tvres.setText(Integer.toString(res));
-                    }else{
-                        tvres.setText("Error, Comprueba que ambos numeros son correctos");
-                    }
+                    //}else{
+                        //tvres.setText("Error, Comprueba que ambos numeros son correctos");
+                   // }
                 }
             }
         });
