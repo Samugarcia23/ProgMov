@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">EjemploProyecto</string>
+    <string name="kick">KICK</string>
+    <string name="snare">SNARE</string>
+    <string name="clap">CLAP</string>
+    <string name="cymbals">CYMBALS</string>
+    <string name="percs">PERCS</string>
+    <string name="press_a_button">Press a Button!</string>
+</resources>
