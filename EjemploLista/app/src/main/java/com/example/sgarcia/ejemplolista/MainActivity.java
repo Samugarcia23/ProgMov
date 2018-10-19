@@ -30,8 +30,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String item = ((TextView)view.findViewById(R.id.tv1)).getText().toString();
-        Toast toast = Toast.makeText(this, item + " pulsado", Toast.LENGTH_SHORT);
+        TextView item;
+        item = view.findViewById(R.id.tv1);
+        String b = item.getText().toString();
+        Toast toast = Toast.makeText(this, b + " pulsado", Toast.LENGTH_SHORT);
         toast.show();
     }
 }
