@@ -19,13 +19,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final String[] items = {"Boston Celtics", "New York Knics",
             "Toronto Raptors", "Golden State Warriors", "Los Angeles Lakers", "Phoenix Suns"};
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ListView lista;
         lista=findViewById(R.id.lista);
-        lista.setAdapter(new IconicAdapter<>(this, R.layout.filas, R.id.label, items));
+        lista.setAdapter(new IconicAdapter<>(this, R.layout.filas2, R.id.label, items));
         lista.setOnItemClickListener(this);
     }
 
@@ -42,34 +44,40 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         public View getView(int position, View convertView, ViewGroup parent){
 
             View fila = convertView;
+            View fila2 = convertView;
+            ViewHolder viewHolder;
 
             if (fila == null){
                 LayoutInflater inflater = getLayoutInflater();
                 fila = inflater.inflate(R.layout.filas, parent, false);
+
+                viewHolder = new ViewHolder(fila, fila2, R.id.label, R.id.icon);
+                fila.setTag(viewHolder);
+                fila2.setTag(viewHolder);
+            }else{
+                viewHolder = (ViewHolder) fila.getTag();
+                viewHolder = (ViewHolder) fila2.getTag();
             }
 
-            TextView nombreEquipo = fila.findViewById(R.id.label);
-            nombreEquipo.setText(items[position]);
-
-            ImageView escudo = fila.findViewById(R.id.icon);
+            viewHolder.getLab().setText(items[position]);
 
             if(items[position].equals("Boston Celtics")){
-                escudo.setImageResource(R.drawable.bostonceltics);
+                viewHolder.getImg().setImageResource(R.drawable.bostonceltics);
             }
             else if(items[position].equals("New York Knics")){
-                escudo.setImageResource(R.drawable.newyorkknicks);
+                viewHolder.getImg().setImageResource(R.drawable.newyorkknicks);
             }
             else if(items[position].equals("Toronto Raptors")){
-                escudo.setImageResource(R.drawable.torontoraptors);
+                viewHolder.getImg().setImageResource(R.drawable.torontoraptors);
             }
             else if(items[position].equals("Golden State Warriors")){
-                escudo.setImageResource(R.drawable.goldenstatewarriors);
+                viewHolder.getImg().setImageResource(R.drawable.goldenstatewarriors);
             }
             else if(items[position].equals("Los Angeles Lakers")){
-                escudo.setImageResource(R.drawable.lakers);
+                viewHolder.getImg().setImageResource(R.drawable.lakers);
             }
             else if(items[position].equals("Phoenix Suns")){
-                escudo.setImageResource(R.drawable.phoenixsuns);
+                viewHolder.getImg().setImageResource(R.drawable.phoenixsuns);
             }
 
             return(fila);
