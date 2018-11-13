@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             this.items = items;
         }
 
+
         public int getViewTypeCount() {
             return 2;
         }
