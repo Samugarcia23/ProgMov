@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class  MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public static final int CAMERA_PIC_REQUEST = 1;
     public String[] apps = {"Ejemplo Lista", "Ejemplo Lista Dinamica", "Camara",
