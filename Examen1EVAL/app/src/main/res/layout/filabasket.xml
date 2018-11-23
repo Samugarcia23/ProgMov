@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/fotobasket"
+        android:layout_width="132dp"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="116dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvnombrebasket"
+            android:layout_width="115dp"
+            android:layout_height="60dp"
+            android:gravity="left"
+            android:text="Nombre"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvpuntos"
+            android:layout_width="115dp"
+            android:layout_height="60dp"
+            android:gravity="left"
+            android:text="Puntos"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="116dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvrebotes"
+            android:layout_width="115dp"
+            android:layout_height="60dp"
+            android:gravity="left"
+            android:text="Rebotes"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvasist"
+            android:layout_width="115dp"
+            android:layout_height="60dp"
+            android:gravity="left"
+            android:text="Posicion"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

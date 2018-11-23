@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             if (fila == null){
                 LayoutInflater inflater = getLayoutInflater();
-                fila = inflater.inflate(R.layout.filas, parent, false);
+                //fila = inflater.inflate(R.layout.filas, parent, false);
                 if (type == 0) {
                     fila = inflater.inflate(R.layout.filas, parent, false);
                     ImageView img = fila.findViewById(R.id.icon);
