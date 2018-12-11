@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -25,20 +26,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView lista;
-        lista=findViewById(R.id.lvLista);
+        ListView list;
+        list=findViewById(R.id.lvLista);
         miViewmodel = ViewModelProviders.of(this).get(CargarLista.class);
-        ArrayAdapter a = new ArrayAdapter<String>(this,
-                R.layout.fila, R.id.tv1 , ((CargarLista) miViewmodel).getLista());
-        lista.setAdapter(a);
-        lista.setOnItemClickListener(this);
-        lista.setOnItemLongClickListener(this);
-        final Observer<String> observer = new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
+        ((CargarLista) miViewmodel).getLista().observe(this, lista -> {
+            ArrayAdapter<String> a = new ArrayAdapter<String>(this,
+                    R.layout.fila, R.id.tv1 , lista);
+            list.setAdapter(a);
+        });
 
-            }
-        };
+        list.setOnItemClickListener(this);
+        list.setOnItemLongClickListener(this);
     }
 
     @Override
@@ -53,17 +51,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Title");
-        alert.setMessage("Message");
+        alert.setTitle("Cambiar Nombre");
+        alert.setMessage("¿Quieres cambiar el nombre?");
 
-        // Set an EditText view to get user input
         final EditText input = new EditText(this);
         alert.setView(input);
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 ((CargarLista) miViewmodel).setLista(position, input.getText().toString());
-
             }
         });
 
