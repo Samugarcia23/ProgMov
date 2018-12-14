@@ -57,17 +57,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         final EditText input = new EditText(this);
         alert.setView(input);
 
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                ((CargarLista) miViewmodel).setLista(position, input.getText().toString());
-            }
-        });
+        alert.setPositiveButton("Sí", (dialog, whichButton) -> ((CargarLista) miViewmodel).setLista(position, input.getText().toString()));
 
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                // Canceled.
-            }
-        });
+        alert.setNegativeButton("No", (dialog, whichButton) -> {});
 
         alert.show();
 
