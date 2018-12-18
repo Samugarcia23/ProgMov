@@ -9,42 +9,45 @@
     <Button
         android:id="@+id/btnRed"
         android:layout_width="619dp"
-        android:layout_height="wrap_content"
+        android:layout_height="67dp"
         android:layout_marginStart="148dp"
-        android:layout_marginTop="588dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="148dp"
-        android:layout_marginBottom="8dp"
+        android:background="@color/colorAccent"
         android:text="Rojo"
-        app:layout_constraintBottom_toTopOf="@+id/btnBlue"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/your_placeholder" />
 
     <Button
         android:id="@+id/btnBlue"
         android:layout_width="625dp"
-        android:layout_height="wrap_content"
+        android:layout_height="67dp"
         android:layout_marginStart="148dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="149dp"
-        android:layout_marginBottom="348dp"
+        android:layout_marginBottom="496dp"
+        android:background="@color/colorPrimary"
         android:text="Azul"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRed"
+        app:layout_constraintVertical_bias="0.0" />
 
     <FrameLayout
         android:id="@+id/your_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="330dp"
+        android:layout_height="446dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="304dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBlue"></FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"></FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>
