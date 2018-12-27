@@ -20,10 +20,7 @@ import android.widget.Button;
 
 public class FragmentColor extends Fragment {
 
-
-    Button btnRed, btnBlue;
     public ViewModel miViewmodel;
-    String color;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
