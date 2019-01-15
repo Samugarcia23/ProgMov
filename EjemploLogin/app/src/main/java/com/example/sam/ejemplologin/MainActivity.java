@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnlogin, btnsignup;
-    private EditText tbxmail, tbxpass;
+    private Button btnlogin, btnnoacc;
+    private EditText tbxuser, tbxpass;
     public ViewModel viewModel;
 
     @Override
@@ -23,47 +23,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         btnlogin = findViewById(R.id.btnlogin);
-        btnsignup = findViewById(R.id.btnsignup);
+        btnnoacc = findViewById(R.id.btnnoacc);
 
-        tbxmail = findViewById(R.id.tbxmail);
+        tbxuser = findViewById(R.id.tbxuser);
         tbxpass = findViewById(R.id.tbxpass);
 
         viewModel = ViewModelProviders.of(this).get(MiViewModel.class);
 
         btnlogin.setOnClickListener(this);
+
+        btnnoacc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                limpiar();
+                Intent intent = new Intent(MainActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
-        String email = tbxmail.getText().toString();
+        String username = tbxuser.getText().toString();
         String password = tbxpass.getText().toString();
-        if(email.equals("")){
-            Toast toast = Toast.makeText(this, "Introduce un mail válido", Toast.LENGTH_SHORT);
+        if(username.equals("")){
+            Toast toast = Toast.makeText(this, "Introduce un nombre de usuario válido", Toast.LENGTH_SHORT);
             toast.show();
         }else{
             if(password.equals("")){
                 Toast toast = Toast.makeText(this, "Introduce una contraseña válida", Toast.LENGTH_SHORT);
                 toast.show();
             }else
-                addUser(email, password);
+                log(username, password);
         }
 
     }
 
-    public void addUser(String mail, String pass){
-        if (!((MiViewModel) viewModel).setUser(mail, pass)){
-            Toast toast = Toast.makeText(this, "El mail introducido ya existe", Toast.LENGTH_SHORT);
+    public void log(String user, String pass){
+        if (!((MiViewModel) viewModel).comprobarDatos(user, pass)){
+            Toast toast = Toast.makeText(this, "Los datos no son correctos", Toast.LENGTH_SHORT);
             toast.show();
         }else{
+            limpiar();
             Intent intent = new Intent(MainActivity.this, logged.class);
             startActivity(intent);
         }
     }
 
-
     public void limpiar(){
-        tbxmail.setText("");
+        tbxuser.setText("");
         tbxpass.setText("");
-        tbxmail.requestFocus();
+        tbxuser.requestFocus();
     }
 }

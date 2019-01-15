@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btnlogin"
+        android:id="@+id/btnnoacc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/tbxmail"
+        android:id="@+id/tbxuser"
         android:focusedByDefault="false"
         android:layout_width="wrap_content"
         android:layout_height="52dp"
@@ -69,7 +69,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbxmail"
+        app:layout_constraintTop_toBottomOf="@+id/tbxuser"
         app:layout_constraintVertical_bias="0.066" />
 
     <ImageView
@@ -95,7 +95,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/tbxmail"
+        app:layout_constraintBottom_toTopOf="@+id/tbxuser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
@@ -137,15 +137,15 @@
         android:layout_height="23dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tbxmail"
+        app:layout_constraintBottom_toBottomOf="@+id/tbxuser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.189"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tbxmail"
+        app:layout_constraintTop_toTopOf="@+id/tbxuser"
         app:srcCompat="@drawable/user" />
 
     <Button
-        android:id="@+id/btnsignup"
+        android:id="@+id/btnnoacc"
         android:layout_width="212dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
@@ -157,7 +157,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.524"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnlogin"
+        app:layout_constraintTop_toBottomOf="@+id/btnnoacc"
         app:layout_constraintVertical_bias="0.0" />
 
 
