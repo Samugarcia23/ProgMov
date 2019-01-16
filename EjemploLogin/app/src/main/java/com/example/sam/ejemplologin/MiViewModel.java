@@ -8,40 +8,27 @@ import java.util.List;
 
 public class MiViewModel extends ViewModel {
 
-    private List<String> mails;
-    private List<String> passwords;
-    private List<String> usernames;
     private ArrayList<User> userList = new ArrayList<>();
-    private MutableLiveData<ArrayList<User>> mUserList = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<User>> mUserList;
 
-    public MiViewModel(){
-        users();
-    }
+    public MiViewModel(){}
 
-    public boolean setUser(String mail, String pass, String user){
-        boolean added;
-        if(!mailExists(mail)){
-            mails.add(mail);
-            passwords.add(pass);
-            usernames.add(user);
-            added = true;
-        }else
-            added = false;
+    public MutableLiveData<ArrayList<User>> getUsers(){
+        if(mUserList == null){
+            mUserList = new MutableLiveData<>();
+            users();
+        }
 
-        return added;
+        return mUserList;
     }
 
     private void users(){
-        mails = new ArrayList<>();
-        passwords = new ArrayList<>();
-        usernames = new ArrayList<>();
-        mails.add("admin");
-        passwords.add("admin");
+        userList.add(new User("admin", "admin", "admin@admin.com"));
+        mUserList.setValue(userList);
     }
 
     public void addUser(String user, String pass, String mail){
         userList.add(new User(user, pass, mail));
-
     }
 
     public boolean mailExists(String mail){
@@ -59,10 +46,7 @@ public class MiViewModel extends ViewModel {
         boolean valido = false;
 
         for (int i=0;i<userList.size();i++) {
-            if (userList.get(i).getUsername().equals(user) && userList.get(i).getPassword().equals(pass))
-                valido = true;
-            else
-                valido = false;
+            valido = userList.get(i).getUsername().equals(user) && userList.get(i).getPassword().equals(pass);
         }
 
         return  valido;
