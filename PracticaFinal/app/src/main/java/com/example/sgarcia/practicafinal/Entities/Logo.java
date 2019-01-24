@@ -1,10 +1,9 @@
-package com.example.sgarcia.practicafinal;
+package com.example.sgarcia.practicafinal.Entities;
 
 public class Logo {
 
     String name;
     int img, value;
-    //boolean guessed
 
     public Logo(){}
 

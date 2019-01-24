@@ -1,4 +1,7 @@
-package com.example.sgarcia.practicafinal;
+package com.example.sgarcia.practicafinal.Lists;
+
+import com.example.sgarcia.practicafinal.Entities.Logo;
+import com.example.sgarcia.practicafinal.R;
 
 import java.util.ArrayList;
 
