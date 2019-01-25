@@ -31,7 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View view;
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.levelcard_activity, viewGroup, false);
+        view = inflater.inflate(R.layout.levelcard2_activity, viewGroup, false);
 
         return new MyViewHolder(view);
     }
@@ -41,8 +41,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         myViewHolder.level.setText(levelCount[viewType]);
         myViewHolder.playerCoins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
-        myViewHolder.lock.setImageResource(R.drawable.unlocked);
-        //myViewHolder.levelCard.setCardBackgroundColor();
+
+        if(mViewModel.levelLocked(viewType)){
+            myViewHolder.lock.setImageResource(R.drawable.lockclosed);
+           // myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor("#BDBDBD"));
+        }else{
+            myViewHolder.lock.setImageResource(R.drawable.lockopen);
+            myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(viewType).getColor()));
+        }
+        myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(viewType).getColor()));
+
+
 
     }
 

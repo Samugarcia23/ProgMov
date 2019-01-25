@@ -1,5 +1,6 @@
 package com.example.sgarcia.practicafinal.Lists;
 
+import com.example.sgarcia.practicafinal.Entities.Level;
 import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.R;
 
