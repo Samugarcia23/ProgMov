@@ -121,6 +121,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/btnPlay"
                 style="@drawable/roundbutton"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
@@ -128,6 +129,7 @@
                 android:layout_marginBottom="15dp"
                 android:fontFamily="casual"
                 android:text="PLAY"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

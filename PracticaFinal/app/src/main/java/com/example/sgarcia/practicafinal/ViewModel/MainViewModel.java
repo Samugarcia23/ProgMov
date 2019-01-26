@@ -53,7 +53,7 @@ public class MainViewModel extends ViewModel {
         Levels levelList = new Levels();
 
         _levels.add(new Level(1,"#00897B", false, levelList.levelOne()));
-        _levels.add(new Level(2,"#00ACC1", true, levelList.levelTwo()));
+        _levels.add(new Level(2,"#00ACC1", false, levelList.levelTwo()));
         _levels.add(new Level(3,"#FFB300", true, levelList.levelThree()));
         _levels.add(new Level(4,"#8E24AA", true, levelList.levelFour()));
         _levels.add(new Level(5,"#e53935", true, levelList.levelFive()));

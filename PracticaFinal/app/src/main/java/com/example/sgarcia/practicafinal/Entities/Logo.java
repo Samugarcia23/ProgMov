@@ -3,14 +3,15 @@ package com.example.sgarcia.practicafinal.Entities;
 public class Logo {
 
     String name;
-    int img, value;
+    int img;
+    boolean guessed;
 
     public Logo(){}
 
-    public Logo(String name, int img, int value) {
+    public Logo(String name, int img, boolean guessed) {
         this.name = name;
         this.img = img;
-        this.value = value;
+        this.guessed = guessed;
     }
 
     public int getImg() {
@@ -29,11 +30,11 @@ public class Logo {
         this.name = name;
     }
 
-    public int getValue() {
-        return value;
+    public boolean isGuessed() {
+        return guessed;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setGuessed(boolean guessed) {
+        this.guessed = guessed;
     }
 }
