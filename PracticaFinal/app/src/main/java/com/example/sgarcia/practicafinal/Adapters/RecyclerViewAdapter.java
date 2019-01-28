@@ -1,9 +1,13 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,12 +16,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
+import com.example.sgarcia.practicafinal.Views.GameActivity;
+import com.example.sgarcia.practicafinal.Views.MainActivity;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
     MainViewModel mViewModel;
+    Context context;
 
     public RecyclerViewAdapter(MainViewModel viewModel){
         this.mViewModel = viewModel;
@@ -28,7 +36,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view;
-        Context context = viewGroup.getContext();
+        context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.logolist, viewGroup, false);
 
@@ -36,24 +44,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int posicion) {
 
-        myViewHolder.logo.setImageResource(mViewModel.getLevel().get(0).getLevelLogos().get(position).getImg());
+        int level = 0;
+        switch (mViewModel.getAlgodistinto()){
+            case LEVEL1:
+                level = 0;
+                break;
 
-        /*myViewHolder.level.setText(levelCount[viewType]);
-        myViewHolder.playerCoins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
+            case LEVEL2:
+                level = 1;
+                break;
 
-        if(mViewModel.levelLocked(viewType)){
-            myViewHolder.lock.setImageResource(R.drawable.lockclosed);
-           // myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor("#BDBDBD"));
-        }else{
-            myViewHolder.lock.setImageResource(R.drawable.lockopen);
-            myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(viewType).getColor()));
+            case LEVEL3:
+                level = 2;
+                break;
+
+            case LEVEL4:
+                level = 3;
+                break;
+
+            case LEVEL5:
+                level = 4;
+                break;
         }
-        myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(viewType).getColor()));*/
 
 
-
+        myViewHolder.logo.setImageResource(mViewModel.getLevel().get(level).getLevelLogos().get(myViewHolder.getAdapterPosition()).getImg());
     }
 
     @Override

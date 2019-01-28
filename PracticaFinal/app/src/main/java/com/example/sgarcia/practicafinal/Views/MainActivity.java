@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     MainViewModel viewModel;
     FrameLayout container;
-    LevelSelection levelSelected;
+    ProgressBar prb1, prb2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,48 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         container = findViewById(R.id.container);
+        prb1 = findViewById(R.id.progressBar);
+        prb2 = findViewById(R.id.progressBar2);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container, MainFragment.newInstance());
         transaction.commit();
+
+        /*final Observer<Integer> progressObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+
+                switch (integer){
+
+                    case 0:
+                        prb1.setProgress(0);
+                        prb2.setProgress(0);
+                        break;
+
+                    case 1:
+                        prb1.setProgress(25);
+                        prb2.setProgress(25);
+                        break;
+
+                    case 2:
+                        prb1.setProgress(50);
+                        prb2.setProgress(50);
+                        break;
+
+                    case 3:
+                        prb1.setProgress(75);
+                        prb2.setProgress(75);
+                        break;
+
+                    case 4:
+                        prb1.setProgress(100);
+                        prb2.setProgress(100);
+                        break;
+                }
+            }
+        };
+
+        viewModel.getPosition().observe(this, progressObserver);*/
 
         final Observer<LevelSelection> levelObserver = new Observer<LevelSelection>() {
             @Override

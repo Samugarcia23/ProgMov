@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -107,6 +108,27 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
         level.setText(Integer.toString(lv.getIdLevel()));
         playerCoins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
 
+        /*if (level.getText().equals("1"))
+            mViewModel.setPosition(0);
+        else {
+            if (level.getText().equals("2"))
+                mViewModel.setPosition(1);
+            else{
+                if (level.getText().equals("3"))
+                    mViewModel.setPosition(2);
+                else{
+                    if (level.getText().equals("4"))
+                        mViewModel.setPosition(3);
+                    else{
+                        if (level.getText().equals("5"))
+                            mViewModel.setPosition(4);
+                    }
+                }
+            }
+        }*/
+
+
+
         if(mViewModel.levelLocked(position)){
             lock.setImageResource(R.drawable.lockclosed);
             levelCard.setCardBackgroundColor(Color.parseColor("#BDBDBD"));
@@ -126,10 +148,12 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
 
                     case 0:
                         mViewModel.setSelectedLevel(LEVEL1);
+                        mViewModel.setAlgodistinto(LEVEL1);
                         break;
 
                     case 1:
                         mViewModel.setSelectedLevel(LEVEL2);
+                        mViewModel.setAlgodistinto(LEVEL2);
                         break;
 
                     case 2:

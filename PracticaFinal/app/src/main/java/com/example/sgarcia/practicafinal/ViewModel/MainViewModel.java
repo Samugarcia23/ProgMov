@@ -15,10 +15,15 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<Integer> _playerCoins;
     private ArrayList<Level> _levels;
     private MutableLiveData<LevelSelection> _selectedLevel;
+    private LevelSelection algodistinto;
+    private MutableLiveData<Integer> _position;
 
     public MainViewModel(){
         _playerCoins = new MutableLiveData<>();
         _selectedLevel = new MutableLiveData<>();
+        _position = new MutableLiveData<>();
+        _position.setValue(0);
+        algodistinto = LevelSelection.LEVEL1;
 
         loadCoins();
         addLevels();
@@ -68,5 +73,21 @@ public class MainViewModel extends ViewModel {
 
     public void setSelectedLevel(LevelSelection level){
         this._selectedLevel.setValue(level);
+    }
+
+    public LevelSelection getAlgodistinto() {
+        return algodistinto;
+    }
+
+    public void setAlgodistinto(LevelSelection algodistinto) {
+        this.algodistinto = algodistinto;
+    }
+
+    public void setPosition(int position) {
+        this._position.setValue(position);
+    }
+
+    public MutableLiveData<Integer> getPosition() {
+        return _position;
     }
 }
