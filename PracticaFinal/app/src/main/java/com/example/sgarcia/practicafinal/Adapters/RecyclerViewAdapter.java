@@ -17,7 +17,6 @@ import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-    private static final String[] levelCount = {"1", "2", "3", "4", "5"};
     MainViewModel mViewModel;
 
     public RecyclerViewAdapter(MainViewModel viewModel){
@@ -31,15 +30,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View view;
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        view = inflater.inflate(R.layout.levelcard2_activity, viewGroup, false);
+        view = inflater.inflate(R.layout.logolist, viewGroup, false);
 
         return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int viewType) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
 
-        myViewHolder.level.setText(levelCount[viewType]);
+        myViewHolder.logo.setImageResource(mViewModel.getLevel().get(0).getLevelLogos().get(position).getImg());
+
+        /*myViewHolder.level.setText(levelCount[viewType]);
         myViewHolder.playerCoins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
 
         if(mViewModel.levelLocked(viewType)){
@@ -49,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             myViewHolder.lock.setImageResource(R.drawable.lockopen);
             myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(viewType).getColor()));
         }
-        myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(viewType).getColor()));
+        myViewHolder.levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(viewType).getColor()));*/
 
 
 
@@ -57,22 +58,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return levelCount.length;
+        return mViewModel.getLevel().get(0).getLevelLogos().size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView lock;
-        public TextView level, playerCoins;
-        public CardView levelCard;
+        public ImageView logo;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            lock = itemView.findViewById(R.id.lock);
-            level = itemView.findViewById(R.id.level);
-            playerCoins = itemView.findViewById(R.id.playerPoints);
-            levelCard = itemView.findViewById(R.id.card_view);
+            logo = itemView.findViewById(R.id.logo);
         }
     }
 }

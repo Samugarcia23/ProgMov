@@ -2,6 +2,7 @@ package com.example.sgarcia.practicafinal.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -15,12 +16,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.sgarcia.practicafinal.Entities.Level;
+import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
+import com.example.sgarcia.practicafinal.Views.GameActivity;
 import com.example.sgarcia.practicafinal.Views.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
+import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
+import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL3;
+import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL4;
+import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL5;
 
 public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
 
@@ -82,7 +91,7 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
         mViews.set(position, null);
     }
 
-    private void bind(Level lv, View view, int position ) {
+    private void bind(Level lv, View view, final int position ) {
 
         ImageView lock;
         TextView level, playerCoins;
@@ -108,6 +117,35 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
             levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(position).getColor()));
             btnPlay.setClickable(true);
         }
+
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switch (position){
+
+                    case 0:
+                        mViewModel.setSelectedLevel(LEVEL1);
+                        break;
+
+                    case 1:
+                        mViewModel.setSelectedLevel(LEVEL2);
+                        break;
+
+                    case 2:
+                        mViewModel.setSelectedLevel(LEVEL3);
+                        break;
+
+                    case 3:
+                        mViewModel.setSelectedLevel(LEVEL4);
+                        break;
+
+                    case 4:
+                        mViewModel.setSelectedLevel(LEVEL5);
+                        break;
+                }
+            }
+        });
     }
 
 }
