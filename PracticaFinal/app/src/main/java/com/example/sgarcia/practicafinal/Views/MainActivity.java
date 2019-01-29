@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar prb1, prb2;
     Window window;
     private int lastLevel = 0;
-    String lockedColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +47,10 @@ public class MainActivity extends AppCompatActivity {
         prb1 = findViewById(R.id.progressBar);
         prb2 = findViewById(R.id.progressBar2);
         window = getWindow();
-        lockedColor = viewModel.getColorLocked().getValue();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container, MainFragment.newInstance());
         transaction.commit();
-
-        final Observer<String> colorLockedObserver = new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                lockedColor.equals(s);
-            }
-        };
-        viewModel.getColorLocked().observe(this, colorLockedObserver);
 
         final Observer<Integer> progressObserver = new Observer<Integer>() {
             @Override
@@ -86,13 +76,15 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         prb1.setProgress(25);
                         prb2.setProgress(25);
-                        window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
-                        if (lockedColor.equals("#BDBDBD")){
+
+                        if (viewModel.getLevel().get(1).isLocked()){
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
+                            window.setStatusBarColor(Color.parseColor("#BDBDBD"));
                         } else {
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level2), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level2), PorterDuff.Mode.SRC_IN);
+                            window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         }
 
                         if (lastLevel <= integer){
@@ -117,13 +109,14 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         prb1.setProgress(50);
                         prb2.setProgress(50);
-                        window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
-                        if (lockedColor == "#BDBDBD"){
+                        if (viewModel.getLevel().get(2).isLocked()){
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
+                            window.setStatusBarColor(Color.parseColor("#BDBDBD"));
                         } else {
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level3), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level3), PorterDuff.Mode.SRC_IN);
+                            window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         }
 
                         if (lastLevel <= integer){
@@ -148,13 +141,14 @@ public class MainActivity extends AppCompatActivity {
                     case 3:
                         prb1.setProgress(75);
                         prb2.setProgress(75);
-                        window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
-                        if (lockedColor.equals("#BDBDBD")){
+                        if (viewModel.getLevel().get(3).isLocked()){
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
+                            window.setStatusBarColor(Color.parseColor("#BDBDBD"));
                         } else {
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level4), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level4), PorterDuff.Mode.SRC_IN);
+                            window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         }
 
                         if (lastLevel <= integer){
@@ -179,13 +173,14 @@ public class MainActivity extends AppCompatActivity {
                     case 4:
                         prb1.setProgress(100);
                         prb2.setProgress(100);
-                        window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
-                        if (lockedColor.equals("#BDBDBD")){
+                        if (viewModel.getLevel().get(4).isLocked()){
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
+                            window.setStatusBarColor(Color.parseColor("#BDBDBD"));
                         } else {
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level5), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level5), PorterDuff.Mode.SRC_IN);
+                            window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         }
 
                         ProgressBarAnimation anim3 = new ProgressBarAnimation(prb1, 75, 100);

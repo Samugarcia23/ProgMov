@@ -110,15 +110,13 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
 
         if(mViewModel.levelLocked(position)){
             lock.setImageResource(R.drawable.lockclosed);
-            //levelCard.setCardBackgroundColor(Color.parseColor("#BDBDBD"));
-            mViewModel.getLevel().get(position).setColor("#BDBDBD");
+            //mViewModel.getLevel().get(position).setColor("#BDBDBD");
             levelCard.setCardBackgroundColor(Color.parseColor("#BDBDBD"));
             btnPlay.setEnabled(false);
             btnPlay.setTextColor(Color.parseColor("#9E9E9E"));
         }else{
             lock.setImageResource(R.drawable.lockopen);
             levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(position).getColor()));
-            mViewModel.setColorLocked(mViewModel.getLevel().get(position).getColor());
             btnPlay.setClickable(true);
         }
 

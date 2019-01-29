@@ -60,7 +60,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 mViewModel.setPosition(viewPager.getCurrentItem());
-                mViewModel.setColorLocked(mViewModel.getLevel().get(viewPager.getCurrentItem()).getColor());
             }
         });
 

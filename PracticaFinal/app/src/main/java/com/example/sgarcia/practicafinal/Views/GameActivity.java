@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +24,8 @@ import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
+import com.example.sgarcia.practicafinal.ui.Fragments.LogoListFragment;
+import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
 
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
@@ -31,12 +36,11 @@ import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL5;
 public class GameActivity extends AppCompatActivity {
 
     GameViewModel mViewModel;
-    RecyclerView rvlogo;
-    RecyclerViewAdapter adapter;
     TextView levelNum, coins;
     ImageView backarrow;
     LinearLayout infoBar;
     Window window;
+    FrameLayout container;
 
 
     @Override
@@ -48,14 +52,14 @@ public class GameActivity extends AppCompatActivity {
         levelNum = findViewById(R.id.level);
         coins = findViewById(R.id.coins);
         infoBar = findViewById(R.id.infoBar);
+        container = findViewById(R.id.logocontainer);
         window = getWindow();
 
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.logocontainer, LogoListFragment.newInstance());
+        transaction.commit();
+
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
-        adapter = new RecyclerViewAdapter(mViewModel);
-        rvlogo = findViewById(R.id.rvlogo);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 3);
-        rvlogo.setLayoutManager(mLayoutManager);
-        rvlogo.setAdapter(adapter);
 
         LevelSelection level = (LevelSelection) getIntent().getSerializableExtra("level");
 
@@ -144,4 +148,5 @@ public class GameActivity extends AppCompatActivity {
         window.setStatusBarColor(Color.parseColor(mViewModel.getLevel().get(num).getColor()));
 
     }
+
 }

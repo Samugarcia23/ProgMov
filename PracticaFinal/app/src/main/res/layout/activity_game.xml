@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.GameActivity"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    tools:context=".Views.GameActivity">
 
     <LinearLayout
         android:id="@+id/infoBar"
@@ -20,8 +20,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginStart="20dp"
-            app:srcCompat="@drawable/backarrow"
-            />
+            app:srcCompat="@drawable/backarrow" />
 
         <TextView
             android:id="@+id/textView"
@@ -33,7 +32,7 @@
             android:text="LEVEL"
             android:textColor="#F5F5F5"
             android:textColorHighlight="#424242"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <TextView
@@ -71,15 +70,21 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvlogo"
+    <FrameLayout
+        android:id="@+id/logocontainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infoBar"
-        app:layout_constraintVertical_bias="0.003" />
+        app:layout_constraintTop_toBottomOf="@+id/infoBar" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="60dp" />
+
 </android.support.constraint.ConstraintLayout>

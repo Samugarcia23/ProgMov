@@ -16,14 +16,11 @@ public class MainViewModel extends ViewModel {
     private ArrayList<Level> _levels;
     private MutableLiveData<LevelSelection> _selectedLevel;
     private MutableLiveData<Integer> _position;
-    private MutableLiveData<String> _colorLocked;
 
     public MainViewModel(){
         _playerCoins = new MutableLiveData<>();
         _selectedLevel = new MutableLiveData<>();
         _position = new MutableLiveData<>();
-        _colorLocked = new MutableLiveData<>();
-        _colorLocked.setValue("BDBDBD");
 
         _position.setValue(0);
 
@@ -83,13 +80,5 @@ public class MainViewModel extends ViewModel {
 
     public MutableLiveData<Integer> getPosition() {
         return _position;
-    }
-
-    public MutableLiveData<String> getColorLocked() {
-        return _colorLocked;
-    }
-
-    public void setColorLocked(String colorLocked) {
-        this._colorLocked.setValue(colorLocked);
     }
 }
