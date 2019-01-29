@@ -2,7 +2,14 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color><color name="white">#FAFAFA</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FAFAFA</color>
+    <color name="level1">#00897B</color>
+    <color name="level2">#00ACC1</color>
+    <color name="level3">#FFB300</color>
+    <color name="level4">#8E24AA</color>
+    <color name="level5">#e53935</color>
+    <color name="levellocked">#BDBDBD</color>
 </resources>
 
 

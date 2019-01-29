@@ -18,16 +18,17 @@ import android.widget.TextView;
 
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
+import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
 import com.example.sgarcia.practicafinal.Views.GameActivity;
 import com.example.sgarcia.practicafinal.Views.MainActivity;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-    MainViewModel mViewModel;
+    GameViewModel mViewModel;
     Context context;
 
-    public RecyclerViewAdapter(MainViewModel viewModel){
+    public RecyclerViewAdapter(GameViewModel viewModel){
         this.mViewModel = viewModel;
     }
 
@@ -47,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int posicion) {
 
         int level = 0;
-        switch (mViewModel.getAlgodistinto()){
+        switch (mViewModel.getSelectedLevel().getValue()){
             case LEVEL1:
                 level = 0;
                 break;
@@ -71,6 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         myViewHolder.logo.setImageResource(mViewModel.getLevel().get(level).getLevelLogos().get(myViewHolder.getAdapterPosition()).getImg());
+
     }
 
     @Override
@@ -86,6 +88,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
 
             logo = itemView.findViewById(R.id.logo);
+
         }
     }
 }

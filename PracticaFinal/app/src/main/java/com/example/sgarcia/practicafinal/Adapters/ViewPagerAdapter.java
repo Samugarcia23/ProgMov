@@ -105,38 +105,20 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
         levelCard = view.findViewById(R.id.card_view);
         btnPlay = view.findViewById(R.id.btnPlay);
 
-        level.setText(Integer.toString(lv.getIdLevel()));
+        level.setText(String.valueOf(lv.getIdLevel()));
         playerCoins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
-
-        /*if (level.getText().equals("1"))
-            mViewModel.setPosition(0);
-        else {
-            if (level.getText().equals("2"))
-                mViewModel.setPosition(1);
-            else{
-                if (level.getText().equals("3"))
-                    mViewModel.setPosition(2);
-                else{
-                    if (level.getText().equals("4"))
-                        mViewModel.setPosition(3);
-                    else{
-                        if (level.getText().equals("5"))
-                            mViewModel.setPosition(4);
-                    }
-                }
-            }
-        }*/
-
-
 
         if(mViewModel.levelLocked(position)){
             lock.setImageResource(R.drawable.lockclosed);
+            //levelCard.setCardBackgroundColor(Color.parseColor("#BDBDBD"));
+            mViewModel.getLevel().get(position).setColor("#BDBDBD");
             levelCard.setCardBackgroundColor(Color.parseColor("#BDBDBD"));
-            btnPlay.setClickable(false);
+            btnPlay.setEnabled(false);
             btnPlay.setTextColor(Color.parseColor("#9E9E9E"));
         }else{
             lock.setImageResource(R.drawable.lockopen);
             levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(position).getColor()));
+            mViewModel.setColorLocked(mViewModel.getLevel().get(position).getColor());
             btnPlay.setClickable(true);
         }
 
@@ -148,12 +130,10 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
 
                     case 0:
                         mViewModel.setSelectedLevel(LEVEL1);
-                        mViewModel.setAlgodistinto(LEVEL1);
                         break;
 
                     case 1:
                         mViewModel.setSelectedLevel(LEVEL2);
-                        mViewModel.setAlgodistinto(LEVEL2);
                         break;
 
                     case 2:

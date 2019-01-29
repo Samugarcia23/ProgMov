@@ -45,6 +45,7 @@ public class MainFragment extends Fragment {
         mViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
         viewPager = getActivity().findViewById(R.id.viewPager);
+
         adapter = new ViewPagerAdapter(mViewModel);
 
         adapter.addCardItem(mViewModel.getLevel().get(0));
@@ -54,6 +55,14 @@ public class MainFragment extends Fragment {
         adapter.addCardItem(mViewModel.getLevel().get(4));
 
         viewPager.setAdapter(adapter);
+
+        viewPager.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                mViewModel.setPosition(viewPager.getCurrentItem());
+                mViewModel.setColorLocked(mViewModel.getLevel().get(viewPager.getCurrentItem()).getColor());
+            }
+        });
 
     }
 
