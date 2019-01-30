@@ -1,25 +1,24 @@
 package com.example.sgarcia.practicafinal.ui.Fragments;
 
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.example.sgarcia.practicafinal.Adapters.RecyclerViewAdapter;
 import com.example.sgarcia.practicafinal.Adapters.ViewPagerAdapter;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
 
-import java.util.Objects;
+/*
+ *
+ *   Clase MainFragment (extiende de Fragment)
+ *
+ */
 
 public class MainFragment extends Fragment {
 
@@ -27,9 +26,13 @@ public class MainFragment extends Fragment {
     ViewPager viewPager;
     ViewPagerAdapter adapter;
 
+    //Metodo que devuelve un nuevo MainFragment
+
     public static MainFragment newInstance() {
         return new MainFragment();
     }
+
+    //Metodo que infla el layout del fragment
 
     @Nullable
     @Override
@@ -37,6 +40,8 @@ public class MainFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.main2_fragment, container, false);
     }
+
+    //Metodo que se ejecuta al crearse la actividad. Asigna el adaptador (ViewPagerAdapter) al viewpager
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

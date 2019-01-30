@@ -1,38 +1,35 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
-import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
-import com.example.sgarcia.practicafinal.Views.GameActivity;
-import com.example.sgarcia.practicafinal.Views.MainActivity;
-import com.example.sgarcia.practicafinal.ui.Fragments.LogoListFragment;
+
+/*
+ *
+ *   Clase que funciona como adaptador del recyclerView "logocontainer" del layout "activity_game"
+ *
+ */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-    GameViewModel mViewModel;
-    Context context;
+    private GameViewModel mViewModel;
+    private Context context;
+
+    //Constructor que recibe como parametro el viewmodel
 
     public RecyclerViewAdapter(GameViewModel viewModel){
         this.mViewModel = viewModel;
     }
+
+    //Metodo que "infla" el layout que se va a ver en cada posicion del recyclerView.
+    //Retorna dicha vista como parametro de MyViewHolder
 
     @NonNull
     @Override
@@ -46,10 +43,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new MyViewHolder(view);
     }
 
+    //Metodo que hace asigna el valor a los componentes de la vista a traves del viewholder
+
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int posicion) {
 
         int level = 0;
+
+
         switch (mViewModel.getSelectedLevel().getValue()){
             case LEVEL1:
                 level = 0;
@@ -72,22 +73,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 break;
         }
 
+        final int selected = level;
 
         myViewHolder.logo.setImageResource(mViewModel.getLevel().get(level).getLevelLogos().get(myViewHolder.getAdapterPosition()).getImg());
 
         myViewHolder.logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //PREGUNTAR A DYLAN
+                mViewModel.setLogoClicked(true);
+                mViewModel.setSelectedLogo(mViewModel.getLevel().get(selected).getLevelLogos().get(myViewHolder.getAdapterPosition()));
+                mViewModel.setLogoPosition(myViewHolder.getAdapterPosition());
             }
         });
 
     }
 
+    //Metodo que retorna el total de items en el RecyclerView
+
     @Override
     public int getItemCount() {
         return mViewModel.getLevel().get(0).getLevelLogos().size();
     }
+
+    //Clase estatica que recibe una vista y asigna cada componente a su id del layout
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 

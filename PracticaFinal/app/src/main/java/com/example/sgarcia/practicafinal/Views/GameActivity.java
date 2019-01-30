@@ -3,6 +3,7 @@ package com.example.sgarcia.practicafinal.Views;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
 import com.example.sgarcia.practicafinal.ui.Fragments.LogoListFragment;
+import com.example.sgarcia.practicafinal.ui.Fragments.LogoMainPageFragment;
 import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
 
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
@@ -47,6 +49,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         backarrow = findViewById(R.id.backarrow);
         levelNum = findViewById(R.id.level);
@@ -54,10 +57,6 @@ public class GameActivity extends AppCompatActivity {
         infoBar = findViewById(R.id.infoBar);
         container = findViewById(R.id.logocontainer);
         window = getWindow();
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.logocontainer, LogoListFragment.newInstance());
-        transaction.commit();
 
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
@@ -97,55 +96,39 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                finish();
-
-                /*final Observer<LevelSelection> levelObserver = new Observer<LevelSelection>() {
-                    @Override
-                    public void onChanged(@Nullable LevelSelection levelSelection) {
-
-                        switch (levelSelection){
-
-                            case LEVEL1:
-                                Intent intent = new Intent(GameActivity.this, MainActivity.class);
-                                intent.putExtra("level", LEVEL1);
-                                startActivity(intent);
-                                break;
-
-                            case LEVEL2:
-                                intent = new Intent(GameActivity.this, MainActivity.class);
-                                intent.putExtra("level", LEVEL2);
-                                startActivity(intent);
-                                break;
-
-                            case LEVEL3:
-                                intent = new Intent(GameActivity.this, MainActivity.class);
-                                intent.putExtra("level", LEVEL3);
-                                startActivity(intent);
-                                break;
-
-                            case LEVEL4:
-                                intent = new Intent(GameActivity.this, MainActivity.class);
-                                intent.putExtra("level", LEVEL4);
-                                startActivity(intent);
-                                break;
-
-                            case LEVEL5:
-                                intent = new Intent(GameActivity.this, MainActivity.class);
-                                intent.putExtra("level", LEVEL5);
-                                startActivity(intent);
-                                break;
-                        }
-                    }
-                };*/
-
-               // mViewModel.getSelectedLevel().observe(GameActivity.this, levelObserver);
+                if (!mViewModel.isLogoClicked().getValue()){
+                    finish();
+                }else{
+                    mViewModel.setLogoClicked(false);
+                }
             }
         });
+
 
         levelNum.setText(String.valueOf(mViewModel.getLevel().get(num).getIdLevel()));
         coins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
         infoBar.setBackgroundColor(Color.parseColor(mViewModel.getLevel().get(num).getColor()));
         window.setStatusBarColor(Color.parseColor(mViewModel.getLevel().get(num).getColor()));
+
+        final Observer<Boolean> logoClickedObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean bool) {
+
+                if (!bool){
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.logocontainer, LogoListFragment.newInstance());
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }else{
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.logocontainer, LogoMainPageFragment.newInstance());
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            }
+        };
+
+        mViewModel.isLogoClicked().observe(this, logoClickedObserver);
 
     }
 

@@ -4,11 +4,10 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.sgarcia.practicafinal.Entities.Level;
-import com.example.sgarcia.practicafinal.Lists.Levels;
+import com.example.sgarcia.practicafinal.Lists.LogoList;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainViewModel extends ViewModel {
 
@@ -57,7 +56,7 @@ public class MainViewModel extends ViewModel {
 
     private void addLevels(){
         _levels = new ArrayList<>();
-        Levels levelList = new Levels();
+        LogoList levelList = new LogoList();
 
         _levels.add(new Level(1,"#00897B", false, levelList.levelOne()));
         _levels.add(new Level(2,"#00ACC1", false, levelList.levelTwo()));

@@ -1,27 +1,20 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.example.sgarcia.practicafinal.Entities.Level;
-import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
-import com.example.sgarcia.practicafinal.Views.GameActivity;
-import com.example.sgarcia.practicafinal.Views.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +25,19 @@ import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL3;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL4;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL5;
 
+/*
+ *
+ *   Clase que funciona como adaptador del ViewPager "viewpager" del layout "main2_fragment"
+ *
+ */
+
 public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
 
     private MainViewModel mViewModel;
-    private float mBaseElevation;
     private List<Level> mViews;
     private List<Level> mData;
+
+    //Constructor que recibe como parametro el viewmodel
 
     public ViewPagerAdapter(MainViewModel viewModel){
         this.mViewModel = viewModel;
@@ -45,30 +45,35 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
         mViews = new ArrayList<>();
     }
 
+    //Metodo que recibe un objeto "Level" y lo añade al listado "mData"
+
     public void addCardItem(Level level) {
         mViews.add(null);
         mData.add(level);
     }
 
-    @Override
-    public float getBaseElevation() {
-        return mBaseElevation;
-    }
+    //Metodo que devuelve el objeto "Level" de la posicion recibida por parametro
 
     @Override
     public Level getCardViewAt(int position) {
         return mViews.get(position);
     }
 
+    //Metodo que devuelve el total de objetos "Level" en el listado "mData"
+
     @Override
     public int getCount() {
         return mData.size();
     }
 
+    //Metodo que recibe una vista y un objeto. Devuelve true si la vista el la del objeto y false si no lo es
+
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
         return view == o;
     }
+
+    //Metodo que infla la vista y añade los niveles al listado "mViews"
 
     @NonNull
     @Override
@@ -86,11 +91,15 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
         return view;
     }
 
+    //Metodo que elimina un objeto "Level" del listado "mViews" a traves de su posicion
+
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
         mViews.set(position, null);
     }
+
+    //Metodo que asigna cada componente a su vista y les da valores
 
     private void bind(Level lv, View view, final int position ) {
 
@@ -110,7 +119,6 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
 
         if(mViewModel.levelLocked(position)){
             lock.setImageResource(R.drawable.lockclosed);
-            //mViewModel.getLevel().get(position).setColor("#BDBDBD");
             levelCard.setCardBackgroundColor(Color.parseColor("#BDBDBD"));
             btnPlay.setEnabled(false);
             btnPlay.setTextColor(Color.parseColor("#9E9E9E"));

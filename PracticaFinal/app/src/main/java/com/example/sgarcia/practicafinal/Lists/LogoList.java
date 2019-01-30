@@ -1,12 +1,19 @@
 package com.example.sgarcia.practicafinal.Lists;
 
-import com.example.sgarcia.practicafinal.Entities.Level;
 import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.R;
 
 import java.util.ArrayList;
 
-public class Levels {
+/*
+ *
+ *   Clase LogoList. Contiene:
+ *
+ *   - 5 Listados con 20 objetos logo cada 1
+ *
+ */
+
+public class LogoList {
 
     public ArrayList<Logo> levelOne(){
         ArrayList<Logo> level1 = new ArrayList<>();

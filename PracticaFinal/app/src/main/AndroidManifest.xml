@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.MainActivity">
+        <activity android:name=".Views.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Views.GameActivity"></activity>
+
+
     </application>
 
 </manifest>

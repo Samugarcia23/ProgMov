@@ -4,6 +4,12 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 
+/*
+ *
+ * Clase que extiende de Animation. Se usa para la animacion de los progressbar de la pantalla principal
+ *
+ */
+
 public class ProgressBarAnimation extends Animation {
     private ProgressBar progressBar;
     private float from;

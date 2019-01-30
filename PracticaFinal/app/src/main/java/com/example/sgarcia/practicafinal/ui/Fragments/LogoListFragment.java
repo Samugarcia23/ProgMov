@@ -16,15 +16,25 @@ import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
 
+/*
+ *
+ *   Clase LogolistFragment (extiende de Fragment)
+ *
+ */
+
 public class LogoListFragment extends Fragment {
 
     GameViewModel gameViewModel;
     RecyclerViewAdapter adapter;
     RecyclerView rvlogo;
 
+    //Metodo que devuelve un nuevo LogoListFragment
+
     public static LogoListFragment newInstance() {
         return new LogoListFragment();
     }
+
+    //Metodo que infla el layout del fragment
 
     @Nullable
     @Override
@@ -32,6 +42,8 @@ public class LogoListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.logolistfragment_activity, container, false);
     }
+
+    //Metodo que se ejecuta al crearse la actividad. Asigna el adaptador (RecyclerViewAdapter) al recyclerview
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
