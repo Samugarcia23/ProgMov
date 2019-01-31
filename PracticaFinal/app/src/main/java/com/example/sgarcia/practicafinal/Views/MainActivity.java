@@ -1,27 +1,26 @@
 package com.example.sgarcia.practicafinal.Views;
 
+import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.renderscript.Allocation;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Window;
-import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
-import com.example.sgarcia.practicafinal.Others.ProgressBarAnimation;
 import com.example.sgarcia.practicafinal.R;
-import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
+import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
 
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout container;
     ProgressBar prb1, prb2;
     Window window;
-    private int lastLevel = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,23 +57,24 @@ public class MainActivity extends AppCompatActivity {
                 switch (integer){
 
                     case 0:
-                        prb1.setProgress(0);
-                        prb2.setProgress(0);
+
                         window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level1), PorterDuff.Mode.SRC_IN);
                         prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.level1), PorterDuff.Mode.SRC_IN);
-                        ProgressBarAnimation anim = new ProgressBarAnimation(prb1, 25, 0);
-                        anim.setDuration(100);
-                        prb1.startAnimation(anim);
-                        ProgressBarAnimation anim2 = new ProgressBarAnimation(prb2, 25, 0);
-                        anim2.setDuration(100);
-                        prb2.startAnimation(anim2);
+
+                        ObjectAnimator animation = ObjectAnimator.ofInt(prb1, "progress", 0);
+                        animation.setDuration(50);
+                        animation.setInterpolator(new DecelerateInterpolator());
+                        animation.start();
+
+                        ObjectAnimator animation2 = ObjectAnimator.ofInt(prb2, "progress", 0);
+                        animation2.setDuration(50);
+                        animation2.setInterpolator(new DecelerateInterpolator());
+                        animation2.start();
 
                         break;
 
                     case 1:
-                        prb1.setProgress(25);
-                        prb2.setProgress(25);
 
                         if (viewModel.getLevel().get(1).isLocked()){
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
@@ -87,28 +86,20 @@ public class MainActivity extends AppCompatActivity {
                             window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         }
 
-                        if (lastLevel <= integer){
-                            ProgressBarAnimation anim3 = new ProgressBarAnimation(prb1, 0, 25);
-                            anim3.setDuration(100);
-                            prb1.startAnimation(anim3);
+                        animation = ObjectAnimator.ofInt(prb1, "progress", 25);
+                        animation.setDuration(50);
+                        animation.setInterpolator(new DecelerateInterpolator());
+                        animation.start();
 
-                            ProgressBarAnimation anim4 = new ProgressBarAnimation(prb2, 0, 25);
-                            anim4.setDuration(100);
-                            prb2.startAnimation(anim4);
-                        } else {
-                            ProgressBarAnimation anim3 = new ProgressBarAnimation(prb1, 50, 25);
-                            anim3.setDuration(100);
-                            prb1.startAnimation(anim3);
+                        animation2 = ObjectAnimator.ofInt(prb2, "progress", 25);
+                        animation2.setDuration(50);
+                        animation2.setInterpolator(new DecelerateInterpolator());
+                        animation2.start();
 
-                            ProgressBarAnimation anim4 = new ProgressBarAnimation(prb2, 50, 25);
-                            anim4.setDuration(100);
-                            prb2.startAnimation(anim4);
-                        }
                         break;
 
                     case 2:
-                        prb1.setProgress(50);
-                        prb2.setProgress(50);
+
                         if (viewModel.getLevel().get(2).isLocked()){
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
@@ -119,28 +110,19 @@ public class MainActivity extends AppCompatActivity {
                             window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         }
 
-                        if (lastLevel <= integer){
-                            ProgressBarAnimation anim3 = new ProgressBarAnimation(prb1, 25, 50);
-                            anim3.setDuration(100);
-                            prb1.startAnimation(anim3);
+                        animation = ObjectAnimator.ofInt(prb1, "progress", 50);
+                        animation.setDuration(50);
+                        animation.setInterpolator(new DecelerateInterpolator());
+                        animation.start();
 
-                            ProgressBarAnimation anim4 = new ProgressBarAnimation(prb2, 25, 50);
-                            anim4.setDuration(100);
-                            prb2.startAnimation(anim4);
-                        } else {
-                            ProgressBarAnimation anim3 = new ProgressBarAnimation(prb1, 75, 50);
-                            anim3.setDuration(100);
-                            prb1.startAnimation(anim3);
-
-                            ProgressBarAnimation anim4 = new ProgressBarAnimation(prb2, 75, 50);
-                            anim4.setDuration(100);
-                            prb2.startAnimation(anim4);
-                        }
+                        animation2 = ObjectAnimator.ofInt(prb2, "progress", 50);
+                        animation2.setDuration(50);
+                        animation2.setInterpolator(new DecelerateInterpolator());
+                        animation2.start();
                         break;
 
                     case 3:
-                        prb1.setProgress(75);
-                        prb2.setProgress(75);
+
                         if (viewModel.getLevel().get(3).isLocked()){
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
@@ -151,28 +133,20 @@ public class MainActivity extends AppCompatActivity {
                             window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         }
 
-                        if (lastLevel <= integer){
-                            ProgressBarAnimation anim3 = new ProgressBarAnimation(prb1, 50, 75);
-                            anim3.setDuration(100);
-                            prb1.startAnimation(anim3);
+                        animation = ObjectAnimator.ofInt(prb1, "progress", 75);
+                        animation.setDuration(50);
+                        animation.setInterpolator(new DecelerateInterpolator());
+                        animation.start();
 
-                            ProgressBarAnimation anim4 = new ProgressBarAnimation(prb2, 50, 75);
-                            anim4.setDuration(100);
-                            prb2.startAnimation(anim4);
-                        } else {
-                            ProgressBarAnimation anim3 = new ProgressBarAnimation(prb1, 100, 75);
-                            anim3.setDuration(100);
-                            prb1.startAnimation(anim3);
+                        animation2 = ObjectAnimator.ofInt(prb2, "progress", 75);
+                        animation2.setDuration(50);
+                        animation2.setInterpolator(new DecelerateInterpolator());
+                        animation2.start();
 
-                            ProgressBarAnimation anim4 = new ProgressBarAnimation(prb2, 100, 75);
-                            anim4.setDuration(100);
-                            prb2.startAnimation(anim4);
-                        }
                         break;
 
                     case 4:
-                        prb1.setProgress(100);
-                        prb2.setProgress(100);
+
                         if (viewModel.getLevel().get(4).isLocked()){
                             prb1.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
                             prb2.getProgressDrawable().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.levellocked), PorterDuff.Mode.SRC_IN);
@@ -183,17 +157,18 @@ public class MainActivity extends AppCompatActivity {
                             window.setStatusBarColor(Color.parseColor(viewModel.getLevel().get(integer).getColor()));
                         }
 
-                        ProgressBarAnimation anim3 = new ProgressBarAnimation(prb1, 75, 100);
-                        anim3.setDuration(100);
-                        prb1.startAnimation(anim3);
-                        ProgressBarAnimation anim4 = new ProgressBarAnimation(prb2, 75, 100);
-                        anim4.setDuration(100);
-                        prb2.startAnimation(anim4);
+                        animation = ObjectAnimator.ofInt(prb1, "progress", 100);
+                        animation.setDuration(50);
+                        animation.setInterpolator(new DecelerateInterpolator());
+                        animation.start();
+
+                        animation2 = ObjectAnimator.ofInt(prb2, "progress", 100);
+                        animation2.setDuration(50);
+                        animation2.setInterpolator(new DecelerateInterpolator());
+                        animation2.start();
 
                         break;
                 }
-
-                lastLevel = integer;
             }
         };
 
@@ -239,6 +214,20 @@ public class MainActivity extends AppCompatActivity {
         };
 
         viewModel.getSelectedLevel().observe(this, levelObserver);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Exit");
+        alert.setMessage("Do you want to exit the app?");
+        alert.setIcon(R.drawable.exit2);
+
+        alert.setPositiveButton("Yes", (dialog, whichButton) -> super.onBackPressed());
+        alert.setNegativeButton("No", (dialog, whichButton) -> {});
+
+        alert.show();
 
     }
 

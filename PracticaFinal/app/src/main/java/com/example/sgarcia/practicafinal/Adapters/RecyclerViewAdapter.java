@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.sgarcia.practicafinal.R;
@@ -21,6 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private GameViewModel mViewModel;
     private Context context;
+    Animation myAnim;
 
     //Constructor que recibe como parametro el viewmodel
 
@@ -39,6 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.logolist, viewGroup, false);
+        myAnim = AnimationUtils.loadAnimation(view.getContext(), R.anim.bounce);
 
         return new MyViewHolder(view);
     }
@@ -83,6 +87,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 mViewModel.setLogoClicked(true);
                 mViewModel.setSelectedLogo(mViewModel.getLevel().get(selected).getLevelLogos().get(myViewHolder.getAdapterPosition()));
                 mViewModel.setLogoPosition(myViewHolder.getAdapterPosition());
+                myViewHolder.logo.startAnimation(myAnim);
             }
         });
 

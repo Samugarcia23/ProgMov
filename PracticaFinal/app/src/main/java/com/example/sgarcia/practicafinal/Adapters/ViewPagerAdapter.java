@@ -8,6 +8,8 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -107,6 +109,7 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
         TextView level, playerCoins;
         CardView levelCard;
         Button btnPlay;
+        final Animation myAnim = AnimationUtils.loadAnimation(view.getContext(), R.anim.bounce);
 
         lock = view.findViewById(R.id.lock);
         level = view.findViewById(R.id.level);
@@ -154,6 +157,9 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
                         mViewModel.setSelectedLevel(LEVEL5);
                         break;
                 }
+
+                btnPlay.startAnimation(myAnim);
+
             }
         });
     }

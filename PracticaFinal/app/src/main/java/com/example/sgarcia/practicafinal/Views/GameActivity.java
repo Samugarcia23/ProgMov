@@ -15,6 +15,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,6 +45,7 @@ public class GameActivity extends AppCompatActivity {
     LinearLayout infoBar;
     Window window;
     FrameLayout container;
+    Animation myAnim;
 
 
     @Override
@@ -57,6 +60,7 @@ public class GameActivity extends AppCompatActivity {
         infoBar = findViewById(R.id.infoBar);
         container = findViewById(R.id.logocontainer);
         window = getWindow();
+        myAnim = AnimationUtils.loadAnimation(this, R.anim.rotate);
 
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
@@ -101,6 +105,8 @@ public class GameActivity extends AppCompatActivity {
                 }else{
                     mViewModel.setLogoClicked(false);
                 }
+
+                backarrow.startAnimation(myAnim);
             }
         });
 
@@ -130,6 +136,18 @@ public class GameActivity extends AppCompatActivity {
 
         mViewModel.isLogoClicked().observe(this, logoClickedObserver);
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (!mViewModel.isLogoClicked().getValue()){
+            finish();
+        }else{
+            mViewModel.setLogoClicked(false);
+        }
+
+        backarrow.startAnimation(myAnim);
     }
 
 }
