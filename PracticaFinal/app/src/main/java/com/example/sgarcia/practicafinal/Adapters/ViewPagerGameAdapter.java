@@ -6,14 +6,18 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import com.example.sgarcia.practicafinal.Entities.Logo;
-import com.example.sgarcia.practicafinal.Others.LevelSelection;
+import com.example.sgarcia.practicafinal.Others.Alphabet;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /*
  *
@@ -26,6 +30,13 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     GameViewModel gameViewModel;
     private List<Logo> mViews;
     private List<Logo> mData;
+    GridViewLettersAdapter lettersAdapter;
+    GridViewLogoNameAdapter logoNameAdapter;
+    GridView lettersGridView, logoNameGridView;
+    List<String> alphabet = new ArrayList<>();
+    char[] answer;
+    String correctName;
+
 
     //Constructor que recibe como parametro el viewmodel
 
@@ -76,7 +87,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         view = inflater.inflate(R.layout.logoguesswindow_activity, container, false);
         container.addView(view);
         bind(mData.get(position), view, position);
-        Logo logo = gameViewModel.getSelectedLogo();
+        Logo logo = gameViewModel.getSelectedLogo().getValue();
         mViews.set(position, logo);
 
         return view;
@@ -95,36 +106,59 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     private void bind(Logo logo, View view, final int position ) {
 
         ImageView imgLogo;
-        LevelSelection levelSelection;
+        int howmany;
 
         imgLogo = view.findViewById(R.id.selectedlogo);
-        levelSelection = gameViewModel.getSelectedLevel().getValue();
 
-        int level = 0;
+        lettersGridView = view.findViewById(R.id.lettersgridview);
+        logoNameGridView = view.findViewById(R.id.logonamegridview);
 
-        switch (levelSelection){
+        imgLogo.setImageResource(logo.getImg());
 
-            case LEVEL1:
-                level = 0;
-                break;
+        Random rnd = new Random();
+        correctName = logo.getName();
+        answer = correctName.toCharArray();
 
-            case LEVEL2:
-                level = 1;
-                break;
+        Alphabet.selectedName = new char[answer.length];
+        alphabet.clear();
 
-            case LEVEL3:
-                level = 2;
-                break;
-
-            case LEVEL4:
-                level = 3;
-                break;
-
-            case LEVEL5:
-                level = 4;
-                break;
+        for (char letter : answer){
+            alphabet.add(String.valueOf(letter));
         }
 
-        imgLogo.setImageResource(gameViewModel.getLevel().get(level).getLevelLogos().get(position).getImg());
+        if (answer.length < 10)
+            howmany = answer.length * 2;
+        else
+            howmany = 20;
+
+        for (int i = answer.length; i<howmany; i++)
+            alphabet.add(Alphabet.alphabet[rnd.nextInt(Alphabet.alphabet.length)]);
+
+        Collections.shuffle(alphabet);
+
+        lettersAdapter = new GridViewLettersAdapter(gameViewModel, alphabet);
+        logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList());
+
+        lettersAdapter.notifyDataSetChanged();
+        logoNameAdapter.notifyDataSetChanged();
+
+        lettersGridView.setAdapter(lettersAdapter);
+        logoNameGridView.setAdapter(logoNameAdapter);
+
+        lettersGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+
+    }
+
+    private char[] answerList(){
+        char result[] = new char[answer.length];
+        for (int i=0; i<answer.length;i++)
+            result[i] = ' ';
+
+        return result;
     }
 }

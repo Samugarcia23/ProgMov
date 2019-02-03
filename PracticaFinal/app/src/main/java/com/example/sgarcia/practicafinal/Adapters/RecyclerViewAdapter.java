@@ -1,7 +1,10 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +13,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
+import com.example.sgarcia.practicafinal.Views.GameActivity;
+import com.example.sgarcia.practicafinal.ui.Fragments.LogoListFragment;
 
 /*
  *
@@ -86,7 +92,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
                 mViewModel.setLogoClicked(true);
                 mViewModel.setSelectedLogo(mViewModel.getLevel().get(selected).getLevelLogos().get(myViewHolder.getAdapterPosition()));
-                mViewModel.setLogoPosition(myViewHolder.getAdapterPosition());
+
+                final Observer<Logo> logoClickedObserver = new Observer<Logo>() {
+                    @Override
+                    public void onChanged(@Nullable Logo log) {
+                        mViewModel.setLogoPosition(myViewHolder.getAdapterPosition());
+                    }
+                };
+
+                mViewModel.getSelectedLogo().observeForever(logoClickedObserver);
+
                 myViewHolder.logo.startAnimation(myAnim);
             }
         });

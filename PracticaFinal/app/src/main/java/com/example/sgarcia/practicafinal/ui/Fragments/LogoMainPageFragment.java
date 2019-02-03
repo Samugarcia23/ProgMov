@@ -9,13 +9,24 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.example.sgarcia.practicafinal.Adapters.GridViewLettersAdapter;
+import com.example.sgarcia.practicafinal.Adapters.GridViewLogoNameAdapter;
 import com.example.sgarcia.practicafinal.Adapters.ViewPagerGameAdapter;
 import com.example.sgarcia.practicafinal.Entities.Level;
+import com.example.sgarcia.practicafinal.Others.Alphabet;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
@@ -35,6 +46,7 @@ public class LogoMainPageFragment extends Fragment {
     ViewPagerGameAdapter adapter;
     ViewPager vp;
     LevelSelection levelSelection;
+
 
     //Metodo que devuelve un nuevo LogoMainPageFragment
 
