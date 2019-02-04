@@ -104,6 +104,7 @@ public class LogoMainPageFragment extends Fragment {
         }
 
         vp.setAdapter(adapter);
+        vp.setOffscreenPageLimit(20);
         vp.setCurrentItem(gameViewModel.getLogoPosition());
     }
 }

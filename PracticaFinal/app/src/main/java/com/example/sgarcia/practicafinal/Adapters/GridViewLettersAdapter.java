@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 
@@ -16,9 +17,9 @@ public class GridViewLettersAdapter extends BaseAdapter {
 
     private GameViewModel gameViewModel;
     private Context context;
-    private List<String> alphabet;
+    private List<Character> alphabet;
 
-    public GridViewLettersAdapter (GameViewModel viewModel, List<String> alphabet) { this.gameViewModel = viewModel; this.alphabet = alphabet;}
+    public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet) { this.gameViewModel = viewModel; this.alphabet = alphabet;}
 
     @Override
     public int getCount() {
@@ -56,11 +57,11 @@ public class GridViewLettersAdapter extends BaseAdapter {
                 btnLetter.setPadding(8,8,8,8);
                 btnLetter.setBackgroundColor(Color.parseColor("#EEEEEE"));
                 btnLetter.setTextColor(Color.parseColor("#424242"));
-                btnLetter.setText(alphabet.get(position));
+                btnLetter.setText(alphabet.get(position).toString());
                 btnLetter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //TODO
+                        Toast.makeText(view.getContext(), "Has pulsado "+alphabet.get(position), Toast.LENGTH_SHORT).show();
                     }
                 });
             }

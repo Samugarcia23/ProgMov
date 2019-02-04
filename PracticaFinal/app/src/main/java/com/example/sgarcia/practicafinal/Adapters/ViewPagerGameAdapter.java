@@ -33,9 +33,6 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     GridViewLettersAdapter lettersAdapter;
     GridViewLogoNameAdapter logoNameAdapter;
     GridView lettersGridView, logoNameGridView;
-    List<String> alphabet = new ArrayList<>();
-    char[] answer;
-    String correctName;
 
 
     //Constructor que recibe como parametro el viewmodel
@@ -86,8 +83,8 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.logoguesswindow_activity, container, false);
         container.addView(view);
-        bind(mData.get(position), view, position);
         Logo logo = gameViewModel.getSelectedLogo().getValue();
+        bind(mData.get(position), view);
         mViews.set(position, logo);
 
         return view;
@@ -103,7 +100,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
     //Metodo que asigna cada componente a su vista y les da valores
 
-    private void bind(Logo logo, View view, final int position ) {
+    private void bind(Logo logo, View view) {
 
         ImageView imgLogo;
         int howmany;
@@ -115,32 +112,11 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         imgLogo.setImageResource(logo.getImg());
 
-        Random rnd = new Random();
-        correctName = logo.getName();
-        answer = correctName.toCharArray();
+        lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
+        logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logo.getName().toCharArray()));
 
-        Alphabet.selectedName = new char[answer.length];
-        alphabet.clear();
-
-        for (char letter : answer){
-            alphabet.add(String.valueOf(letter));
-        }
-
-        if (answer.length < 10)
-            howmany = answer.length * 2;
-        else
-            howmany = 20;
-
-        for (int i = answer.length; i<howmany; i++)
-            alphabet.add(Alphabet.alphabet[rnd.nextInt(Alphabet.alphabet.length)]);
-
-        Collections.shuffle(alphabet);
-
-        lettersAdapter = new GridViewLettersAdapter(gameViewModel, alphabet);
-        logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList());
-
-        lettersAdapter.notifyDataSetChanged();
-        logoNameAdapter.notifyDataSetChanged();
+        //lettersAdapter.notifyDataSetChanged();
+        //logoNameAdapter.notifyDataSetChanged();
 
         lettersGridView.setAdapter(lettersAdapter);
         logoNameGridView.setAdapter(logoNameAdapter);
@@ -154,7 +130,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
     }
 
-    private char[] answerList(){
+    private char[] answerList(char[] answer){
         char result[] = new char[answer.length];
         for (int i=0; i<answer.length;i++)
             result[i] = ' ';
