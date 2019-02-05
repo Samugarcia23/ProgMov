@@ -91,6 +91,7 @@ public class LogoMainPageFragment extends Fragment {
         vp.setAdapter(adapter);
 
         vp.setCurrentItem(gameViewModel.getLogoPosition().getValue());
+        vp.setOffscreenPageLimit(gameViewModel.getLevel().get(level).getLevelLogos().size());
 
         vp.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override

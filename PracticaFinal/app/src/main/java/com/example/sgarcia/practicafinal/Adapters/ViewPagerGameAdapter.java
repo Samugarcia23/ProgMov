@@ -39,7 +39,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     private List<Logo> mData;
     GridViewLettersAdapter lettersAdapter;
     GridViewLogoNameAdapter logoNameAdapter;
-    public GridView lettersGridView, logoNameGridView;
+    GridView lettersGridView, logoNameGridView;
     Context context;
 
 
@@ -111,7 +111,8 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     private void bind(Logo logo, View view) {
 
         ImageView imgLogo;
-        final int[] letterPos = {0};
+        final int[] logoPos = {0};
+        final char [] newLetter = new char[logo.getName().toCharArray().length];
 
         imgLogo = view.findViewById(R.id.selectedlogo);
 
@@ -120,35 +121,56 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         imgLogo.setImageResource(logo.getImg());
 
-        lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
         logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logo.getName().toCharArray()));
+        lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList(), this, logoNameAdapter);
 
         lettersGridView.setAdapter(lettersAdapter);
         logoNameGridView.setAdapter(logoNameAdapter);
 
-        /*final Observer<Integer> letterPosObserver = new Observer<Integer>() {
+        lettersAdapter.notifyDataSetChanged();
+        logoNameAdapter.notifyDataSetChanged();
+
+        /*final Observer<Integer> logoPosObserver = new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
-                letterPos[0] = integer;
+                if(integer != -1){
+                    logoPos[0] = integer;
+                    integer = -1;
+                }
+                else
+                    logoPos[0] = -1;
             }
         };
 
-        gameViewModel.getLetterPosition().observe((LifecycleOwner) context, letterPosObserver);
+        gameViewModel.getLogoPosition().observe((LifecycleOwner) context, logoPosObserver);
 
         final Observer<String> letterObserver = new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                if(!s.equals("")){
-                    //logo.getCharList().set(letterPos[0], ' ');
-                    lettersAdapter.(letterPos[0]);
-                    lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
-                    gameViewModel.setLetterPressed("");
+                if(!s.equals("") && logoPos[0] == 0){
+                    int posLetter = -1;
+                    while (posLetter == -1){
+                        for (int i=0;i<newLetter.length;i++){
+                            if (newLetter[i] != ' '){
+                                newLetter[i] = gameViewModel.getLetterPressed().getValue().charAt(0);
+                                posLetter = i;
+                                break;
+                            }else{
+                                posLetter = i;
+                            }
+                        }
+                    }
+
+                    logoPos[0] = -1;
+                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(newLetter));
+                    logoNameGridView.setAdapter(logoNameAdapter);
                 }
             }
-        };
+        };*/
+    }
 
-        gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);*/
-
+    public void addAdapter(GridViewLogoNameAdapter adapter){
+        logoNameGridView.setAdapter(adapter);
     }
 
     private char[] answerList(char[] answer){

@@ -1,5 +1,6 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.graphics.Color;
@@ -24,10 +25,14 @@ public class GridViewLettersAdapter extends BaseAdapter {
     private GameViewModel gameViewModel;
     private Context context;
     private List<Character> alphabet;
+    GridViewLogoNameAdapter logoNameAdapter;
+    ViewPagerGameAdapter viewPagerGameAdapter;
 
-    public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet) {
+    public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet, ViewPagerGameAdapter viewPagerGameAdapter, GridViewLogoNameAdapter logoNameAdapter) {
         this.gameViewModel = viewModel;
         this.alphabet = alphabet;
+        this.viewPagerGameAdapter = viewPagerGameAdapter;
+        this.logoNameAdapter = logoNameAdapter;
     }
 
     @Override
@@ -49,49 +54,91 @@ public class GridViewLettersAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         Button btnLetter;
         context = parent.getContext();
+        final char [] newLetter = new char[gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length];
+        final String[] letter = {""};
 
         if (view == null){
 
-            if (alphabet.get(position).equals(' ')){
+            btnLetter = new Button(context);
+            btnLetter.setLayoutParams(new GridLayout.LayoutParams());
+            btnLetter.setPadding(8,8,8,8);
+            btnLetter.setBackgroundColor(Color.parseColor("#EEEEEE"));
+            btnLetter.setTextColor(Color.parseColor("#424242"));
+            btnLetter.setText(alphabet.get(position).toString());
+            btnLetter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                btnLetter = new Button(context);
-                btnLetter.setLayoutParams(new GridLayout.LayoutParams());
-                btnLetter.setPadding(8,8,8,8);
-                btnLetter.setBackgroundColor(Color.parseColor("#EEEEEE"));
+                    gameViewModel.setLogoPosition(0);
+                    gameViewModel.setLetterPosition(position);
+                    gameViewModel.setLetterPressed(alphabet.get(position).toString());
 
-            } else{
+                    view.setVisibility(View.INVISIBLE);
+                    view.setClickable(false);
 
-                btnLetter = new Button(context);
-                btnLetter.setLayoutParams(new GridLayout.LayoutParams());
-                btnLetter.setPadding(8,8,8,8);
-                btnLetter.setBackgroundColor(Color.parseColor("#EEEEEE"));
-                btnLetter.setTextColor(Color.parseColor("#424242"));
-                btnLetter.setText(alphabet.get(position).toString());
-                btnLetter.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        //Toast.makeText(view.getContext(), gameViewModel.getSelectedLogo().getValue().getName(), Toast.LENGTH_SHORT).show();
-
-                        gameViewModel.setLetterPosition(position);
-                        gameViewModel.setLetterPressed(alphabet.get(position).toString());
-                        view.setVisibility(View.INVISIBLE);
-                        view.setClickable(false);
-
-
-
-                        /*if (gameViewModel.getSelectedLogo().getValue().getName().contains(alphabet.get(position).toString())) {
-
-                            char compare = alphabet.get(position);
-
-                            for (int i = 0; i < gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length; i++){
-
+                    /*final Observer<String> letterObserver = new Observer<String>() {
+                        @Override
+                        public void onChanged(@Nullable String s) {
+                            if(!s.equals("")){
+                                letter[0] =(gameViewModel.getLetterPressed().getValue());
                             }
+                        }
+                    };
 
-                        }*/
+                    gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);
+
+                    int posLetter = -1;
+                    while (posLetter == -1){
+                        for (int i=0;i<newLetter.length;i++){
+                            if (newLetter[i] != ' '){
+                                newLetter[i] = letter[0].charAt(0);
+                                posLetter = i;
+                                break;
+                            }else{
+                                posLetter = i;
+                            }
+                        }
                     }
-                });
-            }
+
+                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(newLetter));
+                    viewPagerGameAdapter.addAdapter(logoNameAdapter);*/
+
+                    /*final Observer<String> letterObserver = new Observer<String>() {
+                        @Override
+                        public void onChanged(@Nullable String s) {
+                            if(!s.equals("")){
+                                int posLetter = -1;
+                                while (posLetter == -1){
+                                    for (int i=0;i<newLetter.length;i++){
+                                        if (newLetter[i] != ' '){
+                                            newLetter[i] = gameViewModel.getLetterPressed().getValue().charAt(0);
+                                            posLetter = i;
+                                            break;
+                                        }else{
+                                            posLetter = i;
+                                        }
+                                    }
+                                }
+
+                                logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(newLetter));
+                            }
+                        }
+                    };
+
+                    gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);*/
+
+                    /*if (gameViewModel.getSelectedLogo().getValue().getName().contains(alphabet.get(position).toString())) {
+
+                        char compare = alphabet.get(position);
+
+                        for (int i = 0; i < gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length; i++){
+
+                        }
+
+                    }*/
+                }
+            });
+
 
         }else {
             btnLetter = (Button) view;
@@ -99,5 +146,13 @@ public class GridViewLettersAdapter extends BaseAdapter {
 
         return btnLetter;
 
+    }
+
+    private char[] answerList(char[] answer){
+        char result[] = new char[answer.length];
+        for (int i=0; i<answer.length;i++)
+            result[i] = ' ';
+
+        return result;
     }
 }
