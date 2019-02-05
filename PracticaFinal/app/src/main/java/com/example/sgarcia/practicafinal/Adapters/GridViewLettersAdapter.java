@@ -1,7 +1,9 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,9 +11,12 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
+import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
+import com.example.sgarcia.practicafinal.ui.Fragments.LogoMainPageFragment;
 
 import java.util.List;
+
 
 public class GridViewLettersAdapter extends BaseAdapter {
 
@@ -61,7 +66,18 @@ public class GridViewLettersAdapter extends BaseAdapter {
                 btnLetter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(view.getContext(), "Has pulsado "+alphabet.get(position), Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(view.getContext(), gameViewModel.getSelectedLogo().getValue().getName(), Toast.LENGTH_SHORT).show();
+
+                        /*if (gameViewModel.getSelectedLogo().getValue().getName().contains(alphabet.get(position).toString())) {
+
+                            char compare = alphabet.get(position);
+
+                            for (int i = 0; i < gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length; i++){
+
+                            }
+
+                        }*/
                     }
                 });
             }

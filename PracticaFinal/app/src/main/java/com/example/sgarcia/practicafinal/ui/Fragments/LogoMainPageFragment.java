@@ -1,5 +1,6 @@
 package com.example.sgarcia.practicafinal.ui.Fragments;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,30 +10,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
 
-import com.example.sgarcia.practicafinal.Adapters.GridViewLettersAdapter;
-import com.example.sgarcia.practicafinal.Adapters.GridViewLogoNameAdapter;
 import com.example.sgarcia.practicafinal.Adapters.ViewPagerGameAdapter;
-import com.example.sgarcia.practicafinal.Entities.Level;
-import com.example.sgarcia.practicafinal.Others.Alphabet;
+import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
-import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
-import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
-import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL3;
-import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL4;
-import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL5;
 
 /*
  *
@@ -46,7 +29,6 @@ public class LogoMainPageFragment extends Fragment {
     ViewPagerGameAdapter adapter;
     ViewPager vp;
     LevelSelection levelSelection;
-
 
     //Metodo que devuelve un nuevo LogoMainPageFragment
 
@@ -75,6 +57,7 @@ public class LogoMainPageFragment extends Fragment {
         levelSelection = gameViewModel.getSelectedLevel().getValue();
 
         int level = 0;
+        final int level2;
 
         switch (levelSelection){
 
@@ -99,12 +82,40 @@ public class LogoMainPageFragment extends Fragment {
                 break;
         }
 
+        level2 = level;
+
         for (int i = 0; i< gameViewModel.getLevel().get(level).getLevelLogos().size(); i++){
             adapter.addCardItem(gameViewModel.getLevel().get(level).getLevelLogos().get(i));
         }
 
         vp.setAdapter(adapter);
-        vp.setOffscreenPageLimit(20);
-        vp.setCurrentItem(gameViewModel.getLogoPosition());
+
+        final Observer<Integer> posObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                gameViewModel.setLogoPosition(integer);
+            }
+        };
+
+        gameViewModel.getLogoPosition().observe(this, posObserver);
+
+        vp.setCurrentItem(gameViewModel.getLogoPosition().getValue());
+
+        final Observer<Logo> logoObserver = new Observer<Logo>() {
+            @Override
+            public void onChanged(@Nullable Logo logo) {
+
+                vp.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                    @Override
+                    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                        gameViewModel.setSelectedLogo(logo);
+                    }
+                });
+            }
+        };
+
+        gameViewModel.getSelectedLogo().observe(this, logoObserver);
+
     }
+
 }

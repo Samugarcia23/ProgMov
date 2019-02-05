@@ -23,7 +23,7 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Integer> _playerCoins;
     private MutableLiveData<Boolean> _logoClicked;
     private MutableLiveData<Logo> _selectedLogo;
-    private int _logoPosition;
+    private MutableLiveData<Integer> _logoPosition;
 
     //Constructor
 
@@ -32,8 +32,8 @@ public class GameViewModel extends ViewModel {
         _playerCoins = new MutableLiveData<>();
         _logoClicked = new MutableLiveData<>();
         _selectedLogo = new MutableLiveData<>();
+        _logoPosition = new MutableLiveData<>();
         _logoClicked.setValue(false);
-        _logoPosition = 0;
 
         loadCoins();
         addLevels();
@@ -60,6 +60,7 @@ public class GameViewModel extends ViewModel {
         _levels.add(new Level(3,"#FFB300", true, levelList.levelThree()));
         _levels.add(new Level(4,"#8E24AA", true, levelList.levelFour()));
         _levels.add(new Level(5,"#e53935", true, levelList.levelFive()));
+
     }
 
     //GETTER del mutable _selectedLevel
@@ -113,13 +114,13 @@ public class GameViewModel extends ViewModel {
 
     //GETTER del mutable _logoPosition
 
-    public int getLogoPosition() {
+    public MutableLiveData<Integer> getLogoPosition() {
         return _logoPosition;
     }
 
     //SETTER del mutable _logoPosition
 
-    public void setLogoPosition(int _logoPosition) {
-        this._logoPosition = _logoPosition;
+    public void setLogoPosition(int logoPosition) {
+        this._logoPosition.setValue(logoPosition);
     }
 }

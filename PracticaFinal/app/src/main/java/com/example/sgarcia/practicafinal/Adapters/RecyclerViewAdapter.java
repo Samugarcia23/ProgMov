@@ -92,15 +92,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
                 mViewModel.setLogoClicked(true);
                 mViewModel.setSelectedLogo(mViewModel.getLevel().get(selected).getLevelLogos().get(myViewHolder.getAdapterPosition()));
-
-                final Observer<Logo> logoClickedObserver = new Observer<Logo>() {
-                    @Override
-                    public void onChanged(@Nullable Logo log) {
-                        mViewModel.setLogoPosition(myViewHolder.getAdapterPosition());
-                    }
-                };
-
-                mViewModel.getSelectedLogo().observeForever(logoClickedObserver);
+                mViewModel.setLogoPosition(myViewHolder.getAdapterPosition());
 
                 myViewHolder.logo.startAnimation(myAnim);
             }

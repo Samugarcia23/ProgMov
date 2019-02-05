@@ -103,7 +103,6 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     private void bind(Logo logo, View view) {
 
         ImageView imgLogo;
-        int howmany;
 
         imgLogo = view.findViewById(R.id.selectedlogo);
 
@@ -115,18 +114,10 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
         logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logo.getName().toCharArray()));
 
-        //lettersAdapter.notifyDataSetChanged();
-        //logoNameAdapter.notifyDataSetChanged();
-
         lettersGridView.setAdapter(lettersAdapter);
         logoNameGridView.setAdapter(logoNameAdapter);
 
-        lettersGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            }
-        });
 
     }
 
