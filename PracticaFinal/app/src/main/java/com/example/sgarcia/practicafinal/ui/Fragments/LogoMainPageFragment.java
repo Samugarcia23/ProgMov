@@ -90,32 +90,14 @@ public class LogoMainPageFragment extends Fragment {
 
         vp.setAdapter(adapter);
 
-        final Observer<Integer> posObserver = new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer integer) {
-                gameViewModel.setLogoPosition(integer);
-            }
-        };
-
-        gameViewModel.getLogoPosition().observe(this, posObserver);
-
         vp.setCurrentItem(gameViewModel.getLogoPosition().getValue());
 
-        final Observer<Logo> logoObserver = new Observer<Logo>() {
+        vp.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
-            public void onChanged(@Nullable Logo logo) {
-
-                vp.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                    @Override
-                    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                        gameViewModel.setSelectedLogo(logo);
-                    }
-                });
+            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                gameViewModel.setSelectedLogo(gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem()));
             }
-        };
-
-        gameViewModel.getSelectedLogo().observe(this, logoObserver);
-
+        });
     }
 
 }

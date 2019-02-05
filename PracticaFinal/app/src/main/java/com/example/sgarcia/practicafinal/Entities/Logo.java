@@ -24,7 +24,7 @@ public class Logo {
     private String name;
     private int img;
     private boolean guessed;
-    private ArrayList<Character> charList;
+    private static ArrayList<Character> charList;
 
 
     //Constructor por defecto
@@ -38,7 +38,7 @@ public class Logo {
         this.name = name;
         this.img = img;
         this.guessed = guessed;
-        this.charList = new ArrayList<>();
+        charList = new ArrayList<>();
 
 
         char[] answer;

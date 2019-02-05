@@ -12,6 +12,7 @@ import android.widget.GridLayout;
 import android.widget.Toast;
 
 import com.example.sgarcia.practicafinal.Entities.Logo;
+import com.example.sgarcia.practicafinal.Others.Alphabet;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 import com.example.sgarcia.practicafinal.ui.Fragments.LogoMainPageFragment;
 
@@ -24,7 +25,10 @@ public class GridViewLettersAdapter extends BaseAdapter {
     private Context context;
     private List<Character> alphabet;
 
-    public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet) { this.gameViewModel = viewModel; this.alphabet = alphabet;}
+    public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet) {
+        this.gameViewModel = viewModel;
+        this.alphabet = alphabet;
+    }
 
     @Override
     public int getCount() {
@@ -48,12 +52,12 @@ public class GridViewLettersAdapter extends BaseAdapter {
 
         if (view == null){
 
-            if (alphabet.get(position).equals("null")){
+            if (alphabet.get(position).equals(' ')){
 
                 btnLetter = new Button(context);
                 btnLetter.setLayoutParams(new GridLayout.LayoutParams());
                 btnLetter.setPadding(8,8,8,8);
-                btnLetter.setBackgroundColor(Color.parseColor("#424242"));
+                btnLetter.setBackgroundColor(Color.parseColor("#EEEEEE"));
 
             } else{
 
@@ -67,7 +71,14 @@ public class GridViewLettersAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View view) {
 
-                        Toast.makeText(view.getContext(), gameViewModel.getSelectedLogo().getValue().getName(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(view.getContext(), gameViewModel.getSelectedLogo().getValue().getName(), Toast.LENGTH_SHORT).show();
+
+                        gameViewModel.setLetterPosition(position);
+                        gameViewModel.setLetterPressed(alphabet.get(position).toString());
+                        view.setVisibility(View.INVISIBLE);
+                        view.setClickable(false);
+
+
 
                         /*if (gameViewModel.getSelectedLogo().getValue().getName().contains(alphabet.get(position).toString())) {
 

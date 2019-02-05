@@ -24,6 +24,8 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Boolean> _logoClicked;
     private MutableLiveData<Logo> _selectedLogo;
     private MutableLiveData<Integer> _logoPosition;
+    private MutableLiveData<String> _letterPressed;
+    private MutableLiveData<Integer> _letterPosition;
 
     //Constructor
 
@@ -33,7 +35,12 @@ public class GameViewModel extends ViewModel {
         _logoClicked = new MutableLiveData<>();
         _selectedLogo = new MutableLiveData<>();
         _logoPosition = new MutableLiveData<>();
+        _letterPressed = new MutableLiveData<>();
+        _letterPosition = new MutableLiveData<>();
+
         _logoClicked.setValue(false);
+        _letterPressed.setValue("");
+        _letterPosition.setValue(0);
 
         loadCoins();
         addLevels();
@@ -122,5 +129,21 @@ public class GameViewModel extends ViewModel {
 
     public void setLogoPosition(int logoPosition) {
         this._logoPosition.setValue(logoPosition);
+    }
+
+    public MutableLiveData<String> getLetterPressed() {
+        return _letterPressed;
+    }
+
+    public void setLetterPressed(String letterPressed) {
+        this._letterPressed.setValue(letterPressed);
+    }
+
+    public MutableLiveData<Integer> getLetterPosition() {
+        return _letterPosition;
+    }
+
+    public void setLetterPosition(int letterPosition) {
+        this._letterPosition.setValue(letterPosition);
     }
 }

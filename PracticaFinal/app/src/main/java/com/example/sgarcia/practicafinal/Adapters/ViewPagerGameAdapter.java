@@ -1,7 +1,11 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
+import android.app.Activity;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +13,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.Others.Alphabet;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
+import com.example.sgarcia.practicafinal.ui.Fragments.LogoMainPageFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +39,8 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     private List<Logo> mData;
     GridViewLettersAdapter lettersAdapter;
     GridViewLogoNameAdapter logoNameAdapter;
-    GridView lettersGridView, logoNameGridView;
+    public GridView lettersGridView, logoNameGridView;
+    Context context;
 
 
     //Constructor que recibe como parametro el viewmodel
@@ -79,7 +87,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
         View view;
-        Context context = container.getContext();
+        context = container.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.logoguesswindow_activity, container, false);
         container.addView(view);
@@ -103,6 +111,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     private void bind(Logo logo, View view) {
 
         ImageView imgLogo;
+        final int[] letterPos = {0};
 
         imgLogo = view.findViewById(R.id.selectedlogo);
 
@@ -117,7 +126,28 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         lettersGridView.setAdapter(lettersAdapter);
         logoNameGridView.setAdapter(logoNameAdapter);
 
+        /*final Observer<Integer> letterPosObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                letterPos[0] = integer;
+            }
+        };
 
+        gameViewModel.getLetterPosition().observe((LifecycleOwner) context, letterPosObserver);
+
+        final Observer<String> letterObserver = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                if(!s.equals("")){
+                    //logo.getCharList().set(letterPos[0], ' ');
+                    lettersAdapter.(letterPos[0]);
+                    lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
+                    gameViewModel.setLetterPressed("");
+                }
+            }
+        };
+
+        gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);*/
 
     }
 
