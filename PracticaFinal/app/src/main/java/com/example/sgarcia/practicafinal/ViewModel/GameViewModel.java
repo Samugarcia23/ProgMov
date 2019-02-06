@@ -26,6 +26,7 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Integer> _logoPosition;
     private MutableLiveData<String> _letterPressed;
     private MutableLiveData<Integer> _letterPosition;
+    private MutableLiveData<char[]> _charArray;
 
     //Constructor
 
@@ -37,6 +38,7 @@ public class GameViewModel extends ViewModel {
         _logoPosition = new MutableLiveData<>();
         _letterPressed = new MutableLiveData<>();
         _letterPosition = new MutableLiveData<>();
+        _charArray = new MutableLiveData<>();
 
         _logoClicked.setValue(false);
         _letterPressed.setValue("");
@@ -44,6 +46,7 @@ public class GameViewModel extends ViewModel {
 
         loadCoins();
         addLevels();
+
     }
 
     //GETTER del listado _levels
@@ -68,6 +71,15 @@ public class GameViewModel extends ViewModel {
         _levels.add(new Level(4,"#8E24AA", true, levelList.levelFour()));
         _levels.add(new Level(5,"#e53935", true, levelList.levelFive()));
 
+    }
+
+    public void initCharArray(int size){
+        char[] characters = new char[size];
+        _charArray.setValue(characters);
+    }
+
+    public void addChar(char letter, int pos){
+        _charArray.getValue()[pos] =(letter);
     }
 
     //GETTER del mutable _selectedLevel
@@ -145,5 +157,13 @@ public class GameViewModel extends ViewModel {
 
     public void setLetterPosition(int letterPosition) {
         this._letterPosition.setValue(letterPosition);
+    }
+
+    public MutableLiveData<char []> getCharArray() {
+        return _charArray;
+    }
+
+    public void setCharArray(char[] charArray) {
+        this._charArray.setValue(charArray);
     }
 }

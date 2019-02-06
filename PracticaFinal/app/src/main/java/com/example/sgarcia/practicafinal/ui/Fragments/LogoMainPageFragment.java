@@ -1,5 +1,6 @@
 package com.example.sgarcia.practicafinal.ui.Fragments;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -11,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.sgarcia.practicafinal.Adapters.GridViewLogoNameAdapter;
 import com.example.sgarcia.practicafinal.Adapters.ViewPagerGameAdapter;
 import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
+
+import java.util.ArrayList;
 
 /*
  *
@@ -96,7 +100,10 @@ public class LogoMainPageFragment extends Fragment {
         vp.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
                 gameViewModel.setSelectedLogo(gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem()));
+                gameViewModel.setCharArray(null);
+
             }
         });
     }

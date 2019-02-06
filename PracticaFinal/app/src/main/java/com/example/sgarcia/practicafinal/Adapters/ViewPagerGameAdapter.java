@@ -111,8 +111,8 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     private void bind(Logo logo, View view) {
 
         ImageView imgLogo;
-        final int[] logoPos = {0};
-        final char [] newLetter = new char[logo.getName().toCharArray().length];
+        //final int[] logoPos = {0};
+        final char[][] newLetter = new char[1][1];
 
         imgLogo = view.findViewById(R.id.selectedlogo);
 
@@ -122,7 +122,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         imgLogo.setImageResource(logo.getImg());
 
         logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logo.getName().toCharArray()));
-        lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList(), this, logoNameAdapter);
+        lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList(), this, logoNameAdapter, logoNameGridView);
 
         lettersGridView.setAdapter(lettersAdapter);
         logoNameGridView.setAdapter(logoNameAdapter);
@@ -130,29 +130,15 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         lettersAdapter.notifyDataSetChanged();
         logoNameAdapter.notifyDataSetChanged();
 
-        /*final Observer<Integer> logoPosObserver = new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer integer) {
-                if(integer != -1){
-                    logoPos[0] = integer;
-                    integer = -1;
-                }
-                else
-                    logoPos[0] = -1;
-            }
-        };
-
-        gameViewModel.getLogoPosition().observe((LifecycleOwner) context, logoPosObserver);
-
-        final Observer<String> letterObserver = new Observer<String>() {
+        /*final Observer<String> letterObserver = new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                if(!s.equals("") && logoPos[0] == 0){
+                if(!s.equals("")){
                     int posLetter = -1;
                     while (posLetter == -1){
-                        for (int i=0;i<newLetter.length;i++){
-                            if (newLetter[i] != ' '){
-                                newLetter[i] = gameViewModel.getLetterPressed().getValue().charAt(0);
+                        for (int i=0;i<answerLetter.length;i++){
+                            if (answerLetter[i] == ' '){
+                                answerLetter[i] = gameViewModel.getLetterPressed().getValue().charAt(0);
                                 posLetter = i;
                                 break;
                             }else{
@@ -161,17 +147,19 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
                         }
                     }
 
-                    logoPos[0] = -1;
-                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(newLetter));
-                    logoNameGridView.setAdapter(logoNameAdapter);
+                    btnLetter[0].setText(String.valueOf(answerLetter[position]));
+                    notifyDataSetChanged();
+
                 }
             }
-        };*/
+        };
+
+        gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);*/
     }
 
-    public void addAdapter(GridViewLogoNameAdapter adapter){
+    /*public void addAdapter(GridViewLogoNameAdapter adapter){
         logoNameGridView.setAdapter(adapter);
-    }
+    }*/
 
     private char[] answerList(char[] answer){
         char result[] = new char[answer.length];
