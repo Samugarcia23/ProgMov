@@ -26,7 +26,8 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Integer> _logoPosition;
     private MutableLiveData<String> _letterPressed;
     private MutableLiveData<Integer> _letterPosition;
-    private MutableLiveData<char[]> _charArray;
+    private MutableLiveData<ArrayList<Character>> _charArrayList;
+    private int _arraylistLength;
 
     //Constructor
 
@@ -38,14 +39,16 @@ public class GameViewModel extends ViewModel {
         _logoPosition = new MutableLiveData<>();
         _letterPressed = new MutableLiveData<>();
         _letterPosition = new MutableLiveData<>();
-        _charArray = new MutableLiveData<>();
+        _charArrayList = new MutableLiveData<>();
 
         _logoClicked.setValue(false);
         _letterPressed.setValue("");
         _letterPosition.setValue(0);
+        _arraylistLength = 0;
 
         loadCoins();
         addLevels();
+        loadCharArray();
 
     }
 
@@ -73,13 +76,9 @@ public class GameViewModel extends ViewModel {
 
     }
 
-    public void initCharArray(int size){
-        char[] characters = new char[size];
-        _charArray.setValue(characters);
-    }
-
-    public void addChar(char letter, int pos){
-        _charArray.getValue()[pos] =(letter);
+    private void loadCharArray(){
+        ArrayList<Character> characters = new ArrayList<>();
+        _charArrayList.setValue(characters);
     }
 
     //GETTER del mutable _selectedLevel
@@ -159,11 +158,19 @@ public class GameViewModel extends ViewModel {
         this._letterPosition.setValue(letterPosition);
     }
 
-    public MutableLiveData<char []> getCharArray() {
-        return _charArray;
+    public MutableLiveData<ArrayList<Character>> getCharArray() {
+        return _charArrayList;
     }
 
-    public void setCharArray(char[] charArray) {
-        this._charArray.setValue(charArray);
+    public void setCharArray(ArrayList<Character> charArray) {
+        this._charArrayList.setValue(charArray);
+    }
+
+    public int getArraylistLength() {
+        return _arraylistLength;
+    }
+
+    public void setArraylistLength(int arraylistLength) {
+        this._arraylistLength = arraylistLength;
     }
 }

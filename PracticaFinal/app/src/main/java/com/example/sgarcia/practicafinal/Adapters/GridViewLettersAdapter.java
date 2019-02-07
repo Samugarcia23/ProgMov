@@ -15,6 +15,7 @@ import android.widget.GridView;
 import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -54,9 +55,6 @@ public class GridViewLettersAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         Button btnLetter;
         context = parent.getContext();
-        final char[] newLetter = new char[gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length];
-        final char[] newLetter2 = answerList(newLetter);
-        final char[][] vmChar = new char[1][1];
 
         if (view == null){
 
@@ -70,90 +68,69 @@ public class GridViewLettersAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
 
-                    gameViewModel.setLetterPosition(position);
-                    gameViewModel.setLetterPressed(alphabet.get(position).toString());
-                    final int adapterPos = viewPagerGameAdapter.getItemPosition(gameViewModel.getSelectedLogo().getValue());
-                    final Logo[] selectedLogo = new Logo[1];
+                    final ArrayList[] characters = {new ArrayList()};
 
-                    view.setVisibility(View.INVISIBLE);
-                    view.setClickable(false);
-
-                    final Observer<Logo> logoObserver = new Observer<Logo>() {
+                    /*final Observer<Logo> logoChangedObserver = new Observer<Logo>() {
                         @Override
                         public void onChanged(@Nullable Logo logo) {
-                            selectedLogo[0] = gameViewModel.getSelectedLogo().getValue();
-                        }
-                    };
+                            if (logo != null){
 
-                    gameViewModel.getSelectedLogo().observe((LifecycleOwner) context, logoObserver);
-
-                    final Observer<String> letterObserver = new Observer<String>() {
-                        @Override
-                        public void onChanged(@Nullable String s) {
-                            if (!s.equals("") && viewPagerGameAdapter.getItemPosition(selectedLogo[0]) == adapterPos){
-
-                                if (gameViewModel.getCharArray().getValue() == null){
-                                    gameViewModel.initCharArray(selectedLogo[0].getName().toCharArray().length);
-                                    gameViewModel.setCharArray(answerList(gameViewModel.getCharArray().getValue()));
-                                    int posLetter = -1;
-                                    while (posLetter == -1){
-                                        for (int j = 0; j<gameViewModel.getCharArray().getValue().length; j++){
-                                            if (answerList(gameViewModel.getCharArray().getValue())[j] == ' '){
-                                                gameViewModel.addChar(gameViewModel.getLetterPressed().getValue().charAt(0), j);
-                                                posLetter = j;
-                                                vmChar[0] = gameViewModel.getCharArray().getValue();
-                                                break;
-                                            }
-                                        }
-                                    }
-
-                                }else{
-                                    gameViewModel.setCharArray(vmChar[0]);
-                                    int posLetter = -1;
-                                    while (posLetter == -1){
-                                        for (int j = 0; j<gameViewModel.getCharArray().getValue().length; j++){
-                                            if (answerList(gameViewModel.getCharArray().getValue())[j] == ' '){
-                                                gameViewModel.addChar(gameViewModel.getLetterPressed().getValue().charAt(0), j);
-                                                posLetter = j;
-                                                vmChar[0] = gameViewModel.getCharArray().getValue();
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
                             }
                         }
                     };
 
-                    gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);
+                    gameViewModel.getSelectedLogo().observe((LifecycleOwner) context, logoChangedObserver);*/
 
-                    final Observer<char[]> charObserver = new Observer<char[]>() {
+                    if (gameViewModel.getArraylistLength() == gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length){
+                        view.setClickable(false);
+                    }else{
+                        view.setVisibility(View.INVISIBLE);
+                        view.setEnabled(false);
+                        gameViewModel.setLetterPressed(alphabet.get(position).toString());
+                        //Arraylist de views??
+                    }
+
+                    final Observer<String> letterObserver = new Observer<String>() {
                         @Override
-                        public void onChanged(@Nullable char[] chars) {
-                            if (chars != null && !gameViewModel.getLetterPressed().getValue().equals("") && viewPagerGameAdapter.getItemPosition(gameViewModel.getSelectedLogo().getValue()) == adapterPos){
+                        public void onChanged(@Nullable String s) {
+                            if (!s.equals("") && gameViewModel.getArraylistLength() < gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length){
+
+                                if (gameViewModel.getArraylistLength() == 0){
+                                    for (int i = 0; i<gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length; i ++){
+                                        gameViewModel.getCharArray().getValue().add(gameViewModel.getSelectedLogo().getValue().getName().toCharArray()[i]);
+                                    }
+
+                                    for (int i=0; i<gameViewModel.getCharArray().getValue().size();i++)
+                                        characters[0].add(i, '_');
+                                }
 
                                 int posLetter = -1;
                                 while (posLetter == -1){
-                                    for (int i=0;i<newLetter2.length;i++){
-                                        if (newLetter2[i] == ' '){
-                                            newLetter2[i] = gameViewModel.getCharArray().getValue()[i];
+                                    for (int i=0;i<characters[0].size();i++){
+                                        if (characters[0].get(i).toString().equals("_")){
+                                            characters[0].set(i, gameViewModel.getLetterPressed().getValue().charAt(0));
                                             posLetter = i;
                                             break;
                                         }
                                     }
                                 }
 
-                                logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, newLetter2);
-                                logoNameGridView.setAdapter(logoNameAdapter);
-                                logoNameAdapter.notifyDataSetChanged();
+                                gameViewModel.setArraylistLength(gameViewModel.getArraylistLength() + 1);
+
+                            }else{
+                                view.setClickable(false);
                             }
                         }
                     };
 
-                    gameViewModel.getCharArray().observe((LifecycleOwner) context, charObserver);
-
+                    gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);
+                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters[0]);
+                    logoNameGridView.setAdapter(logoNameAdapter);
+                    logoNameAdapter.notifyDataSetChanged();
                 }
+
             });
+
 
 
         }else {
@@ -164,10 +141,10 @@ public class GridViewLettersAdapter extends BaseAdapter {
 
     }
 
-    private char[] answerList(char[] answer){
-        char result[] = new char[answer.length];
-        for (int i=0; i<answer.length;i++)
-            result[i] = ' ';
+    private ArrayList<Character> answerList(ArrayList<Character> answer){
+        ArrayList<Character> result = new ArrayList<>();
+        for (int i=0; i<answer.size();i++)
+            result.set(i, ' ');
 
         return result;
     }

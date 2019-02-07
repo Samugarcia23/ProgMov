@@ -21,22 +21,22 @@ import java.util.ArrayList;
 public class GridViewLogoNameAdapter extends BaseAdapter {
 
     private GameViewModel gameViewModel;
-    private char[] answerLetter;
+    private ArrayList<Character> answerLetter;
     private Context context;
 
-    public GridViewLogoNameAdapter (GameViewModel viewModel, char[] letter) {
+    public GridViewLogoNameAdapter (GameViewModel viewModel, ArrayList<Character> letter) {
         this.gameViewModel = viewModel;
         this.answerLetter = letter;
     }
 
     @Override
     public int getCount() {
-        return answerLetter.length;
+        return answerLetter.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return answerLetter[i];
+        return answerLetter.get(i);
     }
 
     @Override
@@ -57,18 +57,18 @@ public class GridViewLogoNameAdapter extends BaseAdapter {
             btnLetter[0].setPadding(8,8,8,8);
             btnLetter[0].setBackgroundColor(Color.parseColor("#424242"));
             btnLetter[0].setTextColor(Color.parseColor("#FAFAFA"));
-            btnLetter[0].setText(String.valueOf(answerLetter[position]));
+            btnLetter[0].setText(String.valueOf(answerLetter.get(position)));
 
-            final Observer<char[]> charObserver = new Observer<char[]>() {
+            /*final Observer<ArrayList<Character>> charObserver = new Observer<ArrayList<Character>>() {
                 @Override
-                public void onChanged(@Nullable char[] chars) {
-                    if (chars != null && !gameViewModel.getLetterPressed().getValue().equals("")){
+                public void onChanged(@Nullable ArrayList<Character> characters) {
+                    if (characters != null && !gameViewModel.getLetterPressed().getValue().equals("")){
                         notifyDataSetChanged();
                     }
                 }
             };
 
-            gameViewModel.getCharArray().observe((LifecycleOwner) context, charObserver);
+            gameViewModel.getCharArray().observe((LifecycleOwner) context, charObserver);*/
 
 
         } else {

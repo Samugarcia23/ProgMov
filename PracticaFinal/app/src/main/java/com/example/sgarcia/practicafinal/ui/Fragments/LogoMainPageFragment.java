@@ -100,10 +100,7 @@ public class LogoMainPageFragment extends Fragment {
         vp.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
-                gameViewModel.setSelectedLogo(gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem()));
-                gameViewModel.setCharArray(null);
-
+                gameViewModel.setSelectedLogo(gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem()) );
             }
         });
     }

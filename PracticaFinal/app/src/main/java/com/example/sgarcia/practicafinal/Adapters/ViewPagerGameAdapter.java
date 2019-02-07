@@ -111,8 +111,10 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     private void bind(Logo logo, View view) {
 
         ImageView imgLogo;
-        //final int[] logoPos = {0};
-        final char[][] newLetter = new char[1][1];
+        ArrayList<Character> logoNameCharList = new ArrayList<>();
+
+        for (int i = 0; i<logo.getName().toCharArray().length; i ++)
+            logoNameCharList.add(logo.getName().toCharArray()[i]);
 
         imgLogo = view.findViewById(R.id.selectedlogo);
 
@@ -121,7 +123,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         imgLogo.setImageResource(logo.getImg());
 
-        logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logo.getName().toCharArray()));
+        logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logoNameCharList));
         lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList(), this, logoNameAdapter, logoNameGridView);
 
         lettersGridView.setAdapter(lettersAdapter);
@@ -130,41 +132,12 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         lettersAdapter.notifyDataSetChanged();
         logoNameAdapter.notifyDataSetChanged();
 
-        /*final Observer<String> letterObserver = new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                if(!s.equals("")){
-                    int posLetter = -1;
-                    while (posLetter == -1){
-                        for (int i=0;i<answerLetter.length;i++){
-                            if (answerLetter[i] == ' '){
-                                answerLetter[i] = gameViewModel.getLetterPressed().getValue().charAt(0);
-                                posLetter = i;
-                                break;
-                            }else{
-                                posLetter = i;
-                            }
-                        }
-                    }
-
-                    btnLetter[0].setText(String.valueOf(answerLetter[position]));
-                    notifyDataSetChanged();
-
-                }
-            }
-        };
-
-        gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);*/
     }
 
-    /*public void addAdapter(GridViewLogoNameAdapter adapter){
-        logoNameGridView.setAdapter(adapter);
-    }*/
-
-    private char[] answerList(char[] answer){
-        char result[] = new char[answer.length];
-        for (int i=0; i<answer.length;i++)
-            result[i] = ' ';
+    private ArrayList<Character> answerList(ArrayList<Character> answer){
+        ArrayList<Character> result = new ArrayList<>();
+        for (int i=0; i<answer.size();i++)
+            result.add(i, '_');
 
         return result;
     }

@@ -34,6 +34,8 @@ import com.example.sgarcia.practicafinal.ui.Fragments.LogoListFragment;
 import com.example.sgarcia.practicafinal.ui.Fragments.LogoMainPageFragment;
 import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
 
+import java.util.ArrayList;
+
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL3;
@@ -103,6 +105,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                ArrayList<Character> characters = new ArrayList<>();
                 if (!mViewModel.isLogoClicked().getValue()){
                     finish();
                 }else{
@@ -110,6 +113,8 @@ public class GameActivity extends AppCompatActivity {
                 }
 
                 backarrow.startAnimation(myAnim);
+                mViewModel.setCharArray(characters);
+                mViewModel.setArraylistLength(0);
             }
         });
 
@@ -144,6 +149,8 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
+        ArrayList<Character> characters = new ArrayList<>();
+
         if (!mViewModel.isLogoClicked().getValue()){
             finish();
         }else{
@@ -151,6 +158,8 @@ public class GameActivity extends AppCompatActivity {
         }
 
         backarrow.startAnimation(myAnim);
+        mViewModel.setCharArray(characters);
+        mViewModel.setArraylistLength(0);
     }
 
 }
