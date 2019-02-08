@@ -59,18 +59,6 @@ public class GridViewLogoNameAdapter extends BaseAdapter {
             btnLetter[0].setTextColor(Color.parseColor("#FAFAFA"));
             btnLetter[0].setText(String.valueOf(answerLetter.get(position)));
 
-            /*final Observer<ArrayList<Character>> charObserver = new Observer<ArrayList<Character>>() {
-                @Override
-                public void onChanged(@Nullable ArrayList<Character> characters) {
-                    if (characters != null && !gameViewModel.getLetterPressed().getValue().equals("")){
-                        notifyDataSetChanged();
-                    }
-                }
-            };
-
-            gameViewModel.getCharArray().observe((LifecycleOwner) context, charObserver);*/
-
-
         } else {
             btnLetter[0] =(Button)view;
         }

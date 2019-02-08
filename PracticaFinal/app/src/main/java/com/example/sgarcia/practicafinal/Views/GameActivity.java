@@ -105,7 +105,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ArrayList<Character> characters = new ArrayList<>();
                 if (!mViewModel.isLogoClicked().getValue()){
                     finish();
                 }else{
@@ -113,8 +112,10 @@ public class GameActivity extends AppCompatActivity {
                 }
 
                 backarrow.startAnimation(myAnim);
-                mViewModel.setCharArray(characters);
-                mViewModel.setArraylistLength(0);
+                mViewModel.loadCharArray();
+                mViewModel.setLetterPressed("");
+                for (int i = 0; i < mViewModel.getArraylistLength().length; i++)
+                    mViewModel.setArraylistLength(0, i);
             }
         });
 
@@ -149,7 +150,6 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        ArrayList<Character> characters = new ArrayList<>();
 
         if (!mViewModel.isLogoClicked().getValue()){
             finish();
@@ -158,8 +158,10 @@ public class GameActivity extends AppCompatActivity {
         }
 
         backarrow.startAnimation(myAnim);
-        mViewModel.setCharArray(characters);
-        mViewModel.setArraylistLength(0);
+        mViewModel.loadCharArray();
+        mViewModel.setLetterPressed("");
+        for (int i = 0; i < mViewModel.getArraylistLength().length; i++)
+            mViewModel.setArraylistLength(0, i);
     }
 
 }

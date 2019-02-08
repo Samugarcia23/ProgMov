@@ -23,11 +23,11 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Integer> _playerCoins;
     private MutableLiveData<Boolean> _logoClicked;
     private MutableLiveData<Logo> _selectedLogo;
-    private MutableLiveData<Integer> _logoPosition;
+    private MutableLiveData<Integer> _viewPagerPosition;
     private MutableLiveData<String> _letterPressed;
     private MutableLiveData<Integer> _letterPosition;
-    private MutableLiveData<ArrayList<Character>> _charArrayList;
-    private int _arraylistLength;
+    private MutableLiveData<ArrayList<ArrayList<Character>>> _charArrayList;
+    private int[] _arraylistLength;
 
     //Constructor
 
@@ -36,7 +36,7 @@ public class GameViewModel extends ViewModel {
         _playerCoins = new MutableLiveData<>();
         _logoClicked = new MutableLiveData<>();
         _selectedLogo = new MutableLiveData<>();
-        _logoPosition = new MutableLiveData<>();
+        _viewPagerPosition = new MutableLiveData<>();
         _letterPressed = new MutableLiveData<>();
         _letterPosition = new MutableLiveData<>();
         _charArrayList = new MutableLiveData<>();
@@ -44,7 +44,9 @@ public class GameViewModel extends ViewModel {
         _logoClicked.setValue(false);
         _letterPressed.setValue("");
         _letterPosition.setValue(0);
-        _arraylistLength = 0;
+        _arraylistLength = new int[20];
+        for (int i = 0; i < _arraylistLength.length; i++)
+            _arraylistLength[i] = 0;
 
         loadCoins();
         addLevels();
@@ -76,8 +78,10 @@ public class GameViewModel extends ViewModel {
 
     }
 
-    private void loadCharArray(){
-        ArrayList<Character> characters = new ArrayList<>();
+    public void loadCharArray(){
+        ArrayList<ArrayList<Character>> characters = new ArrayList<>();
+        for (int i = 0; i < 20; i++)
+            characters.add(new ArrayList<>());
         _charArrayList.setValue(characters);
     }
 
@@ -130,16 +134,16 @@ public class GameViewModel extends ViewModel {
         this._selectedLogo.setValue(selectedLogo);
     }
 
-    //GETTER del mutable _logoPosition
+    //GETTER del mutable _viewPagerPosition
 
-    public MutableLiveData<Integer> getLogoPosition() {
-        return _logoPosition;
+    public MutableLiveData<Integer> getViewPagerPosition() {
+        return _viewPagerPosition;
     }
 
-    //SETTER del mutable _logoPosition
+    //SETTER del mutable _viewPagerPosition
 
-    public void setLogoPosition(int logoPosition) {
-        this._logoPosition.setValue(logoPosition);
+    public void setViewPagerPosition(int logoPosition) {
+        this._viewPagerPosition.setValue(logoPosition);
     }
 
     public MutableLiveData<String> getLetterPressed() {
@@ -158,19 +162,19 @@ public class GameViewModel extends ViewModel {
         this._letterPosition.setValue(letterPosition);
     }
 
-    public MutableLiveData<ArrayList<Character>> getCharArray() {
+    public MutableLiveData<ArrayList<ArrayList<Character>>> getCharArray() {
         return _charArrayList;
     }
 
-    public void setCharArray(ArrayList<Character> charArray) {
+    public void setCharArray(ArrayList<ArrayList<Character>> charArray) {
         this._charArrayList.setValue(charArray);
     }
 
-    public int getArraylistLength() {
+    public int[] getArraylistLength() {
         return _arraylistLength;
     }
 
-    public void setArraylistLength(int arraylistLength) {
-        this._arraylistLength = arraylistLength;
+    public void setArraylistLength(int arraylistLength, int pos) {
+        this._arraylistLength[pos] = arraylistLength;
     }
 }

@@ -89,6 +89,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         View view;
         context = container.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+
         view = inflater.inflate(R.layout.logoguesswindow_activity, container, false);
         container.addView(view);
         Logo logo = gameViewModel.getSelectedLogo().getValue();
@@ -120,11 +121,12 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         lettersGridView = view.findViewById(R.id.lettersgridview);
         logoNameGridView = view.findViewById(R.id.logonamegridview);
+        logoNameGridView.setTag("logoNameGridView" + logo.getName());
 
         imgLogo.setImageResource(logo.getImg());
 
         logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logoNameCharList));
-        lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList(), this, logoNameAdapter, logoNameGridView);
+        lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
 
         lettersGridView.setAdapter(lettersAdapter);
         logoNameGridView.setAdapter(logoNameAdapter);
@@ -141,4 +143,5 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         return result;
     }
+
 }

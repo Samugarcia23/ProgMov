@@ -1,18 +1,15 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.GridView;
 
 import com.example.sgarcia.practicafinal.Entities.Logo;
+import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 
 import java.util.ArrayList;
@@ -24,16 +21,10 @@ public class GridViewLettersAdapter extends BaseAdapter {
     private GameViewModel gameViewModel;
     private Context context;
     private List<Character> alphabet;
-    GridViewLogoNameAdapter logoNameAdapter;
-    ViewPagerGameAdapter viewPagerGameAdapter;
-    GridView logoNameGridView;
 
-    public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet, ViewPagerGameAdapter viewPagerGameAdapter, GridViewLogoNameAdapter logoNameAdapter, GridView logoNameGridView) {
+    public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet) {
         this.gameViewModel = viewModel;
         this.alphabet = alphabet;
-        this.viewPagerGameAdapter = viewPagerGameAdapter;
-        this.logoNameAdapter = logoNameAdapter;
-        this.logoNameGridView = logoNameGridView;
     }
 
     @Override
@@ -53,8 +44,10 @@ public class GridViewLettersAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
+
         Button btnLetter;
         context = parent.getContext();
+        LevelSelection levelSelection = gameViewModel.getSelectedLevel().getValue();
 
         if (view == null){
 
@@ -68,20 +61,37 @@ public class GridViewLettersAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
 
-                    final ArrayList[] characters = {new ArrayList()};
+                    int level = 0;
+                    final int level2;
 
-                    /*final Observer<Logo> logoChangedObserver = new Observer<Logo>() {
-                        @Override
-                        public void onChanged(@Nullable Logo logo) {
-                            if (logo != null){
+                    switch (levelSelection){
 
-                            }
-                        }
-                    };
+                        case LEVEL1:
+                            level = 0;
+                            break;
 
-                    gameViewModel.getSelectedLogo().observe((LifecycleOwner) context, logoChangedObserver);*/
+                        case LEVEL2:
+                            level = 1;
+                            break;
 
-                    if (gameViewModel.getArraylistLength() == gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length){
+                        case LEVEL3:
+                            level = 2;
+                            break;
+
+                        case LEVEL4:
+                            level = 3;
+                            break;
+
+                        case LEVEL5:
+                            level = 4;
+                            break;
+                    }
+
+                    level2 = level;
+
+                    Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(gameViewModel.getViewPagerPosition().getValue());
+
+                    if (gameViewModel.getArraylistLength()[gameViewModel.getViewPagerPosition().getValue()] == logo.getName().toCharArray().length){
                         view.setClickable(false);
                     }else{
                         view.setVisibility(View.INVISIBLE);
@@ -89,49 +99,9 @@ public class GridViewLettersAdapter extends BaseAdapter {
                         gameViewModel.setLetterPressed(alphabet.get(position).toString());
                         //Arraylist de views??
                     }
-
-                    final Observer<String> letterObserver = new Observer<String>() {
-                        @Override
-                        public void onChanged(@Nullable String s) {
-                            if (!s.equals("") && gameViewModel.getArraylistLength() < gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length){
-
-                                if (gameViewModel.getArraylistLength() == 0){
-                                    for (int i = 0; i<gameViewModel.getSelectedLogo().getValue().getName().toCharArray().length; i ++){
-                                        gameViewModel.getCharArray().getValue().add(gameViewModel.getSelectedLogo().getValue().getName().toCharArray()[i]);
-                                    }
-
-                                    for (int i=0; i<gameViewModel.getCharArray().getValue().size();i++)
-                                        characters[0].add(i, '_');
-                                }
-
-                                int posLetter = -1;
-                                while (posLetter == -1){
-                                    for (int i=0;i<characters[0].size();i++){
-                                        if (characters[0].get(i).toString().equals("_")){
-                                            characters[0].set(i, gameViewModel.getLetterPressed().getValue().charAt(0));
-                                            posLetter = i;
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                gameViewModel.setArraylistLength(gameViewModel.getArraylistLength() + 1);
-
-                            }else{
-                                view.setClickable(false);
-                            }
-                        }
-                    };
-
-                    gameViewModel.getLetterPressed().observe((LifecycleOwner) context, letterObserver);
-                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters[0]);
-                    logoNameGridView.setAdapter(logoNameAdapter);
-                    logoNameAdapter.notifyDataSetChanged();
                 }
 
             });
-
-
 
         }else {
             btnLetter = (Button) view;
