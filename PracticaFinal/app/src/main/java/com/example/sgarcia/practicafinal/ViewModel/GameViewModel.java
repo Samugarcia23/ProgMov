@@ -27,6 +27,8 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<String> _letterPressed;
     private MutableLiveData<Integer> _letterPosition;
     private MutableLiveData<ArrayList<ArrayList<Character>>> _charArrayList;
+    private MutableLiveData<Boolean> _rightArrowPressed;
+    private MutableLiveData<Boolean> _leftArrowPressed;
     private int[] _arraylistLength;
 
     //Constructor
@@ -40,6 +42,8 @@ public class GameViewModel extends ViewModel {
         _letterPressed = new MutableLiveData<>();
         _letterPosition = new MutableLiveData<>();
         _charArrayList = new MutableLiveData<>();
+        _rightArrowPressed = new MutableLiveData<>();
+        _leftArrowPressed = new MutableLiveData<>();
 
         _logoClicked.setValue(false);
         _letterPressed.setValue("");
@@ -176,5 +180,21 @@ public class GameViewModel extends ViewModel {
 
     public void setArraylistLength(int arraylistLength, int pos) {
         this._arraylistLength[pos] = arraylistLength;
+    }
+
+    public MutableLiveData<Boolean> getRightArrowPressed() {
+        return _rightArrowPressed;
+    }
+
+    public void setRightArrowPressed(boolean arrowPressed) {
+        this._rightArrowPressed.setValue(arrowPressed);
+    }
+
+    public MutableLiveData<Boolean> getLeftArrowPressed() {
+        return _leftArrowPressed;
+    }
+
+    public void setLeftArrowPressed(boolean leftArrowPressed) {
+        this._leftArrowPressed.setValue(leftArrowPressed);
     }
 }

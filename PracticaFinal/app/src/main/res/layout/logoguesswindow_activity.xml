@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,22 +10,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline11"
         app:srcCompat="@drawable/amazon" />
 
     <GridView
         android:id="@+id/logonamegridview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_margin="20dp"
         android:layout_marginTop="8dp"
         android:columnWidth="40dp"
+        android:gravity="center"
         android:horizontalSpacing="8dp"
         android:numColumns="auto_fit"
         android:padding="8dp"
@@ -38,7 +41,6 @@
 
     <GridView
         android:id="@+id/lettersgridview"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -46,6 +48,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:columnWidth="40dp"
+        android:gravity="center"
         android:horizontalSpacing="8dp"
         android:numColumns="auto_fit"
         android:padding="8dp"
@@ -70,5 +73,57 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.6" />
+
+    <ImageView
+        android:id="@+id/rightarrow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedlogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toEndOf="@+id/selectedlogo"
+        app:layout_constraintTop_toTopOf="@+id/selectedlogo"
+        app:srcCompat="@drawable/rightarrow" />
+
+    <ImageView
+        android:id="@+id/leftarrow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedlogo"
+        app:layout_constraintEnd_toStartOf="@+id/selectedlogo"
+        app:layout_constraintHorizontal_bias="0.202"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/selectedlogo"
+        app:srcCompat="@drawable/leftarrow" />
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/lettersgridview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logonamegridview"
+        app:srcCompat="@drawable/delettos" />
+
+    <ImageView
+        android:id="@+id/help"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/lettersgridview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logonamegridview"
+        app:srcCompat="@drawable/help" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
 
 </android.support.constraint.ConstraintLayout>

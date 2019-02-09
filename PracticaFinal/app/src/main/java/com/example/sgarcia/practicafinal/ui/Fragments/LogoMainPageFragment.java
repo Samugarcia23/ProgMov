@@ -160,14 +160,28 @@ public class LogoMainPageFragment extends Fragment {
         };
 
         gameViewModel.getViewPagerPosition().observe(this, vpPositionObserver);
-    }
 
-    private ArrayList<Character> answerList(ArrayList<Character> answer){
-        ArrayList<Character> result = new ArrayList<>();
-        for (int i=0; i<answer.size();i++)
-            result.set(i, ' ');
+        final Observer<Boolean> rightArrowObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean == true){
+                    vp.setCurrentItem(gameViewModel.getViewPagerPosition().getValue() + 1);
+                }
+            }
+        };
 
-        return result;
+        gameViewModel.getRightArrowPressed().observe(this, rightArrowObserver);
+
+        final Observer<Boolean> leftArrowObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean == true){
+                    vp.setCurrentItem(gameViewModel.getViewPagerPosition().getValue() - 1);
+                }
+            }
+        };
+
+        gameViewModel.getLeftArrowPressed().observe(this, leftArrowObserver);
     }
 
 }

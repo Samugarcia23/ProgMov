@@ -10,6 +10,8 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -41,6 +43,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     GridViewLogoNameAdapter logoNameAdapter;
     GridView lettersGridView, logoNameGridView;
     Context context;
+    Animation myAnim;
 
 
     //Constructor que recibe como parametro el viewmodel
@@ -111,19 +114,45 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
     private void bind(Logo logo, View view) {
 
-        ImageView imgLogo;
+        ImageView imgLogo, rightarrow, leftarrow, delete, help;
         ArrayList<Character> logoNameCharList = new ArrayList<>();
+        myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce);
 
         for (int i = 0; i<logo.getName().toCharArray().length; i ++)
             logoNameCharList.add(logo.getName().toCharArray()[i]);
 
         imgLogo = view.findViewById(R.id.selectedlogo);
+        rightarrow = view.findViewById(R.id.rightarrow);
+        leftarrow = view.findViewById(R.id.leftarrow);
+        delete = view.findViewById(R.id.delete);
+        help = view.findViewById(R.id.help);
 
         lettersGridView = view.findViewById(R.id.lettersgridview);
         logoNameGridView = view.findViewById(R.id.logonamegridview);
         logoNameGridView.setTag("logoNameGridView" + logo.getName());
 
         imgLogo.setImageResource(logo.getImg());
+
+        final Observer<Integer> vpPosOserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                if (integer == 0){
+                    leftarrow.setVisibility(View.INVISIBLE);
+                }else{
+                    leftarrow.setVisibility(View.VISIBLE);
+                }
+
+                if (integer == 19){
+                    rightarrow.setVisibility(View.INVISIBLE);
+                }else{
+                    rightarrow.setVisibility(View.VISIBLE);
+                }
+            }
+        };
+
+        gameViewModel.getViewPagerPosition().observe((LifecycleOwner) context, vpPosOserver);
+
+
 
         logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logoNameCharList));
         lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
@@ -133,6 +162,40 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         lettersAdapter.notifyDataSetChanged();
         logoNameAdapter.notifyDataSetChanged();
+
+        rightarrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameViewModel.setRightArrowPressed(true);
+                rightarrow.setAnimation(myAnim);
+            }
+        });
+
+        leftarrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameViewModel.setLeftArrowPressed(true);
+                leftarrow.setAnimation(myAnim);
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*gameViewModel.loadCharArray();
+                gameViewModel.setLetterPressed("");
+                for (int i = 0; i < gameViewModel.getCharArray().getValue().get(gameViewModel.getViewPagerPosition().getValue()).size(); i++)
+                    gameViewModel.setArraylistLength(0, i);*/
+                delete.startAnimation(myAnim);
+            }
+        });
+
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                help.startAnimation(myAnim);
+            }
+        });
 
     }
 
