@@ -29,6 +29,8 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<ArrayList<ArrayList<Character>>> _charArrayList;
     private MutableLiveData<Boolean> _rightArrowPressed;
     private MutableLiveData<Boolean> _leftArrowPressed;
+    private MutableLiveData<Boolean> _deleteClicked;
+    private MutableLiveData<Boolean> _deleteLongClicked;
     private int[] _arraylistLength;
 
     //Constructor
@@ -44,8 +46,13 @@ public class GameViewModel extends ViewModel {
         _charArrayList = new MutableLiveData<>();
         _rightArrowPressed = new MutableLiveData<>();
         _leftArrowPressed = new MutableLiveData<>();
+        _deleteClicked = new MutableLiveData<>();
+        _deleteLongClicked = new MutableLiveData<>();
 
         _logoClicked.setValue(false);
+        _deleteLongClicked.setValue(false);
+        _deleteClicked.setValue(false);
+
         _letterPressed.setValue("");
         _letterPosition.setValue(0);
         _arraylistLength = new int[20];
@@ -196,5 +203,21 @@ public class GameViewModel extends ViewModel {
 
     public void setLeftArrowPressed(boolean leftArrowPressed) {
         this._leftArrowPressed.setValue(leftArrowPressed);
+    }
+
+    public MutableLiveData<Boolean> get_deleteClicked() {
+        return _deleteClicked;
+    }
+
+    public void setDeleteClicked(boolean deleteType) {
+        this._deleteClicked.setValue(deleteType);
+    }
+
+    public MutableLiveData<Boolean> getDeleteLongClicked() {
+        return _deleteLongClicked;
+    }
+
+    public void setDeleteLongClicked(boolean deleteLongClicked) {
+        this._deleteLongClicked.setValue(deleteLongClicked);
     }
 }

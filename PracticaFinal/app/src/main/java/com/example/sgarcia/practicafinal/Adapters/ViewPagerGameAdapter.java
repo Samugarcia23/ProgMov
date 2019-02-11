@@ -182,11 +182,17 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*gameViewModel.loadCharArray();
-                gameViewModel.setLetterPressed("");
-                for (int i = 0; i < gameViewModel.getCharArray().getValue().get(gameViewModel.getViewPagerPosition().getValue()).size(); i++)
-                    gameViewModel.setArraylistLength(0, i);*/
                 delete.startAnimation(myAnim);
+                gameViewModel.setDeleteClicked(true);
+            }
+        });
+
+        delete.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                delete.startAnimation(myAnim);
+                gameViewModel.setDeleteLongClicked(true);
+                return false;
             }
         });
 

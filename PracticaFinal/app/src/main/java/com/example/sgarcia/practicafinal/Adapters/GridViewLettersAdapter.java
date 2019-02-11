@@ -111,11 +111,4 @@ public class GridViewLettersAdapter extends BaseAdapter {
 
     }
 
-    private ArrayList<Character> answerList(ArrayList<Character> answer){
-        ArrayList<Character> result = new ArrayList<>();
-        for (int i=0; i<answer.size();i++)
-            result.set(i, ' ');
-
-        return result;
-    }
 }
