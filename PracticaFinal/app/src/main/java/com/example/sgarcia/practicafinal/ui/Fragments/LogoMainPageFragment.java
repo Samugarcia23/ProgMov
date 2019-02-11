@@ -62,6 +62,7 @@ public class LogoMainPageFragment extends Fragment {
         adapter = new ViewPagerGameAdapter(gameViewModel);
         levelSelection = gameViewModel.getSelectedLevel().getValue();
         ArrayList<ArrayList<Character>> characters = new ArrayList<>();
+        final boolean[] arrayCreated = {false};
 
         for (int i = 0; i < 20; i++)
             characters.add(new ArrayList<>());
@@ -121,14 +122,15 @@ public class LogoMainPageFragment extends Fragment {
 
                 if (!s.equals("") && gameViewModel.getArraylistLength()[vp.getCurrentItem()] < logo.getName().toCharArray().length){
 
-                    if (gameViewModel.getArraylistLength()[vp.getCurrentItem()] == 0){
+                    if (!arrayCreated[0]){
                         for (int i = 0; i<logo.getName().toCharArray().length; i ++){
                             gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).add(logo.getName().toCharArray()[i]);
+                            arrayCreated[0] = true;
                         }
 
-                        for (int i=0; i<gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).size();i++)
-                            characters.get(vp.getCurrentItem()).add(i, '_');
-                    }
+                    for (int i=0; i<gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).size();i++)
+                        characters.get(vp.getCurrentItem()).add(i, '_');
+                }
 
                     int posLetter = -1;
                     while (posLetter == -1){
@@ -189,10 +191,10 @@ public class LogoMainPageFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
 
-                if (aBoolean == true && gameViewModel.getDeleteLongClicked().getValue() == false){
-                    for (int i = gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).size(); i >= 0 ; i--){
-                        if (!gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).get(i).toString().equals("_")){
-                            gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).set(i, '_');
+                if (aBoolean == true && gameViewModel.getDeleteLongClicked().getValue() == false && characters.get(vp.getCurrentItem()) != null){
+                    for (int i = characters.get(vp.getCurrentItem()).size() - 1; i >= 0 ; i--){
+                        if (!characters.get(vp.getCurrentItem()).get(i).toString().equals("_")){
+                            characters.get(vp.getCurrentItem()).set(i, '_');
                             break;
                         }
                     }
@@ -200,7 +202,7 @@ public class LogoMainPageFragment extends Fragment {
                     Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
 
                     gameViewModel.setArraylistLength(gameViewModel.getArraylistLength()[vp.getCurrentItem()] - 1, vp.getCurrentItem());
-                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()));
+                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters.get(vp.getCurrentItem()));
                     logoNameGridView = vp.findViewWithTag("logoNameGridView" + logo.getName());
                     logoNameGridView.setAdapter(logoNameAdapter);
                     logoNameAdapter.notifyDataSetChanged();
@@ -214,17 +216,14 @@ public class LogoMainPageFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
 
-                if (aBoolean == true){
-                    for (int i = 0; i < gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).size(); i++){
-                        if (!gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).get(i).toString().equals("_")){
-                            gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).set(i, '_');
-                        }
-                    }
+                if (aBoolean == true && characters.get(vp.getCurrentItem()) != null){
+                    for (int i=0; i<gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).size();i++)
+                        characters.get(vp.getCurrentItem()).set(i, '_');
 
                     Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
 
                     gameViewModel.setArraylistLength(gameViewModel.getArraylistLength()[vp.getCurrentItem()] = 0, vp.getCurrentItem());
-                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()));
+                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters.get(vp.getCurrentItem()));
                     logoNameGridView = vp.findViewWithTag("logoNameGridView" + logo.getName());
                     logoNameGridView.setAdapter(logoNameAdapter);
                     logoNameAdapter.notifyDataSetChanged();

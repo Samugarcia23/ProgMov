@@ -1,7 +1,10 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -21,6 +24,7 @@ public class GridViewLettersAdapter extends BaseAdapter {
     private GameViewModel gameViewModel;
     private Context context;
     private List<Character> alphabet;
+    private final ArrayList<View> viewArrayList = new ArrayList<>();
 
     public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet) {
         this.gameViewModel = viewModel;
@@ -96,12 +100,50 @@ public class GridViewLettersAdapter extends BaseAdapter {
                     }else{
                         view.setVisibility(View.INVISIBLE);
                         view.setEnabled(false);
+                        viewArrayList.add(view);
                         gameViewModel.setLetterPressed(alphabet.get(position).toString());
-                        //Arraylist de views??
                     }
                 }
 
             });
+
+            final Observer<Boolean> deleteClickedObserver = new Observer<Boolean>() {
+                @Override
+                public void onChanged(@Nullable Boolean aBoolean) {
+
+                    if (aBoolean){
+                        for (int i = viewArrayList.size() - 1; i >= 0; i--){
+                            if (viewArrayList.get(i) != null){
+                                viewArrayList.get(i).setVisibility(View.VISIBLE);
+                                viewArrayList.get(i).setEnabled(true);
+                                viewArrayList.remove(i);
+                            }
+                            break;
+                        }
+                    }
+                }
+            };
+
+            gameViewModel.get_deleteClicked().observe((LifecycleOwner) context, deleteClickedObserver);
+
+            final Observer<Boolean> deleteLongClickedObserver = new Observer<Boolean>() {
+                @Override
+                public void onChanged(@Nullable Boolean aBoolean) {
+
+                    if (aBoolean){
+                        for (int i = 0; i < viewArrayList.size(); i++){
+                            if (viewArrayList.get(i) != null){
+                                viewArrayList.get(i).setVisibility(View.VISIBLE);
+                                viewArrayList.get(i).setEnabled(true);
+                                viewArrayList.remove(i);
+                            } else
+                                break;
+                        }
+                    }
+                }
+            };
+
+            gameViewModel.getDeleteLongClicked().observe((LifecycleOwner) context, deleteLongClickedObserver);
 
         }else {
             btnLetter = (Button) view;

@@ -152,8 +152,6 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         gameViewModel.getViewPagerPosition().observe((LifecycleOwner) context, vpPosOserver);
 
-
-
         logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logoNameCharList));
         lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
 
@@ -192,7 +190,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
             public boolean onLongClick(View v) {
                 delete.startAnimation(myAnim);
                 gameViewModel.setDeleteLongClicked(true);
-                return false;
+                return true;
             }
         });
 
