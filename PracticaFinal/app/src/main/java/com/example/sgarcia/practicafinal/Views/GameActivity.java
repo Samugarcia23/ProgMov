@@ -145,6 +145,15 @@ public class GameActivity extends AppCompatActivity {
 
         mViewModel.isLogoClicked().observe(this, logoClickedObserver);
 
+        final Observer<Integer> playerCoinsObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                coins.setText(integer.toString());
+            }
+        };
+
+        mViewModel.getPlayerCoins().observe(this, playerCoinsObserver);
+
     }
 
     @Override

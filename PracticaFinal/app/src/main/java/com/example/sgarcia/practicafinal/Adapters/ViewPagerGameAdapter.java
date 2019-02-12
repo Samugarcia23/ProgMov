@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.Others.Alphabet;
+import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 import com.example.sgarcia.practicafinal.ui.Fragments.LogoMainPageFragment;
@@ -44,7 +45,6 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
     GridView lettersGridView, logoNameGridView;
     Context context;
     Animation myAnim;
-
 
     //Constructor que recibe como parametro el viewmodel
 
@@ -152,6 +152,24 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         gameViewModel.getViewPagerPosition().observe((LifecycleOwner) context, vpPosOserver);
 
+        final Observer<Boolean> logoGuessedObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+
+                if (aBoolean){
+                    if (aBoolean){
+                        help.setEnabled(true);
+                        delete.setEnabled(true);
+                    }else{
+                        help.setEnabled(false);
+                        delete.setEnabled(false);
+                    }
+                }
+            }
+        };
+
+        gameViewModel.getLogoGuessed().observe((LifecycleOwner) context, logoGuessedObserver);
+
         logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logoNameCharList));
         lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
 
@@ -182,15 +200,6 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
             public void onClick(View view) {
                 delete.startAnimation(myAnim);
                 gameViewModel.setDeleteClicked(true);
-            }
-        });
-
-        delete.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                delete.startAnimation(myAnim);
-                gameViewModel.setDeleteLongClicked(true);
-                return true;
             }
         });
 

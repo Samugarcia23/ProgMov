@@ -1,5 +1,6 @@
 package com.example.sgarcia.practicafinal.ui.Fragments;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -108,9 +109,7 @@ public class LogoMainPageFragment extends Fragment {
         vp.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-
                 gameViewModel.setViewPagerPosition(vp.getCurrentItem());
-
             }
         });
 
@@ -119,28 +118,55 @@ public class LogoMainPageFragment extends Fragment {
             public void onChanged(@Nullable String s) {
 
                 Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
+                String logoName = "";
 
-                if (!s.equals("") && gameViewModel.getArraylistLength()[vp.getCurrentItem()] < logo.getName().toCharArray().length){
+                if (!logo.isGuessed()){
+                    gameViewModel.setLogoGuessed(false);
+                    if (!s.equals("") && gameViewModel.getArraylistLength()[vp.getCurrentItem()] < logo.getName().toCharArray().length){
 
-                    if (!arrayCreated[0]){
-                        for (int i = 0; i<logo.getName().toCharArray().length; i ++){
-                            gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).add(logo.getName().toCharArray()[i]);
-                            arrayCreated[0] = true;
-                        }
-
-                    for (int i=0; i<gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).size();i++)
-                        characters.get(vp.getCurrentItem()).add(i, '_');
-                }
-
-                    int posLetter = -1;
-                    while (posLetter == -1){
-                        for (int i = 0; i< characters.get(vp.getCurrentItem()).size(); i++){
-                            if (characters.get(vp.getCurrentItem()).get(i).toString().equals("_")){
-                                characters.get(vp.getCurrentItem()).set(i, gameViewModel.getLetterPressed().getValue().charAt(0));
-                                posLetter = i;
-                                break;
+                        if (!arrayCreated[0]){
+                            for (int i = 0; i<logo.getName().toCharArray().length; i ++){
+                                gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).add(logo.getName().toCharArray()[i]);
+                                arrayCreated[0] = true;
                             }
                         }
+
+                        if (characters.get(vp.getCurrentItem()).size() == 0){
+                            for (int i=0; i<logo.getName().toCharArray().length;i++)
+                                characters.get(vp.getCurrentItem()).add(i, '_');
+                        }
+
+                        int posLetter = -1;
+                        while (posLetter == -1){
+                            for (int i = 0; i< characters.get(vp.getCurrentItem()).size(); i++){
+                                if (characters.get(vp.getCurrentItem()).get(i).toString().equals("_")){
+                                    characters.get(vp.getCurrentItem()).set(i, gameViewModel.getLetterPressed().getValue().charAt(0));
+                                    posLetter = i;
+                                    break;
+                                }
+                            }
+                        }
+
+                        gameViewModel.setArraylistLength(gameViewModel.getArraylistLength()[vp.getCurrentItem()] + 1, vp.getCurrentItem());
+                        logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters.get(vp.getCurrentItem()));
+                        logoNameGridView = vp.findViewWithTag("logoNameGridView" + logo.getName());
+                        logoNameGridView.setAdapter(logoNameAdapter);
+                        logoNameAdapter.notifyDataSetChanged();
+
+                        for (int i = 0; i < characters.get(vp.getCurrentItem()).size(); i++){
+                            logoName += characters.get(vp.getCurrentItem()).get(i).toString();
+                        }
+                        if (logoName.equals(logo.getName())){
+                            logo.setGuessed(true);
+                            gameViewModel.setLogoGuessed(true);
+                            gameViewModel.setPlayerCoins(gameViewModel.getPlayerCoins().getValue() + 1);
+                            logoGuessedDialog();
+                        }
+                    }
+                }else{
+                    if (characters.get(vp.getCurrentItem()).size() == 0){
+                        for (int i=0; i<logo.getName().toCharArray().length;i++)
+                            characters.get(vp.getCurrentItem()).add(logo.getName().toCharArray()[i]);
                     }
 
                     gameViewModel.setArraylistLength(gameViewModel.getArraylistLength()[vp.getCurrentItem()] + 1, vp.getCurrentItem());
@@ -148,6 +174,8 @@ public class LogoMainPageFragment extends Fragment {
                     logoNameGridView = vp.findViewWithTag("logoNameGridView" + logo.getName());
                     logoNameGridView.setAdapter(logoNameAdapter);
                     logoNameAdapter.notifyDataSetChanged();
+
+                    gameViewModel.setLogoGuessed(true);
                 }
             }
         };
@@ -185,54 +213,51 @@ public class LogoMainPageFragment extends Fragment {
 
         gameViewModel.getLeftArrowPressed().observe(this, leftArrowObserver);
 
-        //Terminar
-
         final Observer<Boolean> deleteClickedObserver = new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
 
-                if (aBoolean == true && gameViewModel.getDeleteLongClicked().getValue() == false && characters.get(vp.getCurrentItem()) != null){
-                    for (int i = characters.get(vp.getCurrentItem()).size() - 1; i >= 0 ; i--){
-                        if (!characters.get(vp.getCurrentItem()).get(i).toString().equals("_")){
-                            characters.get(vp.getCurrentItem()).set(i, '_');
-                            break;
-                        }
+                Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
+
+                if (!logo.isGuessed()){
+                    gameViewModel.setLogoGuessed(false);
+
+                    if (characters.get(vp.getCurrentItem()).size() == 0){
+                        for (int i=0; i<logo.getName().toCharArray().length;i++)
+                            characters.get(vp.getCurrentItem()).add(i, '_');
                     }
 
-                    Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
+                    if (aBoolean && characters.get(vp.getCurrentItem()) != null && !characters.get(vp.getCurrentItem()).get(0).toString().equals("_")){
+                        for (int i=0; i<characters.get(vp.getCurrentItem()).size();i++)
+                            characters.get(vp.getCurrentItem()).set(i, '_');
 
-                    gameViewModel.setArraylistLength(gameViewModel.getArraylistLength()[vp.getCurrentItem()] - 1, vp.getCurrentItem());
-                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters.get(vp.getCurrentItem()));
-                    logoNameGridView = vp.findViewWithTag("logoNameGridView" + logo.getName());
-                    logoNameGridView.setAdapter(logoNameAdapter);
-                    logoNameAdapter.notifyDataSetChanged();
+                        gameViewModel.setArraylistLength(gameViewModel.getArraylistLength()[vp.getCurrentItem()] = 0, vp.getCurrentItem());
+                        logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters.get(vp.getCurrentItem()));
+                        logoNameGridView = vp.findViewWithTag("logoNameGridView" + logo.getName());
+                        logoNameGridView.setAdapter(logoNameAdapter);
+                        logoNameAdapter.notifyDataSetChanged();
+                    }
+                }else{
+                    gameViewModel.setLogoGuessed(true);
                 }
+
+
+
             }
         };
 
         gameViewModel.get_deleteClicked().observe(this, deleteClickedObserver);
 
-        final Observer<Boolean> deleteLongClickedObserver = new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
+    }
 
-                if (aBoolean == true && characters.get(vp.getCurrentItem()) != null){
-                    for (int i=0; i<gameViewModel.getCharArray().getValue().get(vp.getCurrentItem()).size();i++)
-                        characters.get(vp.getCurrentItem()).set(i, '_');
+    public void logoGuessedDialog(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this.getContext());
+        alert.setTitle("+ 1 Coin");
+        alert.setIcon(R.drawable.coin);
 
-                    Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
+        alert.setPositiveButton("Next Logo", (dialog, whichButton) ->vp.setCurrentItem(gameViewModel.getViewPagerPosition().getValue() + 1));
 
-                    gameViewModel.setArraylistLength(gameViewModel.getArraylistLength()[vp.getCurrentItem()] = 0, vp.getCurrentItem());
-                    logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters.get(vp.getCurrentItem()));
-                    logoNameGridView = vp.findViewWithTag("logoNameGridView" + logo.getName());
-                    logoNameGridView.setAdapter(logoNameAdapter);
-                    logoNameAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-
-        gameViewModel.getDeleteLongClicked().observe(this, deleteLongClickedObserver);
-
+        alert.show();
     }
 
 }

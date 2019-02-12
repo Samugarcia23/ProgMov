@@ -30,7 +30,7 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Boolean> _rightArrowPressed;
     private MutableLiveData<Boolean> _leftArrowPressed;
     private MutableLiveData<Boolean> _deleteClicked;
-    private MutableLiveData<Boolean> _deleteLongClicked;
+    private MutableLiveData<Boolean> _logoGuessed;
     private int[] _arraylistLength;
 
     //Constructor
@@ -47,10 +47,10 @@ public class GameViewModel extends ViewModel {
         _rightArrowPressed = new MutableLiveData<>();
         _leftArrowPressed = new MutableLiveData<>();
         _deleteClicked = new MutableLiveData<>();
-        _deleteLongClicked = new MutableLiveData<>();
+        _logoGuessed = new MutableLiveData<>();
 
         _logoClicked.setValue(false);
-        _deleteLongClicked.setValue(false);
+        _logoGuessed.setValue(false);
         _deleteClicked.setValue(false);
 
         _letterPressed.setValue("");
@@ -74,6 +74,10 @@ public class GameViewModel extends ViewModel {
     //GETTER del mutable _playerCoins
 
     public MutableLiveData<Integer> getPlayerCoins() {return _playerCoins;}
+
+    public void setPlayerCoins(int coins) {
+        this._playerCoins.setValue(coins);
+    }
 
     //Metodo que añade 5 objetos level al listado _levels
 
@@ -110,11 +114,6 @@ public class GameViewModel extends ViewModel {
 
     //Metodo que suma 1 al mutable _playerCoins
 
-    public void addCoin(){
-        int coins = _playerCoins.getValue() + 1;
-    }
-
-    //----
 
     public void loadCoins(){
         int coins = 0;
@@ -213,11 +212,11 @@ public class GameViewModel extends ViewModel {
         this._deleteClicked.setValue(deleteType);
     }
 
-    public MutableLiveData<Boolean> getDeleteLongClicked() {
-        return _deleteLongClicked;
+    public MutableLiveData<Boolean> getLogoGuessed() {
+        return _logoGuessed;
     }
 
-    public void setDeleteLongClicked(boolean deleteLongClicked) {
-        this._deleteLongClicked.setValue(deleteLongClicked);
+    public void setLogoGuessed(boolean logoGuessed) {
+        this._logoGuessed.setValue(logoGuessed);
     }
 }

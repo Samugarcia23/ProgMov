@@ -24,11 +24,14 @@ public class GridViewLettersAdapter extends BaseAdapter {
     private GameViewModel gameViewModel;
     private Context context;
     private List<Character> alphabet;
-    private final ArrayList<View> viewArrayList = new ArrayList<>();
+    private ArrayList<ArrayList<View>> viewArrayList = new ArrayList<>();
+
 
     public GridViewLettersAdapter (GameViewModel viewModel, List<Character> alphabet) {
         this.gameViewModel = viewModel;
         this.alphabet = alphabet;
+        for (int i = 0; i < 20; i++)
+            viewArrayList.add(new ArrayList<>());
     }
 
     @Override
@@ -53,6 +56,36 @@ public class GridViewLettersAdapter extends BaseAdapter {
         context = parent.getContext();
         LevelSelection levelSelection = gameViewModel.getSelectedLevel().getValue();
 
+        int level = 0;
+        final int level2;
+
+        switch (levelSelection){
+
+            case LEVEL1:
+                level = 0;
+                break;
+
+            case LEVEL2:
+                level = 1;
+                break;
+
+            case LEVEL3:
+                level = 2;
+                break;
+
+            case LEVEL4:
+                level = 3;
+                break;
+
+            case LEVEL5:
+                level = 4;
+                break;
+        }
+
+        level2 = level;
+
+        Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(gameViewModel.getViewPagerPosition().getValue());
+
         if (view == null){
 
             btnLetter = new Button(context);
@@ -61,37 +94,10 @@ public class GridViewLettersAdapter extends BaseAdapter {
             btnLetter.setBackgroundColor(Color.parseColor("#EEEEEE"));
             btnLetter.setTextColor(Color.parseColor("#424242"));
             btnLetter.setText(alphabet.get(position).toString());
+            btnLetter.setTag("btn" + logo.getName());
             btnLetter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    int level = 0;
-                    final int level2;
-
-                    switch (levelSelection){
-
-                        case LEVEL1:
-                            level = 0;
-                            break;
-
-                        case LEVEL2:
-                            level = 1;
-                            break;
-
-                        case LEVEL3:
-                            level = 2;
-                            break;
-
-                        case LEVEL4:
-                            level = 3;
-                            break;
-
-                        case LEVEL5:
-                            level = 4;
-                            break;
-                    }
-
-                    level2 = level;
 
                     Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(gameViewModel.getViewPagerPosition().getValue());
 
@@ -100,7 +106,7 @@ public class GridViewLettersAdapter extends BaseAdapter {
                     }else{
                         view.setVisibility(View.INVISIBLE);
                         view.setEnabled(false);
-                        viewArrayList.add(view);
+                        viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).add(view);
                         gameViewModel.setLetterPressed(alphabet.get(position).toString());
                     }
                 }
@@ -111,14 +117,19 @@ public class GridViewLettersAdapter extends BaseAdapter {
                 @Override
                 public void onChanged(@Nullable Boolean aBoolean) {
 
-                    if (aBoolean){
-                        for (int i = viewArrayList.size() - 1; i >= 0; i--){
-                            if (viewArrayList.get(i) != null){
-                                viewArrayList.get(i).setVisibility(View.VISIBLE);
-                                viewArrayList.get(i).setEnabled(true);
-                                viewArrayList.remove(i);
+                    Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(gameViewModel.getViewPagerPosition().getValue());
+
+                    if (!logo.isGuessed()){
+                        if (aBoolean){
+                            for (int i = 0; i < viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).size(); i++){
+                                if (viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()) != null){
+                                    viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setVisibility(View.VISIBLE);
+                                    viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setEnabled(true);
+                                    viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).remove(i);
+                                } else
+                                    break;
                             }
-                            break;
+
                         }
                     }
                 }
@@ -126,16 +137,14 @@ public class GridViewLettersAdapter extends BaseAdapter {
 
             gameViewModel.get_deleteClicked().observe((LifecycleOwner) context, deleteClickedObserver);
 
-            final Observer<Boolean> deleteLongClickedObserver = new Observer<Boolean>() {
+            final Observer<Boolean> logoGuessedObserver = new Observer<Boolean>() {
                 @Override
                 public void onChanged(@Nullable Boolean aBoolean) {
 
                     if (aBoolean){
-                        for (int i = 0; i < viewArrayList.size(); i++){
-                            if (viewArrayList.get(i) != null){
-                                viewArrayList.get(i).setVisibility(View.VISIBLE);
-                                viewArrayList.get(i).setEnabled(true);
-                                viewArrayList.remove(i);
+                        for (int i = 0; i < viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).size(); i++){
+                            if (viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()) != null){
+                                viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setEnabled(false);
                             } else
                                 break;
                         }
@@ -143,7 +152,17 @@ public class GridViewLettersAdapter extends BaseAdapter {
                 }
             };
 
-            gameViewModel.getDeleteLongClicked().observe((LifecycleOwner) context, deleteLongClickedObserver);
+            gameViewModel.getLogoGuessed().observe((LifecycleOwner) context, logoGuessedObserver);
+
+            if (logo.isGuessed()){
+                viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).add(btnLetter.findViewWithTag("btn" + logo.getName()));
+                for (int i = 0; i < viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).size(); i++){
+                    if (viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()) != null){
+                        viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setEnabled(false);
+                        viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
 
         }else {
             btnLetter = (Button) view;
