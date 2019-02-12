@@ -59,7 +59,6 @@ public class GameViewModel extends ViewModel {
         for (int i = 0; i < _arraylistLength.length; i++)
             _arraylistLength[i] = 0;
 
-        loadCoins();
         addLevels();
         loadCharArray();
 
@@ -115,8 +114,8 @@ public class GameViewModel extends ViewModel {
     //Metodo que suma 1 al mutable _playerCoins
 
 
-    public void loadCoins(){
-        int coins = 0;
+    public void loadCoins(int playerCoins){
+        int coins = playerCoins;
         _playerCoins.setValue(coins);
     }
 

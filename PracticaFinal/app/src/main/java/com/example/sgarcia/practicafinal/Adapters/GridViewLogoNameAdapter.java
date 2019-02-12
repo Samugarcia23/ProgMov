@@ -99,7 +99,7 @@ public class GridViewLogoNameAdapter extends BaseAdapter {
             btnLetter[0].setText(String.valueOf(answerLetter.get(position)));
             viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).add(btnLetter[0]);
 
-            final Observer<Boolean> logoGuessedObserver = new Observer<Boolean>() {
+           /* final Observer<Boolean> logoGuessedObserver = new Observer<Boolean>() {
                 @Override
                 public void onChanged(@Nullable Boolean aBoolean) {
 
@@ -114,7 +114,7 @@ public class GridViewLogoNameAdapter extends BaseAdapter {
                 }
             };
 
-            gameViewModel.getLogoGuessed().observe((LifecycleOwner) context, logoGuessedObserver);
+            gameViewModel.getLogoGuessed().observe((LifecycleOwner) context, logoGuessedObserver);*/
 
         } else {
             btnLetter[0] =(Button)view;

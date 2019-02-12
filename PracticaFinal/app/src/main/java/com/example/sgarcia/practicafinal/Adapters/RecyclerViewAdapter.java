@@ -82,6 +82,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         myViewHolder.logo.setImageResource(logo.getImg());
 
+        if (logo.isGuessed()){
+            myViewHolder.logoguessed.setVisibility(View.VISIBLE);
+            myViewHolder.logo.setImageAlpha(50);
+            myViewHolder.logo.setEnabled(false);
+        }else{
+            myViewHolder.logoguessed.setVisibility(View.INVISIBLE);
+            myViewHolder.logoguessed.setEnabled(false);
+        }
+
         myViewHolder.logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,12 +114,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView logo;
+        public ImageView logo, logoguessed;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             logo = itemView.findViewById(R.id.logo);
+            logoguessed = itemView.findViewById(R.id.logoguessed);
 
         }
     }

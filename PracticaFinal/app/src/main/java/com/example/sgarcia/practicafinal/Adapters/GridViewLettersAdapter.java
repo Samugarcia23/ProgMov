@@ -116,9 +116,7 @@ public class GridViewLettersAdapter extends BaseAdapter {
             final Observer<Boolean> deleteClickedObserver = new Observer<Boolean>() {
                 @Override
                 public void onChanged(@Nullable Boolean aBoolean) {
-
                     Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(gameViewModel.getViewPagerPosition().getValue());
-
                     if (!logo.isGuessed()){
                         if (aBoolean){
                             for (int i = 0; i < viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).size(); i++){
@@ -129,7 +127,6 @@ public class GridViewLettersAdapter extends BaseAdapter {
                                 } else
                                     break;
                             }
-
                         }
                     }
                 }
@@ -153,16 +150,6 @@ public class GridViewLettersAdapter extends BaseAdapter {
             };
 
             gameViewModel.getLogoGuessed().observe((LifecycleOwner) context, logoGuessedObserver);
-
-            if (logo.isGuessed()){
-                viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).add(btnLetter.findViewWithTag("btn" + logo.getName()));
-                for (int i = 0; i < viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).size(); i++){
-                    if (viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()) != null){
-                        viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setEnabled(false);
-                        viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setVisibility(View.INVISIBLE);
-                    }
-                }
-            }
 
         }else {
             btnLetter = (Button) view;

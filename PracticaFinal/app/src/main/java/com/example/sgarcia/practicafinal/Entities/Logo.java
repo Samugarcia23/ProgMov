@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Logo {
+public class Logo implements java.io.Serializable {
 
     //Definicion de parametros
 
@@ -39,7 +39,6 @@ public class Logo {
         this.img = img;
         this.guessed = guessed;
         this.charList = new ArrayList<>();
-
 
         char[] answer;
         int howmany;

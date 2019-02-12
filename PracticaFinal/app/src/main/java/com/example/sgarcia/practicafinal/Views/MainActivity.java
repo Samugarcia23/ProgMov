@@ -17,10 +17,13 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
 import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
+
+import java.util.ArrayList;
 
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
@@ -45,6 +48,17 @@ public class MainActivity extends AppCompatActivity {
         prb1 = findViewById(R.id.progressBar);
         prb2 = findViewById(R.id.progressBar2);
         window = getWindow();
+
+        if (getIntent().getSerializableExtra("coins") != null)
+            viewModel.loadCoins((Integer) getIntent().getSerializableExtra("coins"));
+        else
+            viewModel.loadCoins(0);
+
+        Intent intent = getIntent();
+        if (intent.getBundleExtra("BUNDLE") != null){
+            Bundle args = intent.getBundleExtra("BUNDLE");
+            viewModel.getLevel().get((Integer) getIntent().getSerializableExtra("levelgame")).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLIST"));
+        }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.container, MainFragment.newInstance());
@@ -177,36 +191,67 @@ public class MainActivity extends AppCompatActivity {
         final Observer<LevelSelection> levelObserver = new Observer<LevelSelection>() {
             @Override
             public void onChanged(@Nullable LevelSelection levelSelection) {
+                int finalNum;
 
                 switch (levelSelection){
 
                     case LEVEL1:
+                        finalNum = 0;
                         Intent intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL1);
+                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("levelNum2", finalNum);
+                        Bundle args = new Bundle();
+                        args.putSerializable("ARRAYLIST2", viewModel.getLevel().get(finalNum).getLevelLogos());
+                        intent.putExtra("BUNDLE2",args);
                         startActivity(intent);
                         break;
 
                     case LEVEL2:
+                        finalNum = 1;
                         intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL2);
+                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("levelNum2", finalNum);
+                        args = new Bundle();
+                        args.putSerializable("ARRAYLIST2", viewModel.getLevel().get(finalNum).getLevelLogos());
+                        intent.putExtra("BUNDLE2",args);
                         startActivity(intent);
                         break;
 
                     case LEVEL3:
+                        finalNum = 2;
                         intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL3);
+                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("levelNum2", finalNum);
+                        args = new Bundle();
+                        args.putSerializable("ARRAYLIST2", viewModel.getLevel().get(finalNum).getLevelLogos());
+                        intent.putExtra("BUNDLE2",args);
                         startActivity(intent);
                         break;
 
                     case LEVEL4:
+                        finalNum = 3;
                         intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL4);
+                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("levelNum2", finalNum);
+                        args = new Bundle();
+                        args.putSerializable("ARRAYLIST2", viewModel.getLevel().get(finalNum).getLevelLogos());
+                        intent.putExtra("BUNDLE2",args);
                         startActivity(intent);
                         break;
 
                     case LEVEL5:
+                        finalNum = 4;
                         intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL5);
+                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("levelNum2", finalNum);
+                        args = new Bundle();
+                        args.putSerializable("ARRAYLIST2", viewModel.getLevel().get(finalNum).getLevelLogos());
+                        intent.putExtra("BUNDLE2",args);
                         startActivity(intent);
                         break;
                 }

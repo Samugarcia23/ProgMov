@@ -92,7 +92,6 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         View view;
         context = container.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         view = inflater.inflate(R.layout.logoguesswindow_activity, container, false);
         container.addView(view);
         Logo logo = gameViewModel.getSelectedLogo().getValue();
@@ -114,9 +113,10 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
     private void bind(Logo logo, View view) {
 
-        ImageView imgLogo, rightarrow, leftarrow, delete, help;
+        ImageView imgLogo, rightarrow, leftarrow, delete, help, logoguessed;
         ArrayList<Character> logoNameCharList = new ArrayList<>();
         myAnim = AnimationUtils.loadAnimation(context, R.anim.bounce);
+        final Logo[] slctLogo = new Logo[1];
 
         for (int i = 0; i<logo.getName().toCharArray().length; i ++)
             logoNameCharList.add(logo.getName().toCharArray()[i]);
@@ -126,12 +126,24 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         leftarrow = view.findViewById(R.id.leftarrow);
         delete = view.findViewById(R.id.delete);
         help = view.findViewById(R.id.help);
+        logoguessed = view.findViewById(R.id.logoguessedmain);
+        imgLogo.setTag("img" + logo.getName());
+        logoguessed.setTag("check" + logo.getName());
 
         lettersGridView = view.findViewById(R.id.lettersgridview);
         logoNameGridView = view.findViewById(R.id.logonamegridview);
         logoNameGridView.setTag("logoNameGridView" + logo.getName());
 
         imgLogo.setImageResource(logo.getImg());
+
+        if (logo.isGuessed()){
+            ImageView selectedcheck = logoguessed.findViewWithTag("check" + logo.getName());
+            selectedcheck.setVisibility(View.VISIBLE);
+            ImageView selectedLogo = imgLogo.findViewWithTag("img" + logo.getName());
+            selectedLogo.setImageAlpha(50);
+        }else{
+            logoguessed.setVisibility(View.INVISIBLE);
+        }
 
         final Observer<Integer> vpPosOserver = new Observer<Integer>() {
             @Override
@@ -158,11 +170,18 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
                 if (aBoolean){
                     if (aBoolean){
-                        help.setEnabled(true);
-                        delete.setEnabled(true);
-                    }else{
                         help.setEnabled(false);
                         delete.setEnabled(false);
+
+                        /*ImageView selectedcheck = logoguessed.findViewWithTag("check" + slctLogo[0].getName());
+                        selectedcheck.setVisibility(View.VISIBLE);
+                        ImageView selectedLogo = imgLogo.findViewWithTag("img" + slctLogo[0].getName());
+                        selectedLogo.setImageAlpha(50);*/
+
+                    }else{
+                        help.setEnabled(true);
+                        delete.setEnabled(true);
+                        logoguessed.setVisibility(View.INVISIBLE);
                     }
                 }
             }
@@ -170,28 +189,49 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
         gameViewModel.getLogoGuessed().observe((LifecycleOwner) context, logoGuessedObserver);
 
-        logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logoNameCharList));
-        lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
+        if (!logo.isGuessed()){
+            logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, answerList(logoNameCharList));
+            lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
 
-        lettersGridView.setAdapter(lettersAdapter);
-        logoNameGridView.setAdapter(logoNameAdapter);
+            lettersGridView.setAdapter(lettersAdapter);
+            logoNameGridView.setAdapter(logoNameAdapter);
 
-        lettersAdapter.notifyDataSetChanged();
-        logoNameAdapter.notifyDataSetChanged();
+            lettersAdapter.notifyDataSetChanged();
+            logoNameAdapter.notifyDataSetChanged();
+        }else{
+            logoNameCharList = new ArrayList<>();
+
+            for (int i = 0; i < logo.getName().toCharArray().length; i++)
+                logoNameCharList.add(logo.getName().toCharArray()[i]);
+
+            logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, logoNameCharList);
+            for (int i = 0; i < logo.getCharList().size(); i++)
+                logo.getCharList().remove(i);
+            lettersAdapter = new GridViewLettersAdapter(gameViewModel, logo.getCharList());
+
+            lettersGridView.setAdapter(lettersAdapter);
+            lettersGridView.setVisibility(View.INVISIBLE);
+            lettersGridView.setEnabled(false);
+            logoNameGridView.setAdapter(logoNameAdapter);
+
+            lettersAdapter.notifyDataSetChanged();
+            logoNameAdapter.notifyDataSetChanged();
+        }
+
 
         rightarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameViewModel.setRightArrowPressed(true);
                 rightarrow.setAnimation(myAnim);
+                gameViewModel.setRightArrowPressed(true);
             }
         });
 
         leftarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gameViewModel.setLeftArrowPressed(true);
                 leftarrow.setAnimation(myAnim);
+                gameViewModel.setLeftArrowPressed(true);
             }
         });
 

@@ -196,6 +196,7 @@ public class LogoMainPageFragment extends Fragment {
             public void onChanged(@Nullable Boolean aBoolean) {
                 if (aBoolean == true){
                     vp.setCurrentItem(gameViewModel.getViewPagerPosition().getValue() + 1);
+                    gameViewModel.setRightArrowPressed(false);
                 }
             }
         };
@@ -207,6 +208,7 @@ public class LogoMainPageFragment extends Fragment {
             public void onChanged(@Nullable Boolean aBoolean) {
                 if (aBoolean == true){
                     vp.setCurrentItem(gameViewModel.getViewPagerPosition().getValue() - 1);
+                    gameViewModel.setLeftArrowPressed(false);
                 }
             }
         };
@@ -220,10 +222,11 @@ public class LogoMainPageFragment extends Fragment {
                 Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
 
                 if (!logo.isGuessed()){
+
                     gameViewModel.setLogoGuessed(false);
 
                     if (characters.get(vp.getCurrentItem()).size() == 0){
-                        for (int i=0; i<logo.getName().toCharArray().length;i++)
+                        for (int i = 0; i < logo.getName().toCharArray().length; i++)
                             characters.get(vp.getCurrentItem()).add(i, '_');
                     }
 

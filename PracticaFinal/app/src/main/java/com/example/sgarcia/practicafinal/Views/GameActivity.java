@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.sgarcia.practicafinal.Adapters.RecyclerViewAdapter;
+import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
@@ -34,6 +35,7 @@ import com.example.sgarcia.practicafinal.ui.Fragments.LogoListFragment;
 import com.example.sgarcia.practicafinal.ui.Fragments.LogoMainPageFragment;
 import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
@@ -51,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
     Window window;
     FrameLayout container;
     Animation myAnim;
+    int globalLevelNum = -1;
 
 
     @Override
@@ -70,6 +73,13 @@ public class GameActivity extends AppCompatActivity {
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
         LevelSelection level = (LevelSelection) getIntent().getSerializableExtra("level");
+        mViewModel.loadCoins((Integer) getIntent().getSerializableExtra("coins2"));
+
+        Intent intent = getIntent();
+        if (intent.getBundleExtra("BUNDLE2") != null){
+            Bundle args = intent.getBundleExtra("BUNDLE2");
+            mViewModel.getLevel().get((Integer) getIntent().getSerializableExtra("levelNum2")).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLIST2"));
+        }
 
         int num = 0;
 
@@ -101,24 +111,28 @@ public class GameActivity extends AppCompatActivity {
                 break;
         }
 
+        int finalNum = num;
+        globalLevelNum = num;
         backarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!mViewModel.isLogoClicked().getValue()){
-                    finish();
+                    Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                    intent.putExtra("coins", mViewModel.getPlayerCoins().getValue());
+                    intent.putExtra("levelgame", finalNum);
+                    Bundle args = new Bundle();
+                    args.putSerializable("ARRAYLIST", mViewModel.getLevel().get(finalNum).getLevelLogos());
+                    intent.putExtra("BUNDLE",args);
+                    startActivity(intent);
                 }else{
                     mViewModel.setLogoClicked(false);
                 }
-
                 backarrow.startAnimation(myAnim);
-                mViewModel.loadCharArray();
                 mViewModel.setLetterPressed("");
                 for (int i = 0; i < mViewModel.getArraylistLength().length; i++)
                     mViewModel.setArraylistLength(0, i);
             }
         });
-
 
         levelNum.setText(String.valueOf(mViewModel.getLevel().get(num).getIdLevel()));
         coins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
@@ -131,7 +145,7 @@ public class GameActivity extends AppCompatActivity {
 
                 if (!bool){
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.logocontainer, LogoListFragment.newInstance());
+                    transaction.replace(R.id.logocontainer, LogoListFragment.newInstance());
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }else{
@@ -151,23 +165,25 @@ public class GameActivity extends AppCompatActivity {
                 coins.setText(integer.toString());
             }
         };
-
         mViewModel.getPlayerCoins().observe(this, playerCoinsObserver);
-
     }
 
     @Override
     public void onBackPressed()
     {
-
         if (!mViewModel.isLogoClicked().getValue()){
-            finish();
+            Intent intent = new Intent(GameActivity.this, MainActivity.class);
+            intent.putExtra("coins", mViewModel.getPlayerCoins().getValue());
+            if (globalLevelNum != -1)
+                intent.putExtra("levelgame", globalLevelNum);
+            Bundle args = new Bundle();
+            args.putSerializable("ARRAYLIST", mViewModel.getLevel().get(globalLevelNum).getLevelLogos());
+            intent.putExtra("BUNDLE",args);
+            startActivity(intent);
         }else{
             mViewModel.setLogoClicked(false);
         }
-
         backarrow.startAnimation(myAnim);
-        mViewModel.loadCharArray();
         mViewModel.setLetterPressed("");
         for (int i = 0; i < mViewModel.getArraylistLength().length; i++)
             mViewModel.setArraylistLength(0, i);

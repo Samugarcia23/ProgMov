@@ -22,8 +22,6 @@ public class MainViewModel extends ViewModel {
         _position = new MutableLiveData<>();
 
         _position.setValue(0);
-
-        loadCoins();
         addLevels();
     }
 
@@ -37,8 +35,8 @@ public class MainViewModel extends ViewModel {
         this._playerCoins.setValue(playerCoins);
     }
 
-    public void loadCoins(){
-        int coins = 0;
+    public void loadCoins(int playerCoins){
+        int coins = playerCoins;
         _playerCoins.setValue(coins);
     }
 
