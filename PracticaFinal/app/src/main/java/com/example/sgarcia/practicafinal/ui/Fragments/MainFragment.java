@@ -1,5 +1,6 @@
 package com.example.sgarcia.practicafinal.ui.Fragments;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -60,6 +61,16 @@ public class MainFragment extends Fragment {
         adapter.addCardItem(mViewModel.getLevel().get(4));
 
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(mViewModel.getLevel().size() - 1);
+
+        final Observer<Integer> levelShowedObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                viewPager.setCurrentItem(integer);
+            }
+        };
+
+        mViewModel.getLevelBack().observe(this, levelShowedObserver);
 
         viewPager.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override

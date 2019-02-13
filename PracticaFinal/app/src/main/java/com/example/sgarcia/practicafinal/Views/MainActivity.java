@@ -49,10 +49,13 @@ public class MainActivity extends AppCompatActivity {
         prb2 = findViewById(R.id.progressBar2);
         window = getWindow();
 
-        if (getIntent().getSerializableExtra("coins") != null)
-            viewModel.loadCoins((Integer) getIntent().getSerializableExtra("coins"));
-        else
-            viewModel.loadCoins(0);
+        if (getIntent().getSerializableExtra("coins") != null){
+            viewModel.getLevel().get((Integer) getIntent().getSerializableExtra("levelgame")).setCoins((Integer) getIntent().getSerializableExtra("coins"));
+            viewModel.setPlayerCoins((Integer) getIntent().getSerializableExtra("coins"));
+        }else{
+            viewModel.setPlayerCoins(0);
+        }
+
 
         Intent intent = getIntent();
         if (intent.getBundleExtra("BUNDLE") != null){
@@ -62,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
             viewModel.getLevel().get(2).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL3"));
             viewModel.getLevel().get(3).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL4"));
             viewModel.getLevel().get(4).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL5"));
+        }
+
+        if (getIntent().getSerializableExtra("levelgame") != null){
+            viewModel.setLevelBack((Integer) getIntent().getSerializableExtra("levelgame"));
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -203,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                         finalNum = 0;
                         Intent intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL1);
-                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
                         Bundle args = new Bundle();
                         args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
@@ -219,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                         finalNum = 1;
                         intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL2);
-                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
                         args = new Bundle();
                         args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
@@ -235,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                         finalNum = 2;
                         intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL3);
-                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
                         args = new Bundle();
                         args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
@@ -251,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
                         finalNum = 3;
                         intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL4);
-                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
                         args = new Bundle();
                         args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
@@ -267,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
                         finalNum = 4;
                         intent = new Intent(MainActivity.this, GameActivity.class);
                         intent.putExtra("level", LEVEL5);
-                        intent.putExtra("coins2", viewModel.getPlayerCoins().getValue());
+                        intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
                         args = new Bundle();
                         args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());

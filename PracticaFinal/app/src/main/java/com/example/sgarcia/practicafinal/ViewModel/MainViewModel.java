@@ -15,11 +15,13 @@ public class MainViewModel extends ViewModel {
     private ArrayList<Level> _levels;
     private MutableLiveData<LevelSelection> _selectedLevel;
     private MutableLiveData<Integer> _position;
+    private MutableLiveData<Integer> _levelBack;
 
     public MainViewModel(){
         _playerCoins = new MutableLiveData<>();
         _selectedLevel = new MutableLiveData<>();
         _position = new MutableLiveData<>();
+        _levelBack = new MutableLiveData<>();
 
         _position.setValue(0);
         addLevels();
@@ -35,15 +37,6 @@ public class MainViewModel extends ViewModel {
         this._playerCoins.setValue(playerCoins);
     }
 
-    public void loadCoins(int playerCoins){
-        int coins = playerCoins;
-        _playerCoins.setValue(coins);
-    }
-
-    public void addCoin(){
-        int coins = _playerCoins.getValue() + 1;
-    }
-
     public boolean levelLocked(int level){
         boolean locked = false;
         if (_levels.get(level).isLocked()){
@@ -56,11 +49,11 @@ public class MainViewModel extends ViewModel {
         _levels = new ArrayList<>();
         LogoList levelList = new LogoList();
 
-        _levels.add(new Level(1,"#00897B", false, levelList.levelOne()));
-        _levels.add(new Level(2,"#00ACC1", false, levelList.levelTwo()));
-        _levels.add(new Level(3,"#FFB300", true, levelList.levelThree()));
-        _levels.add(new Level(4,"#8E24AA", true, levelList.levelFour()));
-        _levels.add(new Level(5,"#e53935", true, levelList.levelFive()));
+        _levels.add(new Level(1,"#00897B", false, levelList.levelOne(), 0));
+        _levels.add(new Level(2,"#00ACC1", false, levelList.levelTwo(), 0));
+        _levels.add(new Level(3,"#FFB300", true, levelList.levelThree(), 0));
+        _levels.add(new Level(4,"#8E24AA", true, levelList.levelFour(), 0));
+        _levels.add(new Level(5,"#e53935", true, levelList.levelFive(), 0));
     }
 
     public MutableLiveData<LevelSelection> getSelectedLevel() {
@@ -77,5 +70,13 @@ public class MainViewModel extends ViewModel {
 
     public MutableLiveData<Integer> getPosition() {
         return _position;
+    }
+
+    public MutableLiveData<Integer> getLevelBack() {
+        return _levelBack;
+    }
+
+    public void setLevelBack(int levelBack) {
+        this._levelBack.setValue(levelBack);
     }
 }

@@ -162,7 +162,8 @@ public class LogoMainPageFragment extends Fragment {
                         if (logoName.equals(logo.getName())){
                             logo.setGuessed(true);
                             gameViewModel.setLogoGuessed(true);
-                            gameViewModel.setPlayerCoins(gameViewModel.getPlayerCoins().getValue() + 1);
+                            gameViewModel.setPlayerCoins(gameViewModel.getLevel().get(level2).getCoins() + 1);
+                            gameViewModel.getLevel().get(level2).setCoins(gameViewModel.getLevel().get(level2).getCoins() + 1);
                             logoGuessedDialog();
                         }
 

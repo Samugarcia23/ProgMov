@@ -1,8 +1,11 @@
 package com.example.sgarcia.practicafinal.Adapters;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -38,6 +41,7 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
     private MainViewModel mViewModel;
     private List<Level> mViews;
     private List<Level> mData;
+    Context context;
 
     //Constructor que recibe como parametro el viewmodel
 
@@ -82,7 +86,7 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
         View view;
-        Context context = container.getContext();
+        context = container.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         view = inflater.inflate(R.layout.levelcard2_activity, container, false);
         container.addView(view);
@@ -117,8 +121,10 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
         levelCard = view.findViewById(R.id.card_view);
         btnPlay = view.findViewById(R.id.btnPlay);
 
+        playerCoins.setTag("coins" + lv.getColor());
+
         level.setText(String.valueOf(lv.getIdLevel()));
-        playerCoins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
+        playerCoins.setText(String.valueOf(mViewModel.getLevel().get(lv.getIdLevel() - 1).getCoins()));
 
         if(mViewModel.levelLocked(position)){
             lock.setImageResource(R.drawable.lockclosed);
@@ -130,6 +136,14 @@ public class ViewPagerAdapter extends PagerAdapter implements CardAdapter{
             levelCard.setCardBackgroundColor(Color.parseColor(mViewModel.getLevel().get(position).getColor()));
             btnPlay.setClickable(true);
         }
+
+        final Observer<Integer> playerCoinsObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                playerCoins.setText(String.valueOf(mViewModel.getLevel().get(lv.getIdLevel() - 1).getCoins()));
+            }
+        };
+        mViewModel.getPlayerCoins().observe((LifecycleOwner)context, playerCoinsObserver);
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override

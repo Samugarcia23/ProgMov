@@ -73,7 +73,6 @@ public class GameActivity extends AppCompatActivity {
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
 
         LevelSelection level = (LevelSelection) getIntent().getSerializableExtra("level");
-        mViewModel.loadCoins((Integer) getIntent().getSerializableExtra("coins2"));
 
         Intent intent = getIntent();
         if (intent.getBundleExtra("BUNDLE2") != null){
@@ -117,12 +116,18 @@ public class GameActivity extends AppCompatActivity {
 
         int finalNum = num;
         globalLevelNum = num;
+
+        if (getIntent().getSerializableExtra("coins2") != null){
+            mViewModel.getLevel().get(globalLevelNum).setCoins((Integer) getIntent().getSerializableExtra("coins2"));
+            mViewModel.setPlayerCoins((Integer) getIntent().getSerializableExtra("coins2"));
+        }
+
         backarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mViewModel.isLogoClicked().getValue()){
                     Intent intent = new Intent(GameActivity.this, MainActivity.class);
-                    intent.putExtra("coins", mViewModel.getPlayerCoins().getValue());
+                    intent.putExtra("coins", mViewModel.getLevel().get(globalLevelNum).getCoins());
                     intent.putExtra("levelgame", finalNum);
                     Bundle args = new Bundle();
                     args.putSerializable("ARRAYLISTLEVEL1", mViewModel.getLevel().get(0).getLevelLogos());
@@ -143,7 +148,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         levelNum.setText(String.valueOf(mViewModel.getLevel().get(num).getIdLevel()));
-        coins.setText(String.valueOf(mViewModel.getPlayerCoins().getValue()));
+        coins.setText(String.valueOf(mViewModel.getLevel().get(num).getCoins()));
         infoBar.setBackgroundColor(Color.parseColor(mViewModel.getLevel().get(num).getColor()));
         window.setStatusBarColor(Color.parseColor(mViewModel.getLevel().get(num).getColor()));
 
@@ -181,7 +186,7 @@ public class GameActivity extends AppCompatActivity {
     {
         if (!mViewModel.isLogoClicked().getValue()){
             Intent intent = new Intent(GameActivity.this, MainActivity.class);
-            intent.putExtra("coins", mViewModel.getPlayerCoins().getValue());
+            intent.putExtra("coins", mViewModel.getLevel().get(globalLevelNum).getCoins());
             if (globalLevelNum != -1)
                 intent.putExtra("levelgame", globalLevelNum);
             Bundle args = new Bundle();

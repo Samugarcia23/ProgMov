@@ -21,6 +21,7 @@ public class Level {
     private String color;
     private ArrayList<Logo> levelLogos;
     private int idLevel;
+    private int coins;
 
     //Constructor por defecto
 
@@ -28,11 +29,12 @@ public class Level {
 
     //Constructor por parametros
 
-    public Level (int id, String color, boolean isLocked, ArrayList<Logo> levelLogos){
+    public Level (int id, String color, boolean isLocked, ArrayList<Logo> levelLogos, int coins){
         this.color = color;
         this.isLocked = isLocked;
         this.levelLogos = levelLogos;
         this.idLevel = id;
+        this.coins = coins;
     }
 
     //GETTERS & SETTERS
@@ -67,5 +69,13 @@ public class Level {
 
     public void setIdLevel(int idLevel) {
         this.idLevel = idLevel;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 }
