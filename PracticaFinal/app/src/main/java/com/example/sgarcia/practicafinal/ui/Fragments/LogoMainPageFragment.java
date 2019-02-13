@@ -121,7 +121,9 @@ public class LogoMainPageFragment extends Fragment {
                 String logoName = "";
 
                 if (!logo.isGuessed()){
+
                     gameViewModel.setLogoGuessed(false);
+
                     if (!s.equals("") && gameViewModel.getArraylistLength()[vp.getCurrentItem()] < logo.getName().toCharArray().length){
 
                         if (!arrayCreated[0]){
@@ -156,26 +158,26 @@ public class LogoMainPageFragment extends Fragment {
                         for (int i = 0; i < characters.get(vp.getCurrentItem()).size(); i++){
                             logoName += characters.get(vp.getCurrentItem()).get(i).toString();
                         }
+
                         if (logoName.equals(logo.getName())){
                             logo.setGuessed(true);
                             gameViewModel.setLogoGuessed(true);
                             gameViewModel.setPlayerCoins(gameViewModel.getPlayerCoins().getValue() + 1);
                             logoGuessedDialog();
                         }
+
+                        gameViewModel.setDeleteClicked(false);
                     }
                 }else{
                     if (characters.get(vp.getCurrentItem()).size() == 0){
                         for (int i=0; i<logo.getName().toCharArray().length;i++)
                             characters.get(vp.getCurrentItem()).add(logo.getName().toCharArray()[i]);
                     }
-
                     gameViewModel.setArraylistLength(gameViewModel.getArraylistLength()[vp.getCurrentItem()] + 1, vp.getCurrentItem());
                     logoNameAdapter = new GridViewLogoNameAdapter(gameViewModel, characters.get(vp.getCurrentItem()));
                     logoNameGridView = vp.findViewWithTag("logoNameGridView" + logo.getName());
                     logoNameGridView.setAdapter(logoNameAdapter);
                     logoNameAdapter.notifyDataSetChanged();
-
-                    gameViewModel.setLogoGuessed(true);
                 }
             }
         };
@@ -223,7 +225,7 @@ public class LogoMainPageFragment extends Fragment {
 
                 if (!logo.isGuessed()){
 
-                    gameViewModel.setLogoGuessed(false);
+                    //gameViewModel.setLogoGuessed(false);
 
                     if (characters.get(vp.getCurrentItem()).size() == 0){
                         for (int i = 0; i < logo.getName().toCharArray().length; i++)

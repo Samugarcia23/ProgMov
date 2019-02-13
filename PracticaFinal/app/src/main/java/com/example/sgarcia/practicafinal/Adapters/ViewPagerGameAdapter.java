@@ -170,17 +170,9 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
 
                 if (aBoolean){
                     if (aBoolean){
-                        help.setEnabled(false);
-                        delete.setEnabled(false);
-
-                        /*ImageView selectedcheck = logoguessed.findViewWithTag("check" + slctLogo[0].getName());
-                        selectedcheck.setVisibility(View.VISIBLE);
-                        ImageView selectedLogo = imgLogo.findViewWithTag("img" + slctLogo[0].getName());
-                        selectedLogo.setImageAlpha(50);*/
-
-                    }else{
                         help.setEnabled(true);
                         delete.setEnabled(true);
+                    }else{
                         logoguessed.setVisibility(View.INVISIBLE);
                     }
                 }
@@ -238,8 +230,8 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                delete.startAnimation(myAnim);
                 gameViewModel.setDeleteClicked(true);
+                delete.startAnimation(myAnim);
             }
         });
 

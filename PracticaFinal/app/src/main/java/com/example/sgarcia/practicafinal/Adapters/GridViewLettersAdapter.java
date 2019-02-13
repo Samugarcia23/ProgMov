@@ -123,7 +123,6 @@ public class GridViewLettersAdapter extends BaseAdapter {
                                 if (viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()) != null){
                                     viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setVisibility(View.VISIBLE);
                                     viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).get(i).setEnabled(true);
-                                    viewArrayList.get(gameViewModel.getViewPagerPosition().getValue()).remove(i);
                                 } else
                                     break;
                             }

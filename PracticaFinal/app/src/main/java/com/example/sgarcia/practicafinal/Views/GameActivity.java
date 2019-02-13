@@ -78,7 +78,11 @@ public class GameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getBundleExtra("BUNDLE2") != null){
             Bundle args = intent.getBundleExtra("BUNDLE2");
-            mViewModel.getLevel().get((Integer) getIntent().getSerializableExtra("levelNum2")).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLIST2"));
+            mViewModel.getLevel().get(0).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL1"));
+            mViewModel.getLevel().get(1).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL2"));
+            mViewModel.getLevel().get(2).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL3"));
+            mViewModel.getLevel().get(3).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL4"));
+            mViewModel.getLevel().get(4).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL5"));
         }
 
         int num = 0;
@@ -121,7 +125,11 @@ public class GameActivity extends AppCompatActivity {
                     intent.putExtra("coins", mViewModel.getPlayerCoins().getValue());
                     intent.putExtra("levelgame", finalNum);
                     Bundle args = new Bundle();
-                    args.putSerializable("ARRAYLIST", mViewModel.getLevel().get(finalNum).getLevelLogos());
+                    args.putSerializable("ARRAYLISTLEVEL1", mViewModel.getLevel().get(0).getLevelLogos());
+                    args.putSerializable("ARRAYLISTLEVEL2", mViewModel.getLevel().get(1).getLevelLogos());
+                    args.putSerializable("ARRAYLISTLEVEL3", mViewModel.getLevel().get(2).getLevelLogos());
+                    args.putSerializable("ARRAYLISTLEVEL4", mViewModel.getLevel().get(3).getLevelLogos());
+                    args.putSerializable("ARRAYLISTLEVEL5", mViewModel.getLevel().get(4).getLevelLogos());
                     intent.putExtra("BUNDLE",args);
                     startActivity(intent);
                 }else{
@@ -177,7 +185,11 @@ public class GameActivity extends AppCompatActivity {
             if (globalLevelNum != -1)
                 intent.putExtra("levelgame", globalLevelNum);
             Bundle args = new Bundle();
-            args.putSerializable("ARRAYLIST", mViewModel.getLevel().get(globalLevelNum).getLevelLogos());
+            args.putSerializable("ARRAYLISTLEVEL1", mViewModel.getLevel().get(0).getLevelLogos());
+            args.putSerializable("ARRAYLISTLEVEL2", mViewModel.getLevel().get(1).getLevelLogos());
+            args.putSerializable("ARRAYLISTLEVEL3", mViewModel.getLevel().get(2).getLevelLogos());
+            args.putSerializable("ARRAYLISTLEVEL4", mViewModel.getLevel().get(3).getLevelLogos());
+            args.putSerializable("ARRAYLISTLEVEL5", mViewModel.getLevel().get(4).getLevelLogos());
             intent.putExtra("BUNDLE",args);
             startActivity(intent);
         }else{
