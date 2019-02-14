@@ -238,6 +238,7 @@ public class ViewPagerGameAdapter extends PagerAdapter implements CardLogoAdapte
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameViewModel.setHelpClicked(true);
                 help.startAnimation(myAnim);
             }
         });

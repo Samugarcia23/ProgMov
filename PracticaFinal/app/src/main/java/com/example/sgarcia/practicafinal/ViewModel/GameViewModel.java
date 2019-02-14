@@ -31,6 +31,7 @@ public class GameViewModel extends ViewModel {
     private MutableLiveData<Boolean> _leftArrowPressed;
     private MutableLiveData<Boolean> _deleteClicked;
     private MutableLiveData<Boolean> _logoGuessed;
+    private MutableLiveData<Boolean> _helpClicked;
     private int[] _arraylistLength;
 
     //Constructor
@@ -48,14 +49,16 @@ public class GameViewModel extends ViewModel {
         _leftArrowPressed = new MutableLiveData<>();
         _deleteClicked = new MutableLiveData<>();
         _logoGuessed = new MutableLiveData<>();
+        _helpClicked = new MutableLiveData<>();
 
+        _helpClicked.setValue(false);
         _logoClicked.setValue(false);
         _logoGuessed.setValue(false);
         _deleteClicked.setValue(false);
-
         _letterPressed.setValue("");
         _letterPosition.setValue(0);
         _arraylistLength = new int[20];
+
         for (int i = 0; i < _arraylistLength.length; i++)
             _arraylistLength[i] = 0;
 
@@ -213,5 +216,13 @@ public class GameViewModel extends ViewModel {
 
     public void setLogoGuessed(boolean logoGuessed) {
         this._logoGuessed.setValue(logoGuessed);
+    }
+
+    public MutableLiveData<Boolean> getHelpClicked() {
+        return _helpClicked;
+    }
+
+    public void setHelpClicked(boolean helpClicked) {
+        this._helpClicked.setValue(helpClicked);
     }
 }

@@ -4,11 +4,14 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -28,8 +31,11 @@ import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
 import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
@@ -45,11 +51,28 @@ public class MainActivity extends AppCompatActivity {
     Window window;
     TextView totalCoins, tvtotal;
     ImageView bitCoin;
+    String key = "Key";
+    SharedPreferences shref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
+        Intent intent = getIntent();
+
+        /*if (shref != null && intent.getBundleExtra("BUNDLE") == null){
+            Gson gson = new Gson();
+            String response = shref.getString(key , "");
+            viewModel.setLevels(gson.fromJson(response,
+                    new TypeToken<List<Level>>(){}.getType()));
+        }*/
+
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         container = findViewById(R.id.container);
@@ -72,8 +95,6 @@ public class MainActivity extends AppCompatActivity {
             viewModel.setPlayerCoins(0);
         }
 
-
-        Intent intent = getIntent();
         if (intent.getBundleExtra("BUNDLE") != null){
             Bundle args = intent.getBundleExtra("BUNDLE");
             viewModel.setLevels((ArrayList<Level>) args.getSerializable("ARRAYLEVEL1"));
@@ -90,17 +111,17 @@ public class MainActivity extends AppCompatActivity {
 
         totalCoins.setText(String.valueOf(total));
 
-        if (total >= 6 && viewModel.getLevel().get(4).isLocked()){
+        if (total >= 75 && viewModel.getLevel().get(4).isLocked()){
             viewModel.getLevel().get(4).setLocked(false);
             levelUnlockedDialog(4);
         }
 
-        if (total >= 4 && viewModel.getLevel().get(3).isLocked()){
+        if (total >= 50 && viewModel.getLevel().get(3).isLocked()){
             viewModel.getLevel().get(3).setLocked(false);
             levelUnlockedDialog(3);
         }
 
-        if (total >= 2 && viewModel.getLevel().get(2).isLocked()){
+        if (total >= 30 && viewModel.getLevel().get(2).isLocked()){
             viewModel.getLevel().get(2).setLocked(false);
             levelUnlockedDialog(2);
         }
@@ -331,7 +352,10 @@ public class MainActivity extends AppCompatActivity {
 
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                finish();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("EXIT", true);
+                startActivity(intent);
             }
         });
         alert.setNegativeButton("No", (dialog, whichButton) -> {});
@@ -353,4 +377,32 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    /*@Override
+    protected void onPause() {
+        super.onPause();
+
+        shref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(viewModel.getLevel());
+
+        editor = shref.edit();
+        editor.remove(key).commit();
+        editor.putString(key, json);
+        editor.commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        shref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(viewModel.getLevel());
+
+        editor = shref.edit();
+        editor.remove(key).commit();
+        editor.putString(key, json);
+        editor.commit();
+    }*/
 }

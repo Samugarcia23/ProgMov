@@ -149,7 +149,7 @@
 
     <TextView
         android:id="@+id/totalcoins"
-        android:layout_width="29dp"
+        android:layout_width="47dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:fontFamily="casual"
@@ -164,13 +164,12 @@
 
     <ImageView
         android:id="@+id/mvcoin"
-        android:layout_width="35dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="47dp"
+        android:layout_height="63dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/totalcoins"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toEndOf="@+id/totalcoins"
         app:layout_constraintTop_toTopOf="@+id/totalcoins"
         app:layout_constraintVertical_bias="1.0"

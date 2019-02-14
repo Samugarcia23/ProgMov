@@ -246,13 +246,31 @@ public class LogoMainPageFragment extends Fragment {
                 }else{
                     gameViewModel.setLogoGuessed(true);
                 }
-
-
-
             }
         };
 
         gameViewModel.get_deleteClicked().observe(this, deleteClickedObserver);
+
+        final Observer<Boolean> helpClickedObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+
+                Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
+
+                if (aBoolean == true && !logo.isGuessed()){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    alert.setTitle("Help");
+                    alert.setMessage("Maybe this helps --> " + logo.getName());
+                    alert.setIcon(R.drawable.help);
+
+                    alert.setPositiveButton("Ok", (dialog, whichButton) -> {});
+
+                    alert.show();
+                }
+            }
+        };
+
+        gameViewModel.getHelpClicked().observe(this, helpClickedObserver);
 
     }
 
@@ -265,5 +283,4 @@ public class LogoMainPageFragment extends Fragment {
 
         alert.show();
     }
-
 }
