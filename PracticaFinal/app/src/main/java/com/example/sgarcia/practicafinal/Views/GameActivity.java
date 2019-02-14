@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.sgarcia.practicafinal.Adapters.RecyclerViewAdapter;
+import com.example.sgarcia.practicafinal.Entities.Level;
 import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
@@ -75,13 +76,18 @@ public class GameActivity extends AppCompatActivity {
         LevelSelection level = (LevelSelection) getIntent().getSerializableExtra("level");
 
         Intent intent = getIntent();
-        if (intent.getBundleExtra("BUNDLE2") != null){
+        /*if (intent.getBundleExtra("BUNDLE2") != null){
             Bundle args = intent.getBundleExtra("BUNDLE2");
             mViewModel.getLevel().get(0).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL1"));
             mViewModel.getLevel().get(1).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL2"));
             mViewModel.getLevel().get(2).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL3"));
             mViewModel.getLevel().get(3).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL4"));
             mViewModel.getLevel().get(4).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL5"));
+        }*/
+
+        if (intent.getBundleExtra("BUNDLE2") != null){
+            Bundle args = intent.getBundleExtra("BUNDLE2");
+            mViewModel.set_levels((ArrayList<Level>) args.getSerializable("ARRAYLEVEL2"));
         }
 
         int num = 0;
@@ -129,13 +135,19 @@ public class GameActivity extends AppCompatActivity {
                     Intent intent = new Intent(GameActivity.this, MainActivity.class);
                     intent.putExtra("coins", mViewModel.getLevel().get(globalLevelNum).getCoins());
                     intent.putExtra("levelgame", finalNum);
-                    Bundle args = new Bundle();
+                   /* Bundle args = new Bundle();
                     args.putSerializable("ARRAYLISTLEVEL1", mViewModel.getLevel().get(0).getLevelLogos());
                     args.putSerializable("ARRAYLISTLEVEL2", mViewModel.getLevel().get(1).getLevelLogos());
                     args.putSerializable("ARRAYLISTLEVEL3", mViewModel.getLevel().get(2).getLevelLogos());
                     args.putSerializable("ARRAYLISTLEVEL4", mViewModel.getLevel().get(3).getLevelLogos());
                     args.putSerializable("ARRAYLISTLEVEL5", mViewModel.getLevel().get(4).getLevelLogos());
-                    intent.putExtra("BUNDLE",args);
+                    intent.putExtra("BUNDLE",args);*/
+
+                    //Enviar Arraylist de levels
+                    Bundle args2 = new Bundle();
+                    args2.putSerializable("ARRAYLEVEL1", mViewModel.getLevel());
+                    intent.putExtra("BUNDLE", args2);
+
                     startActivity(intent);
                 }else{
                     mViewModel.setLogoClicked(false);
@@ -189,13 +201,21 @@ public class GameActivity extends AppCompatActivity {
             intent.putExtra("coins", mViewModel.getLevel().get(globalLevelNum).getCoins());
             if (globalLevelNum != -1)
                 intent.putExtra("levelgame", globalLevelNum);
-            Bundle args = new Bundle();
+
+            //Enviar Arraylist de Logos
+            /*Bundle args = new Bundle();
             args.putSerializable("ARRAYLISTLEVEL1", mViewModel.getLevel().get(0).getLevelLogos());
             args.putSerializable("ARRAYLISTLEVEL2", mViewModel.getLevel().get(1).getLevelLogos());
             args.putSerializable("ARRAYLISTLEVEL3", mViewModel.getLevel().get(2).getLevelLogos());
             args.putSerializable("ARRAYLISTLEVEL4", mViewModel.getLevel().get(3).getLevelLogos());
             args.putSerializable("ARRAYLISTLEVEL5", mViewModel.getLevel().get(4).getLevelLogos());
-            intent.putExtra("BUNDLE",args);
+            intent.putExtra("BUNDLE",args);*/
+
+            //Enviar Arraylist de levels
+            Bundle args2 = new Bundle();
+            args2.putSerializable("ARRAYLEVEL1", mViewModel.getLevel());
+            intent.putExtra("BUNDLE2", args2);
+
             startActivity(intent);
         }else{
             mViewModel.setLogoClicked(false);

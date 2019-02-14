@@ -70,6 +70,10 @@ public class GameViewModel extends ViewModel {
         return _levels;
     }
 
+    public void set_levels(ArrayList<Level> _levels) {
+        this._levels = _levels;
+    }
+
     //GETTER del mutable _playerCoins
 
     public MutableLiveData<Integer> getPlayerCoins() {return _playerCoins;}

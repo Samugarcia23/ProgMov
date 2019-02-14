@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  */
 
-public class Level {
+public class Level implements java.io.Serializable{
 
     //Definicion de parametros
 

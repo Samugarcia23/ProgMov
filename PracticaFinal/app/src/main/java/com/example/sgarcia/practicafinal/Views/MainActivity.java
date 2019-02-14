@@ -13,10 +13,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.sgarcia.practicafinal.Entities.Level;
 import com.example.sgarcia.practicafinal.Entities.Logo;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout container;
     ProgressBar prb1, prb2;
     Window window;
+    TextView totalCoins, tvtotal;
+    ImageView bitCoin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
         container = findViewById(R.id.container);
         prb1 = findViewById(R.id.progressBar);
         prb2 = findViewById(R.id.progressBar2);
+        tvtotal = findViewById(R.id.tvtotalcoins);
+        totalCoins = findViewById(R.id.totalcoins);
+        bitCoin = findViewById(R.id.mvcoin);
+
+        tvtotal.startAnimation((Animation) AnimationUtils.loadAnimation(MainActivity.this,R.anim.translate));
+        totalCoins.startAnimation((Animation)AnimationUtils.loadAnimation(MainActivity.this,R.anim.translate));
+        bitCoin.startAnimation((Animation)AnimationUtils.loadAnimation(MainActivity.this,R.anim.translate));
+
         window = getWindow();
 
         if (getIntent().getSerializableExtra("coins") != null){
@@ -60,15 +75,33 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getBundleExtra("BUNDLE") != null){
             Bundle args = intent.getBundleExtra("BUNDLE");
-            viewModel.getLevel().get(0).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL1"));
-            viewModel.getLevel().get(1).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL2"));
-            viewModel.getLevel().get(2).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL3"));
-            viewModel.getLevel().get(3).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL4"));
-            viewModel.getLevel().get(4).setLevelLogos((ArrayList<Logo>) args.getSerializable("ARRAYLISTLEVEL5"));
+            viewModel.setLevels((ArrayList<Level>) args.getSerializable("ARRAYLEVEL1"));
         }
 
         if (getIntent().getSerializableExtra("levelgame") != null){
             viewModel.setLevelBack((Integer) getIntent().getSerializableExtra("levelgame"));
+        }
+
+        int total = 0;
+
+        for (int i = 0; i < viewModel.getLevel().size(); i++)
+            total += viewModel.getLevel().get(i).getCoins();
+
+        totalCoins.setText(String.valueOf(total));
+
+        if (total >= 2 && viewModel.getLevel().get(2).isLocked()){
+            viewModel.getLevel().get(2).setLocked(false);
+            levelUnlockedDialog(2);
+        }else{
+            if (total >= 4 && viewModel.getLevel().get(3).isLocked()){
+                viewModel.getLevel().get(3).setLocked(false);
+                levelUnlockedDialog(3);
+            }else{
+                if (total >= 6 && viewModel.getLevel().get(4).isLocked()){
+                    viewModel.getLevel().get(4).setLocked(false);
+                    levelUnlockedDialog(4);
+                }
+            }
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -212,13 +245,12 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("level", LEVEL1);
                         intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
+
+                        //Enviar Arraylist de levels
                         Bundle args = new Bundle();
-                        args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL2", viewModel.getLevel().get(1).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL3", viewModel.getLevel().get(2).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL4", viewModel.getLevel().get(3).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL5", viewModel.getLevel().get(4).getLevelLogos());
-                        intent.putExtra("BUNDLE2",args);
+                        args.putSerializable("ARRAYLEVEL2", viewModel.getLevel());
+                        intent.putExtra("BUNDLE2", args);
+
                         startActivity(intent);
                         break;
 
@@ -228,13 +260,12 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("level", LEVEL2);
                         intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
+
+                        //Enviar Arraylist de levels
                         args = new Bundle();
-                        args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL2", viewModel.getLevel().get(1).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL3", viewModel.getLevel().get(2).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL4", viewModel.getLevel().get(3).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL5", viewModel.getLevel().get(4).getLevelLogos());
-                        intent.putExtra("BUNDLE2",args);
+                        args.putSerializable("ARRAYLEVEL2", viewModel.getLevel());
+                        intent.putExtra("BUNDLE2", args);
+
                         startActivity(intent);
                         break;
 
@@ -244,13 +275,12 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("level", LEVEL3);
                         intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
+
+                        //Enviar Arraylist de levels
                         args = new Bundle();
-                        args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL2", viewModel.getLevel().get(1).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL3", viewModel.getLevel().get(2).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL4", viewModel.getLevel().get(3).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL5", viewModel.getLevel().get(4).getLevelLogos());
-                        intent.putExtra("BUNDLE2",args);
+                        args.putSerializable("ARRAYLEVEL2", viewModel.getLevel());
+                        intent.putExtra("BUNDLE2", args);
+
                         startActivity(intent);
                         break;
 
@@ -260,13 +290,12 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("level", LEVEL4);
                         intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
+
+                        //Enviar Arraylist de levels
                         args = new Bundle();
-                        args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL2", viewModel.getLevel().get(1).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL3", viewModel.getLevel().get(2).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL4", viewModel.getLevel().get(3).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL5", viewModel.getLevel().get(4).getLevelLogos());
-                        intent.putExtra("BUNDLE2",args);
+                        args.putSerializable("ARRAYLEVEL2", viewModel.getLevel());
+                        intent.putExtra("BUNDLE2", args);
+
                         startActivity(intent);
                         break;
 
@@ -276,13 +305,12 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("level", LEVEL5);
                         intent.putExtra("coins2", viewModel.getLevel().get(finalNum).getCoins());
                         intent.putExtra("levelNum2", finalNum);
+
+                        //Enviar Arraylist de levels
                         args = new Bundle();
-                        args.putSerializable("ARRAYLISTLEVEL1", viewModel.getLevel().get(0).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL2", viewModel.getLevel().get(1).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL3", viewModel.getLevel().get(2).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL4", viewModel.getLevel().get(3).getLevelLogos());
-                        args.putSerializable("ARRAYLISTLEVEL5", viewModel.getLevel().get(4).getLevelLogos());
-                        intent.putExtra("BUNDLE2",args);
+                        args.putSerializable("ARRAYLEVEL2", viewModel.getLevel());
+                        intent.putExtra("BUNDLE2", args);
+
                         startActivity(intent);
                         break;
                 }
@@ -305,6 +333,19 @@ public class MainActivity extends AppCompatActivity {
 
         alert.show();
 
+    }
+
+    public void levelUnlockedDialog(int level){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        level += 1;
+        alert.setTitle("Level " + level + " unlocked!!");
+        alert.setIcon(R.drawable.unlocked);
+
+        int finalLevel = level - 1;
+
+        alert.setPositiveButton("Go", (dialog, whichButton) ->viewModel.setLevelBack(finalLevel));
+
+        alert.show();
     }
 
 }

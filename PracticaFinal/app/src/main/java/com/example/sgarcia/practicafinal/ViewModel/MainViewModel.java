@@ -33,6 +33,10 @@ public class MainViewModel extends ViewModel {
         return _levels;
     }
 
+    public void setLevels(ArrayList<Level> _levels) {
+        this._levels = _levels;
+    }
+
     public void setPlayerCoins(int playerCoins) {
         this._playerCoins.setValue(playerCoins);
     }
