@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -89,19 +90,19 @@ public class MainActivity extends AppCompatActivity {
 
         totalCoins.setText(String.valueOf(total));
 
+        if (total >= 6 && viewModel.getLevel().get(4).isLocked()){
+            viewModel.getLevel().get(4).setLocked(false);
+            levelUnlockedDialog(4);
+        }
+
+        if (total >= 4 && viewModel.getLevel().get(3).isLocked()){
+            viewModel.getLevel().get(3).setLocked(false);
+            levelUnlockedDialog(3);
+        }
+
         if (total >= 2 && viewModel.getLevel().get(2).isLocked()){
             viewModel.getLevel().get(2).setLocked(false);
             levelUnlockedDialog(2);
-        }else{
-            if (total >= 4 && viewModel.getLevel().get(3).isLocked()){
-                viewModel.getLevel().get(3).setLocked(false);
-                levelUnlockedDialog(3);
-            }else{
-                if (total >= 6 && viewModel.getLevel().get(4).isLocked()){
-                    viewModel.getLevel().get(4).setLocked(false);
-                    levelUnlockedDialog(4);
-                }
-            }
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -328,7 +329,11 @@ public class MainActivity extends AppCompatActivity {
         alert.setMessage("Do you want to exit the app?");
         alert.setIcon(R.drawable.exit2);
 
-        alert.setPositiveButton("Yes", (dialog, whichButton) -> super.onBackPressed());
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+            }
+        });
         alert.setNegativeButton("No", (dialog, whichButton) -> {});
 
         alert.show();
