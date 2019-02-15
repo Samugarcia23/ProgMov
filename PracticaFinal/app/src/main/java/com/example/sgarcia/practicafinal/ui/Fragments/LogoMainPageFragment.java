@@ -16,11 +16,14 @@ import android.widget.GridView;
 import com.example.sgarcia.practicafinal.Adapters.GridViewLogoNameAdapter;
 import com.example.sgarcia.practicafinal.Adapters.ViewPagerGameAdapter;
 import com.example.sgarcia.practicafinal.Entities.Logo;
+import com.example.sgarcia.practicafinal.Others.Alphabet;
 import com.example.sgarcia.practicafinal.Others.LevelSelection;
 import com.example.sgarcia.practicafinal.R;
 import com.example.sgarcia.practicafinal.ViewModel.GameViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 /*
  *
@@ -123,6 +126,7 @@ public class LogoMainPageFragment extends Fragment {
                 if (!logo.isGuessed()){
 
                     gameViewModel.setLogoGuessed(false);
+                    gameViewModel.setHelpClicked(false);
 
                     if (!s.equals("") && gameViewModel.getArraylistLength()[vp.getCurrentItem()] < logo.getName().toCharArray().length){
 
@@ -226,8 +230,6 @@ public class LogoMainPageFragment extends Fragment {
 
                 if (!logo.isGuessed()){
 
-                    //gameViewModel.setLogoGuessed(false);
-
                     if (characters.get(vp.getCurrentItem()).size() == 0){
                         for (int i = 0; i < logo.getName().toCharArray().length; i++)
                             characters.get(vp.getCurrentItem()).add(i, '_');
@@ -258,9 +260,21 @@ public class LogoMainPageFragment extends Fragment {
                 Logo logo = gameViewModel.getLevel().get(level2).getLevelLogos().get(vp.getCurrentItem());
 
                 if (aBoolean == true && !logo.isGuessed()){
+
+                    char[] answer = logo.getName().toCharArray();
+                    ArrayList<Character> charList = new ArrayList<>();
+
+                    Alphabet.selectedName = new char[answer.length];
+
+                    for (char letter : answer){
+                        charList.add(letter);
+                    }
+
+                    Collections.shuffle(charList);
+
                     AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                     alert.setTitle("Help");
-                    alert.setMessage("Maybe this helps --> " + logo.getName());
+                    alert.setMessage(charList.toString());
                     alert.setIcon(R.drawable.help);
 
                     alert.setPositiveButton("Ok", (dialog, whichButton) -> {});
@@ -283,4 +297,5 @@ public class LogoMainPageFragment extends Fragment {
 
         alert.show();
     }
+
 }

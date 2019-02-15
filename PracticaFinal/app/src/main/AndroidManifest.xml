@@ -18,7 +18,6 @@
         </activity>
         <activity android:name=".Views.GameActivity"></activity>
 
-
     </application>
 
 </manifest>

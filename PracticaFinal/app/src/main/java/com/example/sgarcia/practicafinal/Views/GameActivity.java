@@ -6,8 +6,10 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,9 +37,13 @@ import com.example.sgarcia.practicafinal.ViewModel.MainViewModel;
 import com.example.sgarcia.practicafinal.ui.Fragments.LogoListFragment;
 import com.example.sgarcia.practicafinal.ui.Fragments.LogoMainPageFragment;
 import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL1;
 import static com.example.sgarcia.practicafinal.Others.LevelSelection.LEVEL2;
@@ -49,13 +55,12 @@ public class GameActivity extends AppCompatActivity {
 
     GameViewModel mViewModel;
     TextView levelNum, coins;
-    ImageView backarrow;
+    ImageView backarrow, coinImg;
     LinearLayout infoBar;
     Window window;
     FrameLayout container;
     Animation myAnim;
     int globalLevelNum = -1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +74,12 @@ public class GameActivity extends AppCompatActivity {
         infoBar = findViewById(R.id.infoBar);
         container = findViewById(R.id.logocontainer);
         window = getWindow();
+        coinImg = findViewById(R.id.coinImg);
         myAnim = AnimationUtils.loadAnimation(this, R.anim.rotate);
 
         mViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
+
+        load();
 
         LevelSelection level = (LevelSelection) getIntent().getSerializableExtra("level");
 
@@ -174,6 +182,9 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable Integer integer) {
                 coins.setText(integer.toString());
+                coinImg.startAnimation((Animation) AnimationUtils.loadAnimation(GameActivity.this,R.anim.bounce));
+                coins.startAnimation((Animation) AnimationUtils.loadAnimation(GameActivity.this,R.anim.bounce));
+                coinImg.startAnimation((Animation) AnimationUtils.loadAnimation(GameActivity.this,R.anim.rotate));
             }
         };
         mViewModel.getPlayerCoins().observe(this, playerCoinsObserver);
@@ -204,4 +215,39 @@ public class GameActivity extends AppCompatActivity {
             mViewModel.setArraylistLength(0, i);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        save();
+    }
+
+    private void save(){
+        SharedPreferences shref;
+        SharedPreferences.Editor editor;
+
+        shref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        editor = shref.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(mViewModel.getLevel());
+
+        editor.putString("arrayLevel", json);
+
+        editor.apply();
+    }
+
+    private void load(){
+        SharedPreferences shref;
+        shref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Level>>(){}.getType();
+
+        String response = shref.getString("arrayLevel" , "default");
+
+        if (!response.equals("default")){
+            mViewModel.set_levels(gson.fromJson(response,type));
+        }
+
+    }
 }

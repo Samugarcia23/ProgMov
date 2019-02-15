@@ -34,6 +34,7 @@ import com.example.sgarcia.practicafinal.ui.Fragments.MainFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
     Window window;
     TextView totalCoins, tvtotal;
     ImageView bitCoin;
-    String key = "Key";
-    SharedPreferences shref;
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        /*if (shref != null && intent.getBundleExtra("BUNDLE") == null){
-            Gson gson = new Gson();
-            String response = shref.getString(key , "");
-            viewModel.setLevels(gson.fromJson(response,
-                    new TypeToken<List<Level>>(){}.getType()));
-        }*/
-
-
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        load();
+
         container = findViewById(R.id.container);
         prb1 = findViewById(R.id.progressBar);
         prb2 = findViewById(R.id.progressBar2);
@@ -106,24 +99,26 @@ public class MainActivity extends AppCompatActivity {
 
         int total = 0;
 
-        for (int i = 0; i < viewModel.getLevel().size(); i++)
-            total += viewModel.getLevel().get(i).getCoins();
+        if (viewModel.getLevel() != null){
+            for (int i = 0; i < viewModel.getLevel().size(); i++)
+                total += viewModel.getLevel().get(i).getCoins();
 
-        totalCoins.setText(String.valueOf(total));
+            totalCoins.setText(String.valueOf(total));
 
-        if (total >= 75 && viewModel.getLevel().get(4).isLocked()){
-            viewModel.getLevel().get(4).setLocked(false);
-            levelUnlockedDialog(4);
-        }
+            if (total >= 75 && viewModel.getLevel().get(4).isLocked()){
+                viewModel.getLevel().get(4).setLocked(false);
+                levelUnlockedDialog(4);
+            }
 
-        if (total >= 50 && viewModel.getLevel().get(3).isLocked()){
-            viewModel.getLevel().get(3).setLocked(false);
-            levelUnlockedDialog(3);
-        }
+            if (total >= 50 && viewModel.getLevel().get(3).isLocked()){
+                viewModel.getLevel().get(3).setLocked(false);
+                levelUnlockedDialog(3);
+            }
 
-        if (total >= 30 && viewModel.getLevel().get(2).isLocked()){
-            viewModel.getLevel().get(2).setLocked(false);
-            levelUnlockedDialog(2);
+            if (total >= 30 && viewModel.getLevel().get(2).isLocked()){
+                viewModel.getLevel().get(2).setLocked(false);
+                levelUnlockedDialog(2);
+            }
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -377,32 +372,40 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    /*@Override
+    @Override
     protected void onPause() {
         super.onPause();
-
-        shref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
-        Gson gson = new Gson();
-        String json = gson.toJson(viewModel.getLevel());
-
-        editor = shref.edit();
-        editor.remove(key).commit();
-        editor.putString(key, json);
-        editor.commit();
+        save();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void save(){
+        SharedPreferences shref;
+        SharedPreferences.Editor editor;
+
         shref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        editor = shref.edit();
 
         Gson gson = new Gson();
         String json = gson.toJson(viewModel.getLevel());
 
-        editor = shref.edit();
-        editor.remove(key).commit();
-        editor.putString(key, json);
-        editor.commit();
-    }*/
+        editor.putString("arrayLevel", json);
+
+        editor.apply();
+    }
+
+    private void load(){
+        SharedPreferences shref;
+        shref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Level>>(){}.getType();
+
+        String response = shref.getString("arrayLevel" , "default");
+
+        if (!response.equals("default")){
+            viewModel.setLevels(gson.fromJson(response,type));
+        }
+
+    }
+
 }

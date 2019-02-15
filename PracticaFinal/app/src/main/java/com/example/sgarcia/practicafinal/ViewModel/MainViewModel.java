@@ -49,7 +49,7 @@ public class MainViewModel extends ViewModel {
         return locked;
     }
 
-    private void addLevels(){
+    public void addLevels(){
         _levels = new ArrayList<>();
         LogoList levelList = new LogoList();
 
@@ -59,6 +59,22 @@ public class MainViewModel extends ViewModel {
         _levels.add(new Level(4,"#8E24AA", true, levelList.levelFour(), 0));
         _levels.add(new Level(5,"#e53935", true, levelList.levelFive(), 0));
     }
+
+
+    public ArrayList<Level> defaultLevels(){
+        _levels = new ArrayList<>();
+        LogoList levelList = new LogoList();
+
+        _levels.add(new Level(1,"#00897B", false, levelList.levelOne(), 0));
+        _levels.add(new Level(2,"#00ACC1", false, levelList.levelTwo(), 0));
+        _levels.add(new Level(3,"#FFB300", true, levelList.levelThree(), 0));
+        _levels.add(new Level(4,"#8E24AA", true, levelList.levelFour(), 0));
+        _levels.add(new Level(5,"#e53935", true, levelList.levelFive(), 0));
+
+        return _levels;
+    }
+
+
 
     public MutableLiveData<LevelSelection> getSelectedLevel() {
         return _selectedLevel;
