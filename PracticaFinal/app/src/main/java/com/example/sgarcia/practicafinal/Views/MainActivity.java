@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (getIntent().getSerializableExtra("levelgame") != null){
             viewModel.setLevelBack((Integer) getIntent().getSerializableExtra("levelgame"));
+            viewModel.setPosition((Integer) getIntent().getSerializableExtra("levelgame"));
         }
 
         int total = 0;

@@ -188,6 +188,21 @@ public class GameActivity extends AppCompatActivity {
             }
         };
         mViewModel.getPlayerCoins().observe(this, playerCoinsObserver);
+
+        final Observer<Boolean> allGuessedObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean){
+                    onBackPressed();
+                    mViewModel.setAllGuessed(false);
+                }
+
+            }
+
+        };
+
+        mViewModel.getAllGuessed().observe(this, allGuessedObserver);
+
     }
 
     @Override

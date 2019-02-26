@@ -3,7 +3,11 @@ package com.example.sgarcia.practicafinal.ui.Fragments;
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -164,14 +168,22 @@ public class LogoMainPageFragment extends Fragment {
                         }
 
                         if (logoName.equals(logo.getName())){
+                            int count = 0;
                             logo.setGuessed(true);
                             gameViewModel.setLogoGuessed(true);
                             gameViewModel.setPlayerCoins(gameViewModel.getLevel().get(level2).getCoins() + 1);
                             gameViewModel.getLevel().get(level2).setCoins(gameViewModel.getLevel().get(level2).getCoins() + 1);
+                            for (int i = 0; i < gameViewModel.getLevel().get(level2).getLevelLogos().size(); i++){
+                                if (gameViewModel.getLevel().get(level2).getLevelLogos().get(i).isGuessed())
+                                    count++;
+                            }
+                            if(count == gameViewModel.getLevel().get(level2).getLevelLogos().size())
+                                allGuessedDialog();
                             logoGuessedDialog();
                         }
 
                         gameViewModel.setDeleteClicked(false);
+                        vibrate();
                     }
                 }else{
                     if (characters.get(vp.getCurrentItem()).size() == 0){
@@ -296,6 +308,26 @@ public class LogoMainPageFragment extends Fragment {
         alert.setPositiveButton("Next Logo", (dialog, whichButton) ->vp.setCurrentItem(gameViewModel.getViewPagerPosition().getValue() + 1));
 
         alert.show();
+    }
+
+    public void allGuessedDialog(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this.getContext());
+        alert.setTitle("Level Completed");
+        alert.setIcon(R.drawable.check);
+
+        alert.setPositiveButton("Exit", (dialog, whichButton) ->gameViewModel.setAllGuessed(true));
+
+        alert.show();
+    }
+
+    public void vibrate(){
+        Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(10, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            v.vibrate(10);
+        }
     }
 
 }
