@@ -179,7 +179,8 @@ public class LogoMainPageFragment extends Fragment {
                             }
                             if(count == gameViewModel.getLevel().get(level2).getLevelLogos().size())
                                 allGuessedDialog();
-                            logoGuessedDialog();
+                            else
+                                logoGuessedDialog();
                         }
 
                         gameViewModel.setDeleteClicked(false);
